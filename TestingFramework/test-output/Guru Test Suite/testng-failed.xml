@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE suite SYSTEM "http://testng.org/testng-1.0.dtd">
+<suite guice-stage="DEVELOPMENT" name="Failed suite [Guru Test Suite]">
+  <test name="Method Test (failed)">
+    <classes>
+      <class name="com.guru99.testcases.GLPDemo">
+        <methods>
+          <include name="verifyCreateCustomer"/>
+          <include name="browserShutDown"/>
+          <include name="browserSelection"/>
+        </methods>
+      </class> <!-- com.guru99.testcases.GLPDemo -->
+    </classes>
+  </test> <!-- Method Test (failed) -->
+</suite> <!-- Failed suite [Guru Test Suite] -->
