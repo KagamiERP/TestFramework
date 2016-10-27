@@ -48,7 +48,7 @@ public class ProcessCreation {
 	// By constructListText =
 	// By.xpath("//div[@class='popover-content']//div[@class='row']//div["+i+"]//p");
 	By stepCircle = By.xpath("//div[@class='step circle plus_step']");
-	List<String> listConstruct = new ArrayList<>();
+	List<String> listConstruct = new ArrayList();
 	By processModule = By.xpath("//h3[text()='Business Process']");
 	By newProjectTab = By.xpath("//li[contains(text(),'Projects')]");
 

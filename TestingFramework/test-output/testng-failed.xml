@@ -5,8 +5,9 @@
     <classes>
       <class name="com.kagami.studio.EntityGeneration">
         <methods>
+          <include name="verifyStudioSignIn"/>
+          <include name="orgCreation"/>
           <include name="browserSelection"/>
-          <include name="entityCreation"/>
         </methods>
       </class> <!-- com.kagami.studio.EntityGeneration -->
     </classes>

@@ -32,18 +32,17 @@ public class EntityGenerationBase {
 	By password = By.id("inputPassword");
 	By loginButton = By.xpath("//button[contains(text(),'SIGN IN')]");
 	By menuButton = By.xpath("//a[contains(text(),'Menu')]");
-	By entityCreationButton = By.linkText("Entity Creation");
-	By addNewEntityButton = By.xpath("//span[contains(text(),'Add New')]");
+	By entityCreationButton = By.linkText("Entity Management");
+	By addNewEntityButton = By.xpath("//a[contains(text(),'Add New')]");
 	By entityName = By.id("entityName");
 	By attributeName = By.id("attributeName");
 	By attributeType = By.id("attributeType");
-
 	By attributeValidationtype = By.id("attributeValidationtypenn");
 	By attributeValidationtypePkUq = By.id("attributeValidationtypepkuq"); 
 	By addNewAttribute = By.xpath("//input[@value ='Add New Attribute']");
 	By saveEntity = By.xpath("//button[contains(text(),'Save')]");
 	String[] entityArray = {"Day Calculation","Data Import", "Data Validation", "Daily Attendance","Consolidated Attendance"};
-	
+
 	public EntityGenerationBase(WebDriver driver)
 	{
 		this.driver = driver;
@@ -75,6 +74,7 @@ public class EntityGenerationBase {
 
 		finally {
 			extent.endTest(test);
+			extent.flush();
 
 		}
 	}
@@ -83,8 +83,8 @@ public class EntityGenerationBase {
 	{
 		try{
 			WebDriverWait wait = new WebDriverWait(driver,10);
-			Thread.sleep(5000);
-			test = extent.startTest("Create Entity", "Entity Generation in Studio");
+			Thread.sleep(2000);
+			test = extent.startTest("Test Suite: Create Entity", "Entity Generation in Studio");
 			genericMethods.clickElement(driver, menuButton, test);
 			Thread.sleep(1000);
 			genericMethods.clickElement(driver, entityCreationButton, test);
@@ -93,7 +93,7 @@ public class EntityGenerationBase {
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
-			Sheet sheet =  wb.getSheet("Sheet4");
+			Sheet sheet =  wb.getSheet("Sheet5");
 			String[] firstRowElements = new String[50];
 			int attNameCnt = 1;
 			int attTypeCnt = 1;
@@ -101,7 +101,7 @@ public class EntityGenerationBase {
 			int defaultAtt = 1;
 			int uniqueKey = 1;
 			int autoGen = 1;
-			int entityCount = 0;
+			int entityCount = 1;
 			try{
 				for(int row = 1; row <= sheet.getLastRowNum(); row++){
 					for (int rowItr = 1; rowItr < sheet.getRow(row).getLastCellNum() ; rowItr++)
@@ -114,14 +114,14 @@ public class EntityGenerationBase {
 					{
 						System.out.println("In Yes block");
 						log.info("Entering Excel data to the application");
-						genericMethods.enterText(driver, entityName,firstRowElements[cell++], test);wait.until(ExpectedConditions.elementToBeClickable(addNewAttribute));
-						genericMethods.clickElement(driver, addNewAttribute, test);wait.until(ExpectedConditions.elementToBeClickable(attributeName));
+						genericMethods.enterText(driver, entityName,firstRowElements[cell++], test);Thread.sleep(1000);
+						genericMethods.clickElement(driver, addNewAttribute, test);Thread.sleep(1000);
 						genericMethods.enterText(driver, By.xpath("//tr["+(++attNameCnt)+"]//input[@id='attributeName']"), firstRowElements[cell++], test);
 						genericMethods.selectByVisibleText(driver,By.xpath( "//tr["+(++attTypeCnt)+"]//select[@id='attributeType']"), firstRowElements[cell++], test);
-						genericMethods.enterText(driver, By.xpath("//tr["+(++defaultAtt)+"]//input[@placeholder='Default Attribute']"), firstRowElements[cell++], test);Thread.sleep(1000);
 						genericMethods.clickElement(driver, By.xpath("//tr["+(++attTypeNn)+"]//input[@id='attributeValidationtypenn']"), test);Thread.sleep(1000);
+						genericMethods.enterText(driver, By.xpath("//tr["+(++defaultAtt)+"]//input[@placeholder='Default Value']"), firstRowElements[cell+1], test);Thread.sleep(1000);
 						genericMethods.clickElement(driver, By.xpath("//tr["+(++uniqueKey)+"]//input[@id='attributeuniqueKeys']"), test);Thread.sleep(1000);
-						genericMethods.clickElement(driver, By.xpath("//tr["+(++autoGen)+"]//input[@id='attributeautogen']"), test);Thread.sleep(1000);
+						//	genericMethods.clickElement(driver, By.xpath("//tr["+(++autoGen)+"]//input[@id='attributeautogen']"), test);Thread.sleep(1000);
 
 
 					}
@@ -132,20 +132,19 @@ public class EntityGenerationBase {
 						genericMethods.clickElement(driver, addNewAttribute, test);
 						genericMethods.enterText(driver, By.xpath("//tr["+(++attNameCnt)+"]//input[@id='attributeName']"), firstRowElements[newCell++], test);Thread.sleep(1000);
 						genericMethods.selectByVisibleText(driver,By.xpath( "//tr["+(++attTypeCnt)+"]//select[@id='attributeType']"), firstRowElements[newCell++], test);Thread.sleep(1000);
-						genericMethods.enterText(driver, By.xpath("//tr["+(++defaultAtt)+"]//input[@placeholder='Default Attribute']"), firstRowElements[newCell++], test);Thread.sleep(1000);
 						genericMethods.clickElement(driver, By.xpath("//tr["+(++attTypeNn)+"]//input[@id='attributeValidationtypenn']"), test);Thread.sleep(1000);
+						genericMethods.enterText(driver, By.xpath("//tr["+(++defaultAtt)+"]//input[@placeholder='Default Value']"), firstRowElements[newCell+1], test);Thread.sleep(1000);
 						genericMethods.clickElement(driver, By.xpath("//tr["+(++uniqueKey)+"]//input[@id='attributeuniqueKeys']"), test);Thread.sleep(1000);
-						genericMethods.clickElement(driver, By.xpath("//tr["+(++autoGen)+"]//input[@id='attributeautogen']"), test);Thread.sleep(1000);
-						
+				//		genericMethods.clickElement(driver, By.xpath("//tr["+(++autoGen)+"]//input[@id='attributeautogen']"), test);Thread.sleep(1000);
+
 					}
 					else
 					{
 						System.out.println("In else block");
-						genericMethods.clickElement(driver, saveEntity, test);Thread.sleep(2000);
+						wait.until(ExpectedConditions.elementToBeClickable(saveEntity));
+						genericMethods.clickElement(driver, saveEntity, test);
 						test.log(LogStatus.PASS, "Entity is created for the " +entityArray[entityCount++]+ "..");
-						//extent.endTest(test);
-						//extent.flush();
-						genericMethods.clickElement(driver, addNewEntityButton, test);Thread.sleep(1500);
+						genericMethods.clickElement(driver, addNewEntityButton, test);
 						attNameCnt = 1;
 						attTypeCnt = 1;
 						attTypeNn = 1;
@@ -163,7 +162,6 @@ public class EntityGenerationBase {
 				test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
 			}
 
-		
 
 		}catch(Exception e)
 		{

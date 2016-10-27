@@ -17,6 +17,7 @@ import com.kagami.testconfig.BrowserSelection;
 public class EntityGeneration {
 	public WebDriver driver;
 	public EntityGenerationBase entityGenerationBase;
+	public OrgCreationBase orgCreationBase;
 
 	@BeforeClass
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
@@ -33,11 +34,18 @@ public class EntityGeneration {
 
 	}
 
-	@Test(priority = 1)
+/*	@Test(priority = 1)s
 	public void entityCreation()
 	{
 		entityGenerationBase.entityGeneration();
 
+	}*/
+	
+	@Test(priority = 2)
+	public void orgCreation()
+	{
+		orgCreationBase = new OrgCreationBase(driver);
+		orgCreationBase.orgCreation();
 	}
 
 
