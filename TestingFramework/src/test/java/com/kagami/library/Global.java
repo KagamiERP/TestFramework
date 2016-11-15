@@ -1,14 +1,14 @@
 package com.kagami.library;
 
 import java.util.Date;
-import java.util.concurrent.TimeUnit;
-import org.openqa.selenium.Capabilities;
+
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
-import org.openqa.selenium.remote.RemoteWebDriver;
 import org.openqa.selenium.support.ui.WebDriverWait;
+
+import TestingFrameWork.AutomationTestFramework.GenericMethods;
 
 	public class Global extends CustomizedReport{
 		

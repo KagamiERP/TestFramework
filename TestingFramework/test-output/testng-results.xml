@@ -2,20 +2,20 @@
 <testng-results skipped="0" failed="0" total="2" passed="2">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="131107" started-at="2016-11-15T06:49:53Z" finished-at="2016-11-15T06:52:04Z">
+  <suite name="Default suite" duration-ms="11788" started-at="2016-11-15T09:46:59Z" finished-at="2016-11-15T09:47:11Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="131107" started-at="2016-11-15T06:49:53Z" finished-at="2016-11-15T06:52:04Z">
+    <test name="Default test" duration-ms="11788" started-at="2016-11-15T09:46:59Z" finished-at="2016-11-15T09:47:11Z">
       <class name="com.kagami.studio.StudioGeneration">
-        <test-method status="PASS" signature="browserSelection()[pri:0, instance:com.kagami.studio.StudioGeneration@1e127982]" name="browserSelection" is-config="true" duration-ms="6679" started-at="2016-11-15T12:19:53Z" finished-at="2016-11-15T12:20:00Z">
+        <test-method status="PASS" signature="browserSelection()[pri:0, instance:com.kagami.studio.StudioGeneration@2038ae61]" name="browserSelection" is-config="true" duration-ms="6666" started-at="2016-11-15T15:16:59Z" finished-at="2016-11-15T15:17:06Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- browserSelection -->
-        <test-method status="PASS" signature="studioSignIn()[pri:0, instance:com.kagami.studio.StudioGeneration@1e127982]" name="studioSignIn" duration-ms="1849" started-at="2016-11-15T12:20:00Z" finished-at="2016-11-15T12:20:01Z">
+        <test-method status="PASS" signature="studioSignIn()[pri:0, instance:com.kagami.studio.StudioGeneration@2038ae61]" name="studioSignIn" duration-ms="1756" started-at="2016-11-15T15:17:06Z" finished-at="2016-11-15T15:17:07Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- studioSignIn -->
-        <test-method status="PASS" signature="projectCreation()[pri:2, instance:com.kagami.studio.StudioGeneration@1e127982]" name="projectCreation" duration-ms="122557" started-at="2016-11-15T12:20:01Z" finished-at="2016-11-15T12:22:04Z">
+        <test-method status="PASS" signature="projectCreation()[pri:2, instance:com.kagami.studio.StudioGeneration@2038ae61]" name="projectCreation" duration-ms="3329" started-at="2016-11-15T15:17:07Z" finished-at="2016-11-15T15:17:11Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- projectCreation -->

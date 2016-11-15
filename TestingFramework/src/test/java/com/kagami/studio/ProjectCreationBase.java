@@ -13,11 +13,12 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import com.kagami.library.ExtentManager;
-import com.kagami.library.GenericMethods;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
+
+import TestingFrameWork.AutomationTestFramework.ExtentManager;
+import TestingFrameWork.AutomationTestFramework.GenericMethods;
 
 public class ProjectCreationBase {
 
