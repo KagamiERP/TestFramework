@@ -53,7 +53,7 @@ public class BrowserSelection {
 		//String url = Global.sUrlArray[urlCount++];
 		String url = Global.sUrl;
 		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(8, TimeUnit.SECONDS);
 		driver.get(url);
 		Thread.sleep(1000);
 

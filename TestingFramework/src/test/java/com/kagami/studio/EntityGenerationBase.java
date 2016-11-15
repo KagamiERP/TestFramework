@@ -9,10 +9,8 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedCondition;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-import org.testng.Assert;
 
 import com.kagami.library.ExtentManager;
 import com.kagami.library.GenericMethods;
@@ -25,63 +23,41 @@ public class EntityGenerationBase {
 	ExtentReports extent;
 	ExtentTest test;
 	public  WebDriver driver;
-	static Logger log = Logger.getLogger("EntityGenerationBase.class");
+	public Logger log = Logger.getLogger("EntityGenerationBase.class");
 	GenericMethods genericMethods = new GenericMethods();
+	StudioCommonMethods studioCommonMethods = new StudioCommonMethods(driver);
 
 	By uname = By.id("inputUsername");
 	By password = By.id("inputPassword");
 	By loginButton = By.xpath("//button[contains(text(),'SIGN IN')]");
-	By menuButton = By.xpath("//a[contains(text(),'Menu')]");
+	By menuButton = By.xpath("//a[@class='dropdown-toggle' and text()='Menu ']");
 	By entityCreationButton = By.linkText("Entity Management");
-	By addNewEntityButton = By.xpath("//a[contains(text(),'Add New')]");
+	By addNewEntityButton = By.xpath("//a[@ng-click='createEntity()']");
 	By entityName = By.id("entityName");
 	By attributeName = By.id("attributeName");
 	By attributeType = By.id("attributeType");
+	By pastDate = By.xpath("//input[@id='mindate']");
 	By attributeValidationtype = By.id("attributeValidationtypenn");
 	By attributeValidationtypePkUq = By.id("attributeValidationtypepkuq"); 
 	By addNewAttribute = By.xpath("//input[@value ='Add New Attribute']");
 	By saveEntity = By.xpath("//button[contains(text(),'Save')]");
 	String[] entityArray = {"Day Calculation","Data Import", "Data Validation", "Daily Attendance","Consolidated Attendance"};
+	//String entityValue; 
+
+	By minValue = By.xpath("//input[@id='attributeValidationtypemin']");
+	By maxValue = By.xpath("//input[@id='attributeValidationtypemax']");
+	By numberRangeCheckbox = By.xpath("//input[@id='attributeValidationtyperange']");
 
 	public EntityGenerationBase(WebDriver driver)
 	{
 		this.driver = driver;
 	}
 
-	public void studioLogin()
-	{
-		try{
-			String expectedPageTitle = "KAGAMI STUDIO";
-			extent = ExtentManager.Instance();
-			extent.loadConfig(new File("C:\\extent\\config.xml"));
-			test = extent.startTest("Login", "Login to Kagami Studio");
-			genericMethods.enterText(driver, uname, "admin", test);
-			genericMethods.enterText(driver, password, "admin", test);
-			genericMethods.clickElement(driver, loginButton , test);
-			WebDriverWait wait = new WebDriverWait(driver,10);
-			wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(menuButton));
-			//Thread.sleep(2000);
-			String actualPageTitle = driver.getTitle();
-			Assert.assertEquals(actualPageTitle, expectedPageTitle);
-			test.log(LogStatus.PASS, "Login Successful");
-		}
-
-		catch(Exception e)
-		{
-			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
-			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
-		}
-
-		finally {
-			extent.endTest(test);
-			extent.flush();
-
-		}
-	}
 
 	public void entityGeneration()
 	{
 		try{
+			extent = ExtentManager.Instance();
 			WebDriverWait wait = new WebDriverWait(driver,10);
 			Thread.sleep(2000);
 			test = extent.startTest("Test Suite: Create Entity", "Entity Generation in Studio");
@@ -93,7 +69,7 @@ public class EntityGenerationBase {
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
-			Sheet sheet =  wb.getSheet("Sheet5");
+			Sheet sheet =  wb.getSheet("Sheet6");
 			String[] firstRowElements = new String[50];
 			int attNameCnt = 1;
 			int attTypeCnt = 1;
@@ -102,66 +78,102 @@ public class EntityGenerationBase {
 			int uniqueKey = 1;
 			int autoGen = 1;
 			int entityCount = 1;
+			//int rangeCount = 1;
+			int totalAttributesCount = 2;
+			int dateCount = 1;
+
 			try{
+
+				int dateId = 1;	
 				for(int row = 1; row <= sheet.getLastRowNum(); row++){
-					for (int rowItr = 1; rowItr < sheet.getRow(row).getLastCellNum() ; rowItr++)
+					for (int rowItr = 1; rowItr < sheet.getRow(row).getLastCellNum(); rowItr++)
 					{
 						firstRowElements[rowItr] =  sheet.getRow(row).getCell(rowItr).toString();
 						System.out.print(firstRowElements[rowItr]+" ");
 					}
+					//genericMethods.enterText(driver, entityName, entityNameList.get(skeyEntity).get(entityNameCount).toString(), test);
 					int cell = 1;
+					String entityValue = sheet.getRow(1).getCell(1).toString();
 					if(sheet.getRow(row).getCell(0).toString().equalsIgnoreCase("Yes"))
 					{
+						String entityNameValue = firstRowElements[cell];
 						System.out.println("In Yes block");
 						log.info("Entering Excel data to the application");
-						genericMethods.enterText(driver, entityName,firstRowElements[cell++], test);Thread.sleep(1000);
-						genericMethods.clickElement(driver, addNewAttribute, test);Thread.sleep(1000);
+
+						if(!((sheet.getRow(row).getCell(1) == null) || sheet.getRow(row).getCell(1).toString().equalsIgnoreCase("")))	
+							genericMethods.enterText(driver, entityName,firstRowElements[cell], test);
+						cell++;
+						Thread.sleep(1000);
+						if(genericMethods.ElementVisibility(driver, By.xpath("//div[contains(text(),'* Entity Name already exists...')]"), test)){
+
+							studioCommonMethods.deleteExistingEntity(driver, entityNameValue);
+							--row;
+							continue;
+						}
+						genericMethods.clickElementByJsExecutor(driver, addNewAttribute, test);
 						genericMethods.enterText(driver, By.xpath("//tr["+(++attNameCnt)+"]//input[@id='attributeName']"), firstRowElements[cell++], test);
-						genericMethods.selectByVisibleText(driver,By.xpath( "//tr["+(++attTypeCnt)+"]//select[@id='attributeType']"), firstRowElements[cell++], test);
-						genericMethods.clickElement(driver, By.xpath("//tr["+(++attTypeNn)+"]//input[@id='attributeValidationtypenn']"), test);Thread.sleep(1000);
-						genericMethods.enterText(driver, By.xpath("//tr["+(++defaultAtt)+"]//input[@placeholder='Default Value']"), firstRowElements[cell+1], test);Thread.sleep(1000);
-						genericMethods.clickElement(driver, By.xpath("//tr["+(++uniqueKey)+"]//input[@id='attributeuniqueKeys']"), test);Thread.sleep(1000);
-						//	genericMethods.clickElement(driver, By.xpath("//tr["+(++autoGen)+"]//input[@id='attributeautogen']"), test);Thread.sleep(1000);
+						genericMethods.selectByVisibleText(driver,By.xpath( "//tr["+(++attTypeCnt)+"]//select[@id='attributeType']"), firstRowElements[cell], test);
 
+						Thread.sleep(100);
+
+						if(firstRowElements[cell].equalsIgnoreCase("Number")){
+							cell++;
+							Thread.sleep(2000);
+							System.out.println("waiting for checkbox with elementLocator "+" //tr["+(totalAttributesCount)+"]//input[@id='attributeValidationtyperange']");
+							genericMethods.clickElementByJsExecutor(driver, By.xpath("//tr["+(totalAttributesCount)+"]//input[@id='attributeValidationtyperange']"), test);
+							if(!(firstRowElements[++cell].equalsIgnoreCase("Null") || firstRowElements[cell].equalsIgnoreCase("")))
+								genericMethods.enterText(driver, By.xpath("//tr["+(totalAttributesCount)+"]//input[@id='attributeValidationtypemin']"), firstRowElements[cell], test);
+							if(!(firstRowElements[++cell].equalsIgnoreCase("Null") || firstRowElements[cell].equalsIgnoreCase("")))
+								genericMethods.enterText(driver,  By.xpath("//tr["+(totalAttributesCount)+"]//input[@id='attributeValidationtypemax']"), firstRowElements[cell], test);
+						}
+
+						else if(firstRowElements[cell].equalsIgnoreCase("date")){
+							cell = cell+3;
+							if(firstRowElements[cell].equalsIgnoreCase("Past"))
+								genericMethods.clickElement(driver, By.xpath("//input[@id='mindate"+(dateCount++)+"']"), test);
+							if(firstRowElements[cell].equalsIgnoreCase("Future"))
+								genericMethods.clickElement(driver, By.xpath("//input[@id='maxdate"+(dateCount++)+"']"), test);
+						}
+
+						else if(firstRowElements[cell].equalsIgnoreCase("Boolean")){
+							cell = cell+3;
+						}
+
+						else{
+							cell = cell+3;
+						}
+						//if(!((firstRowElements[cell].equalsIgnoreCase("True")||(firstRowElements[cell].equalsIgnoreCase("False"))
+						genericMethods.enterText(driver, By.xpath("//tr["+(++defaultAtt)+"]//input[@placeholder='Default Value']"), firstRowElements[cell+1], test);
+						//genericMethods.selectByVisibleText(driver, By.xpath("//tr["+(++defaultAtt)+"]//select[@class='form-control ng-pristine ng-untouched ng-valid ng-empty']"), firstRowElements[cell+1], test);	
+						genericMethods.clickElement(driver, By.xpath("//tr["+(++uniqueKey)+"]//input[@id='attributeuniqueKeys']"), test);//Thread.sleep(200);
+						totalAttributesCount++;
+						dateCount++;
 
 					}
-
-					else if(sheet.getRow(row).getCell(0).toString().equalsIgnoreCase("No")){
-						int newCell = 2;
-						System.out.println("In No block"); 
-						genericMethods.clickElement(driver, addNewAttribute, test);
-						genericMethods.enterText(driver, By.xpath("//tr["+(++attNameCnt)+"]//input[@id='attributeName']"), firstRowElements[newCell++], test);Thread.sleep(1000);
-						genericMethods.selectByVisibleText(driver,By.xpath( "//tr["+(++attTypeCnt)+"]//select[@id='attributeType']"), firstRowElements[newCell++], test);Thread.sleep(1000);
-						genericMethods.clickElement(driver, By.xpath("//tr["+(++attTypeNn)+"]//input[@id='attributeValidationtypenn']"), test);Thread.sleep(1000);
-						genericMethods.enterText(driver, By.xpath("//tr["+(++defaultAtt)+"]//input[@placeholder='Default Value']"), firstRowElements[newCell+1], test);Thread.sleep(1000);
-						genericMethods.clickElement(driver, By.xpath("//tr["+(++uniqueKey)+"]//input[@id='attributeuniqueKeys']"), test);Thread.sleep(1000);
-				//		genericMethods.clickElement(driver, By.xpath("//tr["+(++autoGen)+"]//input[@id='attributeautogen']"), test);Thread.sleep(1000);
-
-					}
-					else
+					else if(sheet.getRow(row).getCell(0).toString().equalsIgnoreCase("Save"))
 					{
 						System.out.println("In else block");
 						wait.until(ExpectedConditions.elementToBeClickable(saveEntity));
-						genericMethods.clickElement(driver, saveEntity, test);
-						test.log(LogStatus.PASS, "Entity is created for the " +entityArray[entityCount++]+ "..");
-						genericMethods.clickElement(driver, addNewEntityButton, test);
+						genericMethods.clickElementByJsExecutor(driver, saveEntity, test);
+						genericMethods.clickElementByJsExecutor(driver, addNewEntityButton, test);
 						attNameCnt = 1;
 						attTypeCnt = 1;
 						attTypeNn = 1;
 						defaultAtt = 1;
 						uniqueKey = 1;
 						autoGen = 1;
+						totalAttributesCount = 2;
+						dateCount = 1;
+						Thread.sleep(3000);
 					}
-
 				}
-
+				test.log(LogStatus.PASS, "Entity is created for the " +entityArray[entityCount++]+ "..");
 			}
 			catch(Exception e)
 			{
 				test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
 				test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
 			}
-
 
 		}catch(Exception e)
 		{
@@ -174,17 +186,4 @@ public class EntityGenerationBase {
 		}
 
 	}
-
-	/*catch(Exception e)
-		{
-			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
-			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
-		}
-	 */
-
-
-
-
-
-
 }

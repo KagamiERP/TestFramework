@@ -93,6 +93,10 @@ Objective: This method will define the Click operations performed on the objects
 		return false;
 	}
 
+
+
+	
+
 	/** 
 	Summary: About Enter Text Operations
 	Author Name: Vishnu Reddy
@@ -114,12 +118,39 @@ Objective: This method will define the Click operations performed on the objects
 		{
 			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(wDriver)));
-			log.warn("The text " + value + " could not be entered successfully");
+			log.warn("The text " + value + " could not be entered ");
+		}
+		return false;
+	}
+
+	/** 
+	Summary: Input text and press enter
+	Author Name: Manish Anand
+	Objective: This method will define to Enter Text in the object Fields */	
+
+
+	public boolean inputTextAndEnter(WebDriver wDriver, By elementLocator, String value , ExtentTest test) {
+
+		try{
+			visibilityStatus = ElementVisibility(wDriver, elementLocator, test); 
+			if (visibilityStatus) {
+				highlightWebElement(wDriver, elementLocator, test);
+				wDriver.findElement(elementLocator).sendKeys(value,Keys.ENTER);
+				log.info("The text " + value + " has been inputted successfully.");
+				return true;
+			}
+		}
+		catch(Exception e)
+		{
+			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(wDriver)));
+			log.warn("The text " + value + " could not be entered ");
 		}
 		return false;
 	}
 
 
+	
 	/** 
 	Summary: About Xpath Size 
 	Author Name: Vishnu Reddy
@@ -216,6 +247,8 @@ Objective: This method will define the Click operations performed on the objects
 		return true;
 	}
 
+	
+	
 	/** 
 	Summary: About Element Visibility
 	Author Name: Vishnu Reddy
@@ -233,10 +266,10 @@ Objective: This method will define the Click operations performed on the objects
 		catch (NoSuchElementException e) {
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(wDriver)));
 			test.log(LogStatus.FAIL,ExceptionUtils.getStackTrace(e));
-			errorMsg = e.getMessage();
+		//	errorMsg = e.getMessage();
 		}
 
-		log.warn("The Element for " + elementLocator + " is not visible because "+errorMsg);
+		log.warn("The Element for " + elementLocator + " is not visible because ");
 		return false;
 	}
 
@@ -296,7 +329,7 @@ Objective: This method will define the Click operations performed on the objects
 		}
 		List<WebElement> allOptions = sValue.findElements(By.tagName("option"));
 		for (WebElement option : allOptions) {
-			//System.out.println("Option value "+option.getText());
+			System.out.println("Option value "+option.getText());
 			if (valueToSelect.equals(option.getText())) {
 				option.click();
 				break;

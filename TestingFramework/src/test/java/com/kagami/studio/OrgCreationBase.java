@@ -25,7 +25,7 @@ public class OrgCreationBase {
 	ExtentReports extent;
 	ExtentTest test;
 	public  WebDriver driver;
-	static Logger log = Logger.getLogger("EntityGenerationBase.class");
+	static Logger log = Logger.getLogger("OrgCreationBase.class");
 	GenericMethods genericMethods = new GenericMethods();
 
 	By menuButton = By.xpath("//a[contains(text(),'Menu')]");
@@ -43,7 +43,6 @@ public class OrgCreationBase {
 	public void orgCreation()
 	{
 		try{
-
 			int nodeCnt = 1;
 			extent = ExtentManager.Instance();
 			extent.loadConfig(new File("C:\\extent\\config.xml"));
