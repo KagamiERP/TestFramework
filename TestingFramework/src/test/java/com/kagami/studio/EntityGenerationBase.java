@@ -70,7 +70,7 @@ public class EntityGenerationBase {
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
-			Sheet sheet =  wb.getSheet("Sheet6");
+			Sheet sheet =  wb.getSheet("Entity");
 			String[] firstRowElements = new String[50];
 			int attNameCnt = 1;
 			int attTypeCnt = 1;

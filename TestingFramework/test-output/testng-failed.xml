@@ -7,6 +7,7 @@
         <methods>
           <include name="browserSelection"/>
           <include name="projectCreation"/>
+          <include name="studioSignIn"/>
         </methods>
       </class> <!-- com.kagami.studio.StudioGeneration -->
     </classes>

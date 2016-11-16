@@ -41,8 +41,6 @@ public class ProjectCreationBase {
 	By newProcessText = By.xpath("//input[@class='ajs-input']");
 	By saveProcess = By.xpath("//button[@ng-click='saveProcess()']");
 	By ok = By.xpath("//div[text()='Save']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
-
-	//By project = By.xpath("//p[text()='Project']");
 	By project  = By.xpath("//h3[text()='test']");
 	By module = By.xpath("//div[@class='studio-card-inner']//p[(text()='Module')]");
 	By subModule = By.xpath("//p[(text()='Sub Module')]");
@@ -68,7 +66,7 @@ public class ProjectCreationBase {
 			int cellValue = 0;	
 			extent = ExtentManager.Instance();
 			extent.loadConfig(new File("C:\\extent\\config.xml"));
-			test = extent.startTest("Create Process", "Create Process....");
+			test = extent.startTest("Create Project", "Create Project....");
 			String pathOfFile = "./TestData/testInput.xlsx";
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
@@ -136,15 +134,15 @@ public class ProjectCreationBase {
 	public void processCreation()
 	{
 		try{
+			test = extent.startTest("Create Process", "Create Process....");
 			int cellValue = 1;	
-			
 			String pathOfFile = "./TestData/testInput.xlsx";
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("Process");
 			String[] firstRowElements = new String[50];
-			WebDriverWait wait = new WebDriverWait(driver, 8);
+			WebDriverWait wait = new WebDriverWait(driver, 15);
 
 
 			for(int outerRow = rowCount; outerRow <= sheet.getLastRowNum(); outerRow++){
@@ -225,7 +223,7 @@ public class ProjectCreationBase {
 
 
 				}
-				test.log(LogStatus.PASS, "Project Created");
+				test.log(LogStatus.PASS, "Process has been Created");
 			}
 		
 		}
