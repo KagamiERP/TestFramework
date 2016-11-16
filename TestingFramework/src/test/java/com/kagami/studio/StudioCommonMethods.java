@@ -34,7 +34,7 @@ public class StudioCommonMethods {
 	By saveButton = By.xpath("//button[@ng-click='save()']");
 	By closeIcon = By.xpath("//button[@class='close']");
 	int constructCount = 1;
-	ExtentTest test;
+	public ExtentTest test;
 	public  WebDriver driver;
 	String expectedHeader = "Confirm";
 	
@@ -70,7 +70,7 @@ public class StudioCommonMethods {
 	By editTabInView = By.xpath("//a[text()='Edit']");
 	By inputTriggerName = By.id("trigger-text");
 	By addTriggerButton = By.xpath("//button[@class='btn btn-success btn-sm' and @ng-click='addTrigger(vm.trigger)']");
-
+    By closeButton = By.xpath("//button[text()='Close']");
 	public StudioCommonMethods(WebDriver driver)
 	{
 		this.driver = driver;
@@ -82,17 +82,17 @@ public class StudioCommonMethods {
 			String expectedPageTitle = "KAGAMI STUDIO";
 			extent = ExtentManager.Instance();
 			extent.loadConfig(new File("C:\\extent\\config.xml"));
-			test = extent.startTest("Login", "Login to Kagami Studio");
+			test = extent.startTest("Studio Login", "Login....");
 			genericMethods.enterText(driver, uname, "admin", test);
 			genericMethods.enterText(driver, password, "admin", test);
 			genericMethods.clickElement(driver, loginButton , test);
 			WebDriverWait wait = new WebDriverWait(driver,10);
 			wait.until(ExpectedConditions.presenceOfAllElementsLocatedBy(menuButton));
+			test.log(LogStatus.PASS, "Login Successful");
 			//Thread.sleep(2000);
 			String actualPageTitle = driver.getTitle();
 			Assert.assertEquals(actualPageTitle, expectedPageTitle);
-			test.log(LogStatus.PASS, "Login Successful");
-		}
+			}
 
 
 		catch(Exception e)
@@ -173,7 +173,29 @@ public class StudioCommonMethods {
 		log.warn("The Element cannot be deleted because "+errorMsg);
 		return false;
 	}
+	
+	public boolean deleteExistingProject(WebDriver driver, String itemToDelete){
+		By deleteItem = By.xpath("//h3[text()='"+itemToDelete+"']/parent::div/parent::a/parent::div//span[@class='glyphicon glyphicon-trash pull-right card-menu-item']");
+		try{
+			
+			genericMethods.clickElement(driver, closeButton, test);
+			genericMethods.clickElement(driver, deleteItem, test);
+			genericMethods.waitForElementVisibility(driver, deleteHeader, 20);
+			genericMethods.clickElement(driver, okButton, test);
+			log.info("Existing Project has been deleted successfully");
+			return true;
+		}
+		catch (NoSuchElementException e){
+			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			errorMsg = e.getMessage();
+		}
+		log.warn("The Project cannot be deleted because "+errorMsg);
+		return false;
+	}
 
+	
+	
+	
 	public boolean saveProcess(WebDriver driver){
 
 		try{

@@ -46,10 +46,11 @@ public class ProjectCreationBase {
 	By subModule = By.xpath("//p[(text()='Sub Module')]");
 	By newProcess = By.xpath("//button[@class='btn btn-primary process-add pull-right']");
 	By processName = By.xpath("//input[@class='ajs-input']");
-	By okButton = By.xpath("//button[text()='OK']");
+	By okButtonModule = By.xpath("//div[text()='Create Module']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
 	By okButtonSubModule = By.xpath("//div[text()='Create Sub Module']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
 	By okButtonProcess = By.xpath("//div[text()='Create Process']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
 	By existingProcess = By.xpath("//p[text()='Process']");
+	By existingProjectErrorMsg = By.xpath("//div[text()='*Should not create same Project Name']");
 
 	//	static int plusInc = 10000;
 	//	By plusIcon = By.xpath("//div[@data-id= '" +(++plusInc) +"']");
@@ -59,12 +60,14 @@ public class ProjectCreationBase {
 		this.driver = driver;
 	}
 
+	
+	
 	public void newProjectCreation()
 	{
 		try{
 
 			int cellValue = 0;	
-			extent = ExtentManager.Instance();
+			extent = ExtentManager.Instance();			
 			extent.loadConfig(new File("C:\\extent\\config.xml"));
 			test = extent.startTest("Create Project", "Create Project....");
 			String pathOfFile = "./TestData/testInput.xlsx";
@@ -85,14 +88,28 @@ public class ProjectCreationBase {
 					wait.until(ExpectedConditions.visibilityOfElementLocated(newProject));
 					genericMethods.clickElement(driver, newProject, test);
 					genericMethods.enterText(driver, newProjectText, firstRowElements[cellValue], test);
+					Thread.sleep(1000);
+					Boolean projectIsExisting = driver.findElement(existingProjectErrorMsg).isDisplayed();
+					
+					if(projectIsExisting)
+					{
+						studioCommonMethods.deleteExistingProject(driver, firstRowElements[cellValue]);
+						wait.until(ExpectedConditions.visibilityOfElementLocated(newProject));
+						genericMethods.clickElement(driver, newProject, test);
+						genericMethods.enterText(driver, newProjectText, firstRowElements[cellValue], test);
+						Thread.sleep(1000);
+					}
+					
 					genericMethods.clickElement(driver, createButton, test);
+					test.log(LogStatus.PASS, "Project with name "+firstRowElements[cellValue]+" is Created.");
 					genericMethods.clickElement(driver,By.xpath("//h3[text()='"+(firstRowElements[cellValue])+"']") , test);
 					wait.until(ExpectedConditions.visibilityOfElementLocated(newModuleButton));
 					genericMethods.clickElement(driver, newModuleButton, test);
 					wait.until(ExpectedConditions.visibilityOfElementLocated(newModuleText));
 					genericMethods.enterText(driver, newModuleText, firstRowElements[++cellValue], test);
-					wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(okButton));
-					genericMethods.clickElement(driver, okButton, test);
+					wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(okButtonModule));
+					genericMethods.clickElement(driver, okButtonModule, test);
+					test.log(LogStatus.PASS, "Module with name "+firstRowElements[cellValue]+" is Created.");
 					genericMethods.clickElement(driver,By.xpath("//h3[text()='"+(firstRowElements[cellValue])+"']") , test);
 
 
@@ -110,7 +127,7 @@ public class ProjectCreationBase {
 						genericMethods.click(driver, By.xpath("//h3[contains(text(),'"+(singleSubModule)+"')]"), test);
 						processCreation();
 					}
-					test.log(LogStatus.PASS, "Project Created");
+					//test.log(LogStatus.PASS, "Project Created");
 				}
 			}
 		}
@@ -142,8 +159,7 @@ public class ProjectCreationBase {
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("Process");
 			String[] firstRowElements = new String[50];
-			WebDriverWait wait = new WebDriverWait(driver, 15);
-
+			WebDriverWait wait = new WebDriverWait(driver, 8);
 
 			for(int outerRow = rowCount; outerRow <= sheet.getLastRowNum(); outerRow++){
 				for(int row = outerRow; row <= sheet.getLastRowNum(); row++){
@@ -151,7 +167,6 @@ public class ProjectCreationBase {
 						firstRowElements[rowItr] =  sheet.getRow(row).getCell(rowItr).toString();
 						//System.out.print(firstRowElements[rowItr]+" ");
 					}
-
 
 
 					if(sheet.getRow(row).getCell(1).toString().contains("Process"))
@@ -209,23 +224,25 @@ public class ProjectCreationBase {
 						break;
 					}
 
-					else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("Save"))
+					else if (sheet.getRow(row).getCell(2).toString().contains("Save"))
 					{
 						Thread.sleep(1000);
 						genericMethods.click(driver, saveProcess, test);
 						Thread.sleep(1000);
 						genericMethods.click(driver, ok, test);
+						test.log(LogStatus.PASS, sheet.getRow(row).getCell(2).toString().substring(4) +" has been Created!!");
 						driver.navigate().back();
 						driver.navigate().back();
-						//rowCount++;
 						break;
+						//rowCount++;
+
 					}
 
 
 				}
-				test.log(LogStatus.PASS, "Process has been Created");
+				//	test.log(LogStatus.PASS, "Process has been Created");
 			}
-		
+
 		}
 		catch(Exception e)
 		{

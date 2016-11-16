@@ -37,7 +37,17 @@ public class StudioGeneration {
 	}
 
 
-/*	@Test(priority = 1)
+	@Test(priority = 2)
+	public void projectCreation()
+	{
+		projectCreationBase = new ProjectCreationBase(driver);
+		projectCreationBase.newProjectCreation();
+
+	}	
+
+	
+	/*
+	@Test(priority = 1)
 	public void newOrgCreation()
 	{
 
@@ -51,15 +61,9 @@ public class StudioGeneration {
 		entityGenerationBase = new EntityGenerationBase(driver);
 		entityGenerationBase.entityGeneration();
 	}
+	 */
 
-*/
-		@Test(priority = 2)
-	public void projectCreation()
-	{
-			projectCreationBase = new ProjectCreationBase(driver);
-			projectCreationBase.newProjectCreation();
 
-	}	
 
 
 
