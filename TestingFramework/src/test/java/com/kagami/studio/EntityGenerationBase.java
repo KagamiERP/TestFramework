@@ -44,8 +44,6 @@ public class EntityGenerationBase {
 	By addNewAttribute = By.xpath("//input[@value ='Add New Attribute']");
 	By saveEntity = By.xpath("//button[contains(text(),'Save')]");
 	String[] entityArray = {"drivingLicenseDetails","immigrationInfo", "Data Validation", "Daily Attendance","Consolidated Attendance"};
-	//String entityValue; 
-
 	By minValue = By.xpath("//input[@id='attributeValidationtypemin']");
 	By maxValue = By.xpath("//input[@id='attributeValidationtypemax']");
 	By numberRangeCheckbox = By.xpath("//input[@id='attributeValidationtyperange']");
@@ -54,7 +52,6 @@ public class EntityGenerationBase {
 	{
 		this.driver = driver;
 	}
-
 
 	public void entityGeneration(ExtentTest test)
 	{
