@@ -1,25 +1,37 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="2" passed="2">
+<testng-results skipped="0" failed="0" total="5" passed="5">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="170275" started-at="2016-11-16T13:20:28Z" finished-at="2016-11-16T13:23:19Z">
+  <suite name="Default suite" duration-ms="270803" started-at="2016-11-21T05:43:28Z" finished-at="2016-11-21T05:47:59Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="170275" started-at="2016-11-16T13:20:28Z" finished-at="2016-11-16T13:23:19Z">
-      <class name="com.kagami.studio.StudioGeneration">
-        <test-method status="PASS" signature="browserSelection()[pri:0, instance:com.kagami.studio.StudioGeneration@2038ae61]" name="browserSelection" is-config="true" duration-ms="6793" started-at="2016-11-16T18:50:28Z" finished-at="2016-11-16T18:50:35Z">
+    <test name="Default test" duration-ms="270803" started-at="2016-11-21T05:43:28Z" finished-at="2016-11-21T05:47:59Z">
+      <class name="com.kagami.smoketestsuite.SmokeTestSuite">
+        <test-method status="PASS" signature="browserSelection()[pri:0, instance:com.kagami.smoketestsuite.SmokeTestSuite@1e127982]" name="browserSelection" is-config="true" duration-ms="10171" started-at="2016-11-21T11:13:28Z" finished-at="2016-11-21T11:13:38Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- browserSelection -->
-        <test-method status="PASS" signature="studioSignIn()[pri:0, instance:com.kagami.studio.StudioGeneration@2038ae61]" name="studioSignIn" duration-ms="1816" started-at="2016-11-16T18:50:35Z" finished-at="2016-11-16T18:50:37Z">
+        <test-method status="PASS" signature="studioSignIn()[pri:0, instance:com.kagami.smoketestsuite.SmokeTestSuite@1e127982]" name="studioSignIn" duration-ms="2191" started-at="2016-11-21T11:13:38Z" finished-at="2016-11-21T11:13:40Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- studioSignIn -->
-        <test-method status="PASS" signature="projectCreation()[pri:2, instance:com.kagami.studio.StudioGeneration@2038ae61]" name="projectCreation" duration-ms="161643" started-at="2016-11-16T18:50:37Z" finished-at="2016-11-16T18:53:19Z">
+        <test-method status="PASS" signature="entityCreation()[pri:1, instance:com.kagami.smoketestsuite.SmokeTestSuite@1e127982]" name="entityCreation" duration-ms="111132" started-at="2016-11-21T11:13:40Z" finished-at="2016-11-21T11:15:31Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- entityCreation -->
+        <test-method status="PASS" signature="projectCreation()[pri:2, instance:com.kagami.smoketestsuite.SmokeTestSuite@1e127982]" name="projectCreation" duration-ms="87946" started-at="2016-11-21T11:15:31Z" finished-at="2016-11-21T11:16:59Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- projectCreation -->
-      </class> <!-- com.kagami.studio.StudioGeneration -->
+        <test-method status="PASS" signature="newOrgCreation()[pri:3, instance:com.kagami.smoketestsuite.SmokeTestSuite@1e127982]" name="newOrgCreation" duration-ms="58302" started-at="2016-11-21T11:16:59Z" finished-at="2016-11-21T11:17:58Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- newOrgCreation -->
+        <test-method status="PASS" signature="studioSignOut()[pri:4, instance:com.kagami.smoketestsuite.SmokeTestSuite@1e127982]" name="studioSignOut" duration-ms="1030" started-at="2016-11-21T11:17:58Z" finished-at="2016-11-21T11:17:59Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- studioSignOut -->
+      </class> <!-- com.kagami.smoketestsuite.SmokeTestSuite -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

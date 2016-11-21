@@ -12,12 +12,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.kagami.library.ExtentManager;
+import com.kagami.library.GenericMethods;
+import com.kagami.library.Global;
+import com.kagami.library.StudioCommonMethods;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
-
-import TestingFrameWork.AutomationTestFramework.ExtentManager;
-import TestingFrameWork.AutomationTestFramework.GenericMethods;
 
 public class EntityGenerationBase {
 
@@ -42,7 +43,7 @@ public class EntityGenerationBase {
 	By attributeValidationtypePkUq = By.id("attributeValidationtypepkuq"); 
 	By addNewAttribute = By.xpath("//input[@value ='Add New Attribute']");
 	By saveEntity = By.xpath("//button[contains(text(),'Save')]");
-	String[] entityArray = {"Day Calculation","Data Import", "Data Validation", "Daily Attendance","Consolidated Attendance"};
+	String[] entityArray = {"drivingLicenseDetails","immigrationInfo", "Data Validation", "Daily Attendance","Consolidated Attendance"};
 	//String entityValue; 
 
 	By minValue = By.xpath("//input[@id='attributeValidationtypemin']");
@@ -55,18 +56,16 @@ public class EntityGenerationBase {
 	}
 
 
-	public void entityGeneration()
+	public void entityGeneration(ExtentTest test)
 	{
 		try{
-			extent = ExtentManager.Instance();
-			WebDriverWait wait = new WebDriverWait(driver,10);
-			Thread.sleep(2000);
-			test = extent.startTest("Test Suite: Create Entity", "Entity Generation in Studio");
+			WebDriverWait wait = new WebDriverWait(driver,8);
+			Thread.sleep(1000);
 			genericMethods.clickElement(driver, menuButton, test);
 			Thread.sleep(1000);
 			genericMethods.clickElement(driver, entityCreationButton, test);
 			wait.until(ExpectedConditions.elementToBeClickable(entityName));
-			String pathOfFile = "./TestData/testInput.xlsx";
+			String pathOfFile = Global.testSheet;
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
@@ -78,8 +77,7 @@ public class EntityGenerationBase {
 			int defaultAtt = 1;
 			int uniqueKey = 1;
 			int autoGen = 1;
-			int entityCount = 1;
-			//int rangeCount = 1;
+			int entityCount = 0;
 			int totalAttributesCount = 2;
 			int dateCount = 1;
 
@@ -115,7 +113,7 @@ public class EntityGenerationBase {
 						genericMethods.enterText(driver, By.xpath("//tr["+(++attNameCnt)+"]//input[@id='attributeName']"), firstRowElements[cell++], test);
 						genericMethods.selectByVisibleText(driver,By.xpath( "//tr["+(++attTypeCnt)+"]//select[@id='attributeType']"), firstRowElements[cell], test);
 
-						Thread.sleep(100);
+						Thread.sleep(1000);
 
 						if(firstRowElements[cell].equalsIgnoreCase("Number")){
 							cell++;
@@ -156,6 +154,7 @@ public class EntityGenerationBase {
 						System.out.println("In else block");
 						wait.until(ExpectedConditions.elementToBeClickable(saveEntity));
 						genericMethods.clickElementByJsExecutor(driver, saveEntity, test);
+						test.log(LogStatus.PASS, "Entity is created for the " +entityArray[entityCount++]+ "..");
 						genericMethods.clickElementByJsExecutor(driver, addNewEntityButton, test);
 						attNameCnt = 1;
 						attTypeCnt = 1;
@@ -165,11 +164,12 @@ public class EntityGenerationBase {
 						autoGen = 1;
 						totalAttributesCount = 2;
 						dateCount = 1;
-						Thread.sleep(3000);
-					}
+						Thread.sleep(1500);
+								}
+			
 				}
-				test.log(LogStatus.PASS, "Entity is created for the " +entityArray[entityCount++]+ "..");
 			}
+
 			catch(Exception e)
 			{
 				test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
@@ -181,10 +181,7 @@ public class EntityGenerationBase {
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
 			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
 		}
-		finally{
-			extent.endTest(test);
-			extent.flush();
-		}
+
 
 	}
 }

@@ -112,12 +112,12 @@ public class EmailConfig implements IReporter{
 	private void sendMailwithReport(String style, String report, String details) throws AddressException, MessagingException {
 		//SMTP configuration
 		
-				final String username = "manish.anand@kagamierp.com";
-				final String password = "Anand@093";
+				final String username = "Kagami.qa@kagamierp.com";
+				final String password = "BitKemy@1234";
 				
 				//Recipients
-				String toAddress = "manish.anand@kagamierp.com";
-			//	String ccAddress = "mallinath.mulage@kagamierp.com";
+				String ccAddress = "manish.anand@kagamierp.com";
+				String toAddress = "kagamiqa@kagamierp.com";
 			//	String bccAddress = "mallinath.mulage@kagamierp.com";
 				
 				//SMTP server properties

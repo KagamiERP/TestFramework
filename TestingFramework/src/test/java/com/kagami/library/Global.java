@@ -8,8 +8,6 @@ import org.openqa.selenium.firefox.FirefoxProfile;
 import org.openqa.selenium.firefox.internal.ProfilesIni;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
-import TestingFrameWork.AutomationTestFramework.GenericMethods;
-
 	public class Global extends CustomizedReport{
 		
 	
@@ -24,11 +22,14 @@ import TestingFrameWork.AutomationTestFramework.GenericMethods;
 		public static JavascriptExecutor js;
 		
 		// Selects the browser to execute
-	//	public static String sBrowserType = "firefox";
+		public static String sBrowserType = "firefox";
 		//public static String sBrowserType = "IE";
-		public static String sBrowserType = "Chrome";
-		public static String sTestData="TestData//testdata demoaut.xlsx";
+	//	public static String sBrowserType = "Chrome";
+	//	public static String sTestData="TestData//testdata demoaut.xlsx";
 		public static String BuildInfo ="samplebuild";
+		
+	//	public static String testSheet = "./TestData/testInput.xlsx";
+		public static String testSheet = "./TestData/smokeTestInput.xlsx";
 		
 		// Specifies the path of the Drivers
 		public static String sIEDriverPath = "Browser_exe//IEDriverServer.exe";	

@@ -2,6 +2,8 @@ package com.kagami.studio;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.util.NoSuchElementException;
+import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -13,12 +15,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
+import com.kagami.library.ExtentManager;
+import com.kagami.library.GenericMethods;
+import com.kagami.library.Global;
+import com.kagami.library.StudioCommonMethods;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
-
-import TestingFrameWork.AutomationTestFramework.ExtentManager;
-import TestingFrameWork.AutomationTestFramework.GenericMethods;
 
 public class ProjectCreationBase {
 
@@ -51,6 +54,7 @@ public class ProjectCreationBase {
 	By okButtonProcess = By.xpath("//div[text()='Create Process']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
 	By existingProcess = By.xpath("//p[text()='Process']");
 	By existingProjectErrorMsg = By.xpath("//div[text()='*Should not create same Project Name']");
+	By kagamiLogo = By.xpath("//img[@src='assets/img/logo.png']");
 
 	//	static int plusInc = 10000;
 	//	By plusIcon = By.xpath("//div[@data-id= '" +(++plusInc) +"']");
@@ -60,54 +64,49 @@ public class ProjectCreationBase {
 		this.driver = driver;
 	}
 
-	
-	
-	public void newProjectCreation()
+	public void newProjectCreation(ExtentTest test)
 	{
 		try{
 
 			int cellValue = 0;	
-			extent = ExtentManager.Instance();			
-			extent.loadConfig(new File("C:\\extent\\config.xml"));
-			test = extent.startTest("Create Project", "Create Project....");
-			String pathOfFile = "./TestData/testInput.xlsx";
+			String pathOfFile = Global.testSheet;
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("Process");
 			String[] firstRowElements = new String[50];
-			WebDriverWait wait = new WebDriverWait(driver, 15);
 
-			for(int outerRow = 1; outerRow <= sheet.getLastRowNum(); outerRow++){
-				for(int row = outerRow; row <= sheet.getLastRowNum(); row++){
+			int projectRowCount = 1;
+			for(int outerRow = 1; outerRow <= projectRowCount; outerRow++){
+				for(int row = outerRow; row <= projectRowCount; row++){
 					for (int rowItr = 0; rowItr < sheet.getRow(row).getLastCellNum() ; rowItr++){
 						firstRowElements[rowItr] =  sheet.getRow(row).getCell(rowItr).toString();
 						System.out.print(firstRowElements[rowItr]+" ");
 					}
 
-					wait.until(ExpectedConditions.visibilityOfElementLocated(newProject));
+					genericMethods.clickElement(driver, kagamiLogo, test);
+					Thread.sleep(1000);
 					genericMethods.clickElement(driver, newProject, test);
 					genericMethods.enterText(driver, newProjectText, firstRowElements[cellValue], test);
 					Thread.sleep(1000);
-					Boolean projectIsExisting = driver.findElement(existingProjectErrorMsg).isDisplayed();
-					
-					if(projectIsExisting)
+
+
+					if(genericMethods.ElementVisibility(driver, existingProjectErrorMsg, test))
 					{
 						studioCommonMethods.deleteExistingProject(driver, firstRowElements[cellValue]);
-						wait.until(ExpectedConditions.visibilityOfElementLocated(newProject));
+						Thread.sleep(1500);
 						genericMethods.clickElement(driver, newProject, test);
 						genericMethods.enterText(driver, newProjectText, firstRowElements[cellValue], test);
 						Thread.sleep(1000);
 					}
-					
 					genericMethods.clickElement(driver, createButton, test);
 					test.log(LogStatus.PASS, "Project with name "+firstRowElements[cellValue]+" is Created.");
 					genericMethods.clickElement(driver,By.xpath("//h3[text()='"+(firstRowElements[cellValue])+"']") , test);
-					wait.until(ExpectedConditions.visibilityOfElementLocated(newModuleButton));
+					Thread.sleep(1500);
 					genericMethods.clickElement(driver, newModuleButton, test);
-					wait.until(ExpectedConditions.visibilityOfElementLocated(newModuleText));
+					Thread.sleep(1500);
 					genericMethods.enterText(driver, newModuleText, firstRowElements[++cellValue], test);
-					wait.until(ExpectedConditions.visibilityOfAllElementsLocatedBy(okButtonModule));
+					Thread.sleep(1000);
 					genericMethods.clickElement(driver, okButtonModule, test);
 					test.log(LogStatus.PASS, "Module with name "+firstRowElements[cellValue]+" is Created.");
 					genericMethods.clickElement(driver,By.xpath("//h3[text()='"+(firstRowElements[cellValue])+"']") , test);
@@ -118,20 +117,32 @@ public class ProjectCreationBase {
 					String[] listOfSubModules = allSubModules.split(","); 
 					for(String singleSubModule : listOfSubModules)
 					{
-						wait.until(ExpectedConditions.visibilityOfElementLocated(newSubModuleButton));
+						//wait.until(ExpectedConditions.visibilityOfElementLocated(newSubModuleButton));
+						Thread.sleep(1500);
 						genericMethods.clickElement(driver, newSubModuleButton, test);
-						wait.until(ExpectedConditions.visibilityOfElementLocated(newSubModuleText));
+						Thread.sleep(1500);
+						//wait.until(ExpectedConditions.visibilityOfElementLocated(newSubModuleText));
 						genericMethods.enterText(driver, newSubModuleText, singleSubModule, test);
 						genericMethods.clickElement(driver, okButtonSubModule, test);
 						Thread.sleep(1000);
 						genericMethods.click(driver, By.xpath("//h3[contains(text(),'"+(singleSubModule)+"')]"), test);
-						processCreation();
+						processCreation(test);
+	
+					
 					}
 					//test.log(LogStatus.PASS, "Project Created");
 				}
 			}
 		}
 
+		catch(NoSuchElementException e)
+		{
+
+		}
+		catch(org.openqa.selenium.TimeoutException e)
+		{
+
+		}
 		catch(Exception e)
 		{
 			e.printStackTrace();
@@ -139,21 +150,16 @@ public class ProjectCreationBase {
 			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
 		}
 
-		finally {
-			extent.endTest(test);
-			extent.flush();
-
-		}
+	
 	}
 
 
-	int rowCount = 4;
-	public void processCreation()
+	int rowCount = 3;
+	public void processCreation(ExtentTest test)
 	{
 		try{
-			test = extent.startTest("Create Process", "Create Process....");
 			int cellValue = 1;	
-			String pathOfFile = "./TestData/testInput.xlsx";
+			String pathOfFile = Global.testSheet;
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
@@ -161,8 +167,8 @@ public class ProjectCreationBase {
 			String[] firstRowElements = new String[50];
 			WebDriverWait wait = new WebDriverWait(driver, 8);
 
-			for(int outerRow = rowCount; outerRow <= sheet.getLastRowNum(); outerRow++){
-				for(int row = outerRow; row <= sheet.getLastRowNum(); row++){
+			
+				for(int row = rowCount; row <= sheet.getLastRowNum(); row++){
 					for (int rowItr = 0; rowItr < sheet.getRow(row).getLastCellNum() ; rowItr++){
 						firstRowElements[rowItr] =  sheet.getRow(row).getCell(rowItr).toString();
 						//System.out.print(firstRowElements[rowItr]+" ");
@@ -172,8 +178,10 @@ public class ProjectCreationBase {
 					if(sheet.getRow(row).getCell(1).toString().contains("Process"))
 					{
 						wait.until(ExpectedConditions.visibilityOfElementLocated(newProcessButton));
+						//Thread.sleep(1000);
 						genericMethods.click(driver, newProcessButton, test);
-						wait.until(ExpectedConditions.visibilityOfElementLocated(newProcessText));
+					//	wait.until(ExpectedConditions.visibilityOfElementLocated(newProcessText));
+						Thread.sleep(1500);
 						genericMethods.enterText(driver, newProcessText, firstRowElements[cellValue], test);
 						genericMethods.click(driver, okButtonProcess, test);
 						Thread.sleep(1500);
@@ -190,7 +198,7 @@ public class ProjectCreationBase {
 						studioCommonMethods.create(driver, test, firstRowElements[++cellValue],firstRowElements[++cellValue]);
 						cellValue = 2;
 						rowCount++;
-						break;
+						continue;
 					}
 
 					else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("delete"))
@@ -201,7 +209,7 @@ public class ProjectCreationBase {
 						studioCommonMethods.delete(driver, test ,firstRowElements[cellValue+2]);
 						cellValue = 2;
 						rowCount++;
-						break;
+						continue;
 					}
 
 					else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("view"))
@@ -211,7 +219,7 @@ public class ProjectCreationBase {
 						studioCommonMethods.view(driver, test ,firstRowElements[++cellValue],firstRowElements[++cellValue]);
 						cellValue = 2;
 						rowCount++;
-						break;
+						continue;
 					}
 
 					else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("switch"))
@@ -221,7 +229,7 @@ public class ProjectCreationBase {
 						studioCommonMethods.Switch(driver, test ,firstRowElements[cellValue+2]);
 						cellValue = 2;
 						rowCount++;
-						break;
+						continue;
 					}
 
 					else if (sheet.getRow(row).getCell(2).toString().contains("Save"))
@@ -230,7 +238,7 @@ public class ProjectCreationBase {
 						genericMethods.click(driver, saveProcess, test);
 						Thread.sleep(1000);
 						genericMethods.click(driver, ok, test);
-						test.log(LogStatus.PASS, sheet.getRow(row).getCell(2).toString().substring(4) +" has been Created!!");
+						test.log(LogStatus.PASS, sheet.getRow(row).getCell(2).toString().substring(4) +" has been Created.");
 						driver.navigate().back();
 						driver.navigate().back();
 						break;
@@ -239,24 +247,21 @@ public class ProjectCreationBase {
 					}
 
 
-				}
+				
 				//	test.log(LogStatus.PASS, "Process has been Created");
 			}
 
 		}
+
 		catch(Exception e)
 		{
 			e.printStackTrace();
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
 			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
-		}
-
-		finally {
-			extent.endTest(test);
-			extent.flush();
 
 		}
-	}
+
+		}
 
 
 

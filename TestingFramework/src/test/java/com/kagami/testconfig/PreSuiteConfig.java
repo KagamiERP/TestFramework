@@ -14,9 +14,8 @@ import org.openqa.selenium.io.Zip;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeSuite;
 
+import com.kagami.library.GenericMethods;
 import com.kagami.library.Global;
-
-import TestingFrameWork.AutomationTestFramework.GenericMethods;
 
 /** Summary 
 Author Name: Manish Anand

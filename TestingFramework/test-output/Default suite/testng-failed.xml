@@ -3,12 +3,12 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="com.kagami.studio.StudioGeneration">
+      <class name="com.kagami.smoketestsuite.SmokeTestSuite">
         <methods>
+          <include name="studioLogout"/>
           <include name="browserSelection"/>
-          <include name="projectCreation"/>
         </methods>
-      </class> <!-- com.kagami.studio.StudioGeneration -->
+      </class> <!-- com.kagami.smoketestsuite.SmokeTestSuite -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

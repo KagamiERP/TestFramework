@@ -86,7 +86,7 @@
 			<version>1.1</version>
 		</dependency>
 
-		
+
 
 		<dependency>
 			<groupId>xml-apis</groupId>
@@ -105,6 +105,17 @@
 				</exclusion>
 			</exclusions>
 		</dependency>
+
+		<dependency>
+			<groupId>KagamiAutomation</groupId>
+			<artifactId>KagamiAutomationFramework</artifactId>
+			<version>0.0.1-SNAPSHOT</version>
+			<scope>system</scope>
+			<systemPath>${basedir}/Jars/KagamiAutomation.jar</systemPath>
+		</dependency>
+
+
+
 	</dependencies>
 
 	<build>
