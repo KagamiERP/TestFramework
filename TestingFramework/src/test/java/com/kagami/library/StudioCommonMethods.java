@@ -1,6 +1,6 @@
 package com.kagami.library;
 
-import java.io.File;
+import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -9,9 +9,11 @@ import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.FluentWait;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.testng.Assert;
 
+import com.google.common.base.Predicate;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
@@ -45,6 +47,7 @@ public class StudioCommonMethods {
 	By addNewEntityButton = By.xpath("//a[@ng-click='createEntity()']");
 	By deleteEntityPopupHeader = By.xpath("//div[@class='ajs-header']");
 	By okButton = By.xpath("//button[text()='OK']");
+	By deleteProjectOkButton = By.xpath("//div[text()='Delete']/following::button[text()='OK']");
 	By deleteEntityIcon = By.xpath("//a[@ng-click='deleteentity(entity)']/span[@class='glyphicon glyphicon-remove redtext']");
 	By signOut = By.xpath("//a[text()='Sign Out']");
 	By signOutAlert = By.xpath("//div[@class='alert alert-success alert-signout']");
@@ -94,18 +97,11 @@ public class StudioCommonMethods {
 			Assert.assertEquals(actualPageTitle, expectedPageTitle);
 		}
 
-
 		catch(Exception e)
 		{
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
 			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
 		}
-
-		/*finally {
-			extent.endTest(test);
-			extent.flush();
-
-		}*/
 	}
 
 
@@ -118,7 +114,7 @@ public class StudioCommonMethods {
 			if(entityNameValue.equalsIgnoreCase(actualEntityValue)){
 				System.out.println("Checking if");
 				genericMethods.clickElement(driver, By.xpath("//a[@ng-click='deleteentity(entity)']/span[@class='glyphicon glyphicon-remove redtext']"), test);
-				genericMethods.clickElement(driver, By.xpath("//button[text()='OK']"), test);
+				genericMethods.clickElement(driver, By.xpath("//div[text()='Confirm']/following::button[text()='OK']"), test);
 				genericMethods.clickElementByJsExecutor(driver, addNewEntityButton, test);
 				genericMethods.clickElementByJsExecutor(driver, entityName, test);
 				driver.findElement(By.xpath("//input[starts-with(@placeholder,'Search Entity...')]")).clear();
@@ -174,7 +170,7 @@ public class StudioCommonMethods {
 			genericMethods.clickElement(driver, closeButton, test);
 			genericMethods.clickElement(driver, deleteItem, test);
 			genericMethods.waitForElementVisibility(driver, deleteHeader, 20);
-			genericMethods.clickElement(driver, okButton, test);
+			genericMethods.clickElement(driver, deleteProjectOkButton, test);
 			log.info("Existing Project has been deleted successfully");
 			return true;
 		}
@@ -548,6 +544,83 @@ public class StudioCommonMethods {
 		return false;
 	}
 
+
+	public void fluentWait(WebDriver driver, final By elementLocator, int timeOut){
+		try{
+			FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver);
+			wait.pollingEvery(5,  TimeUnit.SECONDS);
+			wait.withTimeout(timeOut, TimeUnit.SECONDS);
+			wait.ignoring(NoSuchElementException.class); 
+			Predicate<WebDriver> predicate = new Predicate<WebDriver>()
+			{
+				public boolean apply(WebDriver arg0) {
+					System.out.println("Checking for the element!!");
+					WebElement element = arg0.findElement(elementLocator);
+					if(element != null)
+					{
+						System.out.println("Target element found");
+						return true;
+					}
+					return false;
+				}
+			};
+
+			wait.until(predicate);
+		}
+
+		catch (NoSuchElementException e){
+			errorMsg = ExceptionUtils.getStackTrace(e);
+			log.warn("The Target Element is not found because "+errorMsg);
+		}
+
+	}
+
+
+	public boolean navigateToProject(WebDriver driver){
+		try{
+
+			if(genericMethods.ElementVisibility(driver, By.xpath("//li//span[@ng-bind='selected.parent.name']"), test)){
+				genericMethods.clickElement(driver, By.xpath("//li//span[@ng-bind='selected.parent.name']"), test);
+				return true;
+			}
+		}
+
+		catch (NoSuchElementException e){
+			errorMsg = ExceptionUtils.getStackTrace(e);
+			log.warn("Element is not found in the Dom "+errorMsg);
+		}
+		return false;
+	}
+
+	public boolean navigateToModule(WebDriver driver){
+		try{
+			if(genericMethods.ElementVisibility(driver, By.xpath("//li//span[@ng-bind='selected.module.name']"), test)){
+				genericMethods.clickElement(driver, By.xpath("//li//span[@ng-bind='selected.module.name']"), test);
+				return true;
+			}
+		}
+
+		catch (NoSuchElementException e){
+			errorMsg = ExceptionUtils.getStackTrace(e);
+			log.warn("Element is not found in the Dom "+errorMsg);
+		}
+		return false;
+	}
+
+	public boolean navigateToSubModule(WebDriver driver) throws InterruptedException{
+		  try{
+		   if(genericMethods.ElementVisibility(driver, By.xpath("//li//span[@ng-bind='selected.submodule.name']"), test)){
+		   genericMethods.clickElement(driver, By.xpath("//li//span[@ng-bind='selected.submodule.name']"), test);
+		   return true;
+		   }
+		  }
+		  
+		  catch (NoSuchElementException e){
+		   errorMsg = ExceptionUtils.getStackTrace(e);
+		   log.warn("Element is not found in the Dom "+errorMsg);
+		  }
+		  return false;
+		 }
 
 }
 

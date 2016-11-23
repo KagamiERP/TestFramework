@@ -112,13 +112,14 @@ public class EmailConfig implements IReporter{
 	private void sendMailwithReport(String style, String report, String details) throws AddressException, MessagingException {
 		//SMTP configuration
 		
-				final String username = "Kagami.qa@kagamierp.com";
-				final String password = "BitKemy@1234";
+				final String username = "manish.anand@kagamierp.com";
+				final String password = "Anand@093";
 				
 				//Recipients
+				String toAddress = "mallinath.mulage@kagamierp.com";
 				String ccAddress = "manish.anand@kagamierp.com";
-				String toAddress = "kagamiqa@kagamierp.com";
-			//	String bccAddress = "mallinath.mulage@kagamierp.com";
+				
+				//	String bccAddress = "mallinath.mulage@kagamierp.com";
 				
 				//SMTP server properties
 				Properties props = new Properties();
@@ -140,12 +141,12 @@ public class EmailConfig implements IReporter{
 				Session session = Session.getInstance(props, auth);
 				
 				//creates email
-				String subject = "Test for Sending mail"+getDateAsString();
+				String subject = "Automation Report"+getDateAsString();
 				Message msg = new MimeMessage(session);
 				msg.setFrom(new InternetAddress(username));
 				InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
 				msg.setRecipients(Message.RecipientType.TO, toAddresses);
-			//	msg.setRecipients(Message.RecipientType.CC,InternetAddress.parse(ccAddress));
+				msg.setRecipients(Message.RecipientType.CC,InternetAddress.parse(ccAddress));
 			//	msg.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(bccAddress));*/
 				msg.setSubject(subject);
 				msg.setSentDate(new Date());
@@ -175,7 +176,8 @@ public class EmailConfig implements IReporter{
 				//to zip a file		  
 				 File file = new File("./AutomationReport/"+reportFileName);
 				 // File file = new File("./AutomationReport/");
-				  String zipFileName = "./TestReport/"+date+"_Reports.zip";
+				//  String zipFileName = "./TestReport/"+date+"_Reports.zip";
+				 String zipFileName = "./TestReport/Reports.zip";
 				  
 				 zipSingleFile(file, zipFileName); 
 				 

@@ -22,9 +22,9 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 		public static JavascriptExecutor js;
 		
 		// Selects the browser to execute
-		public static String sBrowserType = "firefox";
+	//	public static String sBrowserType = "firefox";
 		//public static String sBrowserType = "IE";
-	//	public static String sBrowserType = "Chrome";
+		public static String sBrowserType = "Chrome";
 	//	public static String sTestData="TestData//testdata demoaut.xlsx";
 		public static String BuildInfo ="samplebuild";
 		

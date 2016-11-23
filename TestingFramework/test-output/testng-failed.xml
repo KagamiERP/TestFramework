@@ -5,7 +5,7 @@
     <classes>
       <class name="com.kagami.smoketestsuite.SmokeTestSuite">
         <methods>
-          <include name="studioLogout"/>
+          <include name="projectCreation"/>
           <include name="browserSelection"/>
         </methods>
       </class> <!-- com.kagami.smoketestsuite.SmokeTestSuite -->
