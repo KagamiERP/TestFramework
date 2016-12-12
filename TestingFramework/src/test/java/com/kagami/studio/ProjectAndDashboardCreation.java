@@ -3,7 +3,6 @@ package com.kagami.studio;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.NoSuchElementException;
-import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -23,7 +22,7 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-public class ProjectCreationBase {
+public class ProjectAndDashboardCreation {
 
 	ExtentReports extent;
 	ExtentTest test;
@@ -60,7 +59,7 @@ public class ProjectCreationBase {
 	//	static int plusInc = 10000;
 	//	By plusIcon = By.xpath("//div[@data-id= '" +(++plusInc) +"']");
 
-	public ProjectCreationBase(WebDriver driver)
+	public ProjectAndDashboardCreation(WebDriver driver)
 	{
 		this.driver = driver;
 	}
@@ -114,7 +113,6 @@ public class ProjectCreationBase {
 
 
 					String allSubModules = sheet.getRow(1).getCell(2).toString();
-					//System.out.println("All Modules"+allSubModules);
 					String[] listOfSubModules = allSubModules.split(","); 
 					WebDriverWait wait = new WebDriverWait(driver, 8);
 					for(String singleSubModule : listOfSubModules)
@@ -126,6 +124,7 @@ public class ProjectCreationBase {
 						//wait.until(ExpectedConditions.visibilityOfElementLocated(newSubModuleText));
 						genericMethods.enterText(driver, newSubModuleText, singleSubModule, test);
 						genericMethods.clickElement(driver, okButtonSubModule, test);
+						test.log(LogStatus.PASS, "SubModule with name "+singleSubModule+" is Created.");
 						Thread.sleep(1000);
 						genericMethods.click(driver, By.xpath("//h3[contains(text(),'"+(singleSubModule)+"')]"), test);
 						processCreation(test);
@@ -152,9 +151,7 @@ public class ProjectCreationBase {
 			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
 		}
 
-	
 	}
-
 
 	int rowCount = 3;
 	public void processCreation(ExtentTest test)
@@ -249,9 +246,9 @@ public class ProjectCreationBase {
 					}
 		
 			}
-		//	driver.navigate().back();
+			driver.navigate().back();
 		
-//			customizeDashBoard.customizeDashBoard(driver,test);
+	//		customizeDashBoard.customizeDashBoard(driver,test);
 
 		}
 

@@ -21,13 +21,15 @@ import com.relevantcodes.extentreports.ExtentTest;
 
 public class StudioGeneration {
 	public WebDriver driver;
-	public EntityCreation entityGenerationBase;
+	public EntityManager entityManager;
+	public EntityCreation entityCreation;
 	ExtentReports extent;
 	ExtentTest test;
-	public ProjectCreationBase projectCreationBase;
+	public ProjectCreation projectCreation;
 	public OrganisationCreationBase organisationCreationBase; 
 	public StudioCommonMethods studioCommonMethods;
 	public BulkProjectCreation bulkProjectCreation;
+	public ProcessCreation processCreation;
 
 	@BeforeClass
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
@@ -37,55 +39,65 @@ public class StudioGeneration {
 	}
 
 	@Test(priority = 0)
-	public void studioSignIn()
+	public void studioSignIn() throws InvalidFormatException, IOException, InterruptedException
 	{
 		extent = ExtentManager.Instance();
-		extent.loadConfig(new File("C:\\extent\\config.xml"));
-		test = extent.startTest("Studio Login", "Login....");
+		extent.loadConfig(new File("./extent/config.xml"));
+		test = extent.startTest("Studio Login", "Login to Kagami Studio....");
 		studioCommonMethods = new StudioCommonMethods(driver);
 		studioCommonMethods.studioLogin(test);
 		extent.endTest(test);
 		extent.flush();
 	}
-
-/*	
+	
 	@Test(priority = 1)
-	public void entityCreation()
-	{
-	//	extent.loadConfig(new File("C:\\extent\\config.xml"));
-		test = extent.startTest("Entity Creation: Test Suite", "Create Entity with multiple attributes....");
-		entityGenerationBase = new EntityGenerationBase(driver);
-		entityGenerationBase.entityGeneration(test);
-		extent.endTest(test);
-		extent.flush();
-	}
-*/
-
-/*	@Test(priority = 2)
 	public void projectCreation()
 	{
-		test = extent.startTest("Project & Process Creation: Test Suite", "Create Project & Process in Studio....");	
-		projectCreationBase = new ProjectCreationBase(driver);
-		projectCreationBase.newProjectCreation(test);
+		test = extent.startTest("Project Creation: Test Suite", "Create Project in Studio....");	
+		projectCreation = new ProjectCreation(driver);
+		projectCreation.newProjectCreation(test);
 		extent.endTest(test);
 		extent.flush();
 	}	
-*/
-	/*@Test(priority = 3)
+	
+	@Test(priority = 2)
 	public void newOrgCreation()
 	{
 		test = extent.startTest("Organisation Creation: Test Suite", "Create Organisation....");	
-		projectCreationBase = new ProjectCreationBase(driver);
 		organisationCreationBase = new OrganisationCreationBase(driver);
 		organisationCreationBase.orgCreation(test);
 		extent.endTest(test);
 		extent.flush();
 	}
-*/
+	
+	@Test(priority = 3)
+	public void entityCreation()
+	{
+		test = extent.startTest("Entity Creation: Test Suite", "Create Entity with multiple attributes....");
+		entityCreation = new EntityCreation(driver);
+		entityCreation.entityGeneration(test);
+		extent.endTest(test);
+		extent.flush();
+	}
+	
+	
+	@Test(priority = 4)
+	public void processCreation()
+	{
+		test = extent.startTest("Process Creation: Test Suite", "CreateProcess in Studio....");	
+		processCreation = new ProcessCreation(driver);
+		processCreation.newProcessCreation(test);
+		extent.endTest(test);
+		extent.flush();
+	}	
+
+	
+
+
 	
 
 		
-	@Test(priority = 1)
+/*	@Test(priority = 1)
 	public void bulkProjectCreation()
 	{
 		test = extent.startTest("Bulk Project Creation", "Create Multiple Projects in Kagami Studio....");	
@@ -93,7 +105,7 @@ public class StudioGeneration {
 		bulkProjectCreation.bulkProjectCreationInStudio(test);
 		extent.endTest(test);
 		extent.flush();
-	}
+	}*/
 
 	@Test(priority = 4)
 	public void studioSignOut()

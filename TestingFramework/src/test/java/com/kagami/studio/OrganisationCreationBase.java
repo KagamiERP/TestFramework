@@ -36,8 +36,9 @@ public class OrganisationCreationBase
 	StudioCommonMethods studioCommonMethods = new StudioCommonMethods(driver);
 	private String[] firstRowElements;
 
-	By menuButton = By.xpath("//a[contains(text(),'Menu')]");
+	By menuButton = By.xpath("//button[contains(text(),'Menu')]");
 	By organization = By.linkText("Organization");
+	By roles = By.linkText("Roles");
 	By newOrg = By.xpath("//button[@class='btn btn-primary organization-add pull-right']");
 	By orgName = By.xpath("//input[@class= 'ajs-input']");
 	By orgOk = By.xpath("//button[@class= 'ajs-button ajs-ok']"); 
@@ -73,7 +74,8 @@ public class OrganisationCreationBase
 			String[] firstRowElements = new String[50];
 			Thread.sleep(2000);
 			genericMethods.clickElement(driver, menuButton, test);	
-			genericMethods.clickElement(driver, organization, test);	   
+			//genericMethods.clickElement(driver, organization, test);	   
+			genericMethods.clickElement(driver, roles, test);
 			Actions actions = new Actions(driver);
 			String organisationName = null;
 
@@ -87,7 +89,7 @@ public class OrganisationCreationBase
 					genericMethods.clickElement(driver, organizationsCli, test);
 					nodeMap = new HashMap<String, Integer>();
 					Thread.sleep(1500);
-					test.log(LogStatus.PASS, organisationName+ " Organisation is created in Studio..!!");
+					test.log(LogStatus.PASS, organisationName+ " Organisation is created..");
 					continue;
 
 				} if ((sheet.getRow(row).getCell(0) != null)
@@ -169,7 +171,8 @@ public class OrganisationCreationBase
 						}
 					}
 				}
-			}	  
+			}
+			driver.navigate().back();
 		}
 		catch(NoSuchElementException e)
 		{

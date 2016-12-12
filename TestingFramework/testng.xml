@@ -3,7 +3,7 @@
 <suite name="Suite">
 
 	<listeners>
-		<listener class-name="com.kagami.library.EmailConfig" />
+		<listener class-name="com.kagami.library.HtmlFileReader" />
 	</listeners>
 
 	<test name="Test">

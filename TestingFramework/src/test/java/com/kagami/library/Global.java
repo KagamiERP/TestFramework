@@ -23,13 +23,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 		
 		// Selects the browser to execute
 	//	public static String sBrowserType = "firefox";
-		//public static String sBrowserType = "IE";
+//		public static String sBrowserType = "IE";
 		public static String sBrowserType = "Chrome";
 	//	public static String sTestData="TestData//testdata demoaut.xlsx";
 		public static String BuildInfo ="samplebuild";
 		
-	//	public static String testSheet = "./TestData/testInput.xlsx";
-		public static String testSheet = "./TestData/smokeTestInput.xlsx";
+		public static String testSheet = "./TestData/testInput.xlsx";
+		//public static String testSheet = "./TestData/smokeTestInput.xlsx";
+		public static String loginImage = "./TestData/loginPageScreenshot.jpg";
 		
 		// Specifies the path of the Drivers
 		public static String sIEDriverPath = "Browser_exe//IEDriverServer.exe";	

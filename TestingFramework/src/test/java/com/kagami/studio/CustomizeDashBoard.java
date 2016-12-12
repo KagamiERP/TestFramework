@@ -137,7 +137,7 @@ public class CustomizeDashBoard
 			genericMethods.clickElement(driver, themeSelect, test);
 			genericMethods.clickElement(driver, themeSettingsClick, test);
 			genericMethods.clickElement(driver, saveAllButton, test);
-			test.log(LogStatus.PASS, "Customize Dashboard is created in Studio");						
+			test.log(LogStatus.PASS, "Customize Dashboard is created in Studio.");						
 		}
 		catch(Exception e)
 		{
