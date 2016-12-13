@@ -6,8 +6,7 @@
       <class name="com.kagami.studio.StudioGeneration">
         <methods>
           <include name="browserSelection"/>
-          <include name="projectCreation"/>
-          <include name="studioSignOut"/>
+          <include name="buildDeployment"/>
         </methods>
       </class> <!-- com.kagami.studio.StudioGeneration -->
     </classes>

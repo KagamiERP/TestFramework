@@ -152,7 +152,7 @@ public class EntityCreation {
 				
 					if(attributeType.get(value).toString().equalsIgnoreCase("Number")){
 						genericMethods.clickElement(driver, By.xpath("//tr["+(totalAttributesCount)+"]//a[@ng-click='editValidations(attribute)']"), test);
-						studioCommonMethods.fluentWait(driver, By.xpath("//div[@class='modal-header']//h4[text()='Edit Attribute Validations']"), 30);
+						studioCommonMethods.fluentWait(driver, By.xpath("//div[@class='modal-header']//h4[text()='Edit Attribute Validations']"), 5, 30);
 						genericMethods.selectSingleCheckbox(driver, By.xpath("//input[@id='attributeRange' and @type='checkbox']"), test);
 						String numberValidationValues = attributeValidations.get(value);
 						System.out.println(numberValidationValues);
@@ -166,7 +166,7 @@ public class EntityCreation {
 
 				else if(attributeType.get(value).toString().equalsIgnoreCase("date")){
 						genericMethods.clickElement(driver, By.xpath("//tr["+(totalAttributesCount)+"]//a[@ng-click='editValidations(attribute)']"), test);
-						studioCommonMethods.fluentWait(driver, By.xpath("//div[@class='modal-header']//h4[text()='Edit Attribute Validations']"), 30);
+						studioCommonMethods.fluentWait(driver, By.xpath("//div[@class='modal-header']//h4[text()='Edit Attribute Validations']"), 5, 30);
 						String dateValidationValues = attributeValidations.get(value);
 						System.out.println(dateValidationValues);
 						String[] listOfDateAttributes = dateValidationValues.split(",");
@@ -178,7 +178,7 @@ public class EntityCreation {
 					
 				else if(attributeType.get(value).toString().equalsIgnoreCase("text")){
 					genericMethods.clickElement(driver, By.xpath("//tr["+(totalAttributesCount)+"]//a[@ng-click='editValidations(attribute)']"), test);
-					studioCommonMethods.fluentWait(driver, By.xpath("//div[@class='modal-header']//h4[text()='Edit Attribute Validations']"), 30);
+					studioCommonMethods.fluentWait(driver, By.xpath("//div[@class='modal-header']//h4[text()='Edit Attribute Validations']"), 5, 30);
 					String textValidationValues = attributeValidations.get(value);
 					System.out.println(textValidationValues);
 					String[] listOfTextValues = textValidationValues.split(",");

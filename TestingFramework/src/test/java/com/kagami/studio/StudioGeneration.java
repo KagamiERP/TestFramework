@@ -21,7 +21,7 @@ import com.relevantcodes.extentreports.ExtentTest;
 
 public class StudioGeneration {
 	public WebDriver driver;
-	public EntityManager entityManager;
+	//public EntityManager entityManager;
 	public EntityCreation entityCreation;
 	ExtentReports extent;
 	ExtentTest test;
@@ -30,6 +30,9 @@ public class StudioGeneration {
 	public StudioCommonMethods studioCommonMethods;
 	public BulkProjectCreation bulkProjectCreation;
 	public ProcessCreation processCreation;
+	public CustomizeDashBoard customizeDashBoard;
+	public BuildDeploy buildDeploy;
+	public Relations relation;
 
 	@BeforeClass
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
@@ -50,6 +53,15 @@ public class StudioGeneration {
 		extent.flush();
 	}
 	
+	/*@Test(priority = 1)
+	public void relation()
+	{
+		test = extent.startTest("Relations: Test Suite", "Create Relations in Studio....");	
+		relation = new Relations(driver);
+		relation.relationManager(test);
+		extent.endTest(test);
+		extent.flush();
+	}*/	
 	@Test(priority = 1)
 	public void projectCreation()
 	{
@@ -70,6 +82,7 @@ public class StudioGeneration {
 		extent.flush();
 	}
 	
+	
 	@Test(priority = 3)
 	public void entityCreation()
 	{
@@ -80,22 +93,41 @@ public class StudioGeneration {
 		extent.flush();
 	}
 	
+
 	
 	@Test(priority = 4)
 	public void processCreation()
 	{
-		test = extent.startTest("Process Creation: Test Suite", "CreateProcess in Studio....");	
+		test = extent.startTest("Process Creation: Test Suite", "Create Process in Studio....");	
 		processCreation = new ProcessCreation(driver);
 		processCreation.newProcessCreation(test);
 		extent.endTest(test);
 		extent.flush();
 	}	
 
+
+	@Test(priority = 5)
+	public void dashboardCreation()
+	{
+		test = extent.startTest("Dashboard Creation:", "Create Dashboard in Studio....");	
+		customizeDashBoard = new CustomizeDashBoard(driver);
+		customizeDashBoard.customizeDashBoard(test);
+		extent.endTest(test);
+		extent.flush();
+	}
 	
-
-
+	@Test(priority = 6)
+	public void buildDeployment()
+	{
+		test = extent.startTest("Build Deployment:", "Build Deployment....");	
+		buildDeploy = new BuildDeploy(driver);
+		buildDeploy.generateTargetApp(test);
+		extent.endTest(test);
+		extent.flush();
+	}
+		
+		
 	
-
 		
 /*	@Test(priority = 1)
 	public void bulkProjectCreation()
@@ -107,7 +139,7 @@ public class StudioGeneration {
 		extent.flush();
 	}*/
 
-	@Test(priority = 4)
+	/*@Test(priority = 6)
 	public void studioSignOut()
 	{
 		test = extent.startTest("Logout", "Logout from Studio....");	
@@ -115,7 +147,7 @@ public class StudioGeneration {
 		studioCommonMethods.studioLogOut(test);
 		extent.endTest(test);
 		extent.flush();
-	}
+	}*/
 
 
 

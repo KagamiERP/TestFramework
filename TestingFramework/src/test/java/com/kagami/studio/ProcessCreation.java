@@ -3,7 +3,6 @@ package com.kagami.studio;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.NoSuchElementException;
-import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -108,6 +107,8 @@ public class ProcessCreation {
 						//wait.until(ExpectedConditions.visibilityOfElementLocated(newSubModuleText));
 						genericMethods.enterText(driver, newSubModuleText, singleSubModule, test);
 						genericMethods.clickElement(driver, okButtonSubModule, test);
+						test.log(LogStatus.PASS, "Sub Module with name "+singleSubModule+" is Created.");
+						
 						Thread.sleep(1000);
 						genericMethods.click(driver, By.xpath("//h3[contains(text(),'"+(singleSubModule)+"')]"), test);
 						processCreation(test);
@@ -117,6 +118,7 @@ public class ProcessCreation {
 					//test.log(LogStatus.PASS, "Project Created");
 				}
 			}
+		
 		}
 
 		catch(NoSuchElementException e)
@@ -224,7 +226,7 @@ public class ProcessCreation {
 					test.log(LogStatus.PASS, sheet.getRow(row).getCell(2).toString().substring(4) +" has been Created.");
 					//	driver.navigate().back();
 					//	driver.navigate().back();
-					studioCommonMethods.navigateToModule(driver);
+				//	studioCommonMethods.navigateToModule(driver);
 					System.out.println("After Navigating to Module");
 					break;
 
@@ -233,6 +235,8 @@ public class ProcessCreation {
 			}
 			//	driver.navigate().back();
 			//	customizeDashBoard.customizeDashBoard(driver,test);
+			
+			studioCommonMethods.mapRoles(driver, "CTO");
 
 		}
 

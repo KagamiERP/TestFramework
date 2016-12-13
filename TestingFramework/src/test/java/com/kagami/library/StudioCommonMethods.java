@@ -35,6 +35,7 @@ import com.relevantcodes.extentreports.LogStatus;
 
 public class StudioCommonMethods {
 
+	
 	private Logger log = Logger.getLogger("StudioCommonMethods.class");
 	private WebDriverWait wait;
 	private WebElement element;
@@ -52,6 +53,7 @@ public class StudioCommonMethods {
 	public ExtentTest test;
 	public  WebDriver driver;
 	String expectedHeader = "Confirm";
+	
 
 	//*** Xpath's for Studio LogIn ***//
 	By uname = By.id("inputUsername");
@@ -80,8 +82,8 @@ public class StudioCommonMethods {
 	By mapRolesButton = By.xpath("//button[@class='btn btn-default' and @ng-click='associateRoles()']");
 	By mapRolesHeader = By.xpath("//h4[text()='Map Roles']");
 	By searchBoxRoles = By.xpath("//span[@class='btn btn-default form-control ui-select-toggle']");
-	By inputSearchBoxRoles = By.xpath("//span[text()='Select or search a role in the list...']");
-	By addRolesButton = By.xpath("//button[contains(text(),'Add')]");
+	By inputSearchBoxRoles = By.xpath("//input[@placeholder='Select or search a role in the list...']");
+	By addRolesButton = By.xpath("//div[@class='input-group-btn']/button[@class='btn btn-default']");
 	By saveRolesButton = By.xpath("//button[@ng-click='saveRoles()' and contains(text(),'Save')]");
 	By editTabInView = By.xpath("//a[text()='Edit']");
 	By inputTriggerName = By.id("trigger-text");
@@ -441,12 +443,15 @@ public class StudioCommonMethods {
 		return false;
 	}
 
-	public boolean mapRoles(WebDriver driver, String roleName){
+	public boolean mapRoles(WebDriver driver, String roleName) throws InterruptedException{
 		try{
+			String role = roleName;
 			genericMethods.clickElement(driver, mapRolesButton, test);
 			genericMethods.waitForElementVisibility(driver, mapRolesHeader, 10);
 			genericMethods.clickElement(driver, searchBoxRoles, test);
-			genericMethods.inputTextAndEnter(driver, inputSearchBoxRoles, roleName, test);
+			Thread.sleep(1500);
+			genericMethods.inputTextAndEnter(driver, inputSearchBoxRoles, role, test);
+			Thread.sleep(1000);
 			genericMethods.clickElement(driver, addRolesButton, test);
 			genericMethods.clickElement(driver, saveRolesButton, test);
 			log.info("Roles are added and saved successfully");
@@ -460,6 +465,8 @@ public class StudioCommonMethods {
 		return false;
 	}
 
+	
+	
 	public boolean addTriggers(WebDriver driver, String triggerName){
 		try{
 			genericMethods.clickElement(driver, editTabInView, test);
@@ -760,10 +767,10 @@ public class StudioCommonMethods {
 	}
 
 
-	public void fluentWait(WebDriver driver, final By elementLocator, int timeOut){
+	public void fluentWait(WebDriver driver, final By elementLocator, int pollingTime, int timeOut){
 		try{
 			FluentWait<WebDriver> wait = new FluentWait<WebDriver>(driver);
-			wait.pollingEvery(5,  TimeUnit.SECONDS);
+			wait.pollingEvery(pollingTime,  TimeUnit.SECONDS);
 			wait.withTimeout(timeOut, TimeUnit.SECONDS);
 			wait.ignoring(NoSuchElementException.class); 
 			Predicate<WebDriver> predicate = new Predicate<WebDriver>()

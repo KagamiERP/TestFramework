@@ -13,10 +13,7 @@ import java.util.Properties;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
-import javax.activation.DataHandler;
-import javax.activation.FileDataSource;
 import javax.mail.Authenticator;
-import javax.mail.BodyPart;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.Multipart;
@@ -28,7 +25,6 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
-import javax.sql.DataSource;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -41,27 +37,34 @@ import org.testng.annotations.Test;
 import com.kagami.library.ExtentManager;
 import com.kagami.library.Global;
 import com.kagami.library.StudioCommonMethods;
+import com.kagami.studio.BuildDeploy;
 import com.kagami.studio.BulkProjectCreation;
 import com.kagami.studio.CustomizeDashBoard;
-import com.kagami.studio.EntityManager;
+import com.kagami.studio.EntityCreation;
 import com.kagami.studio.OrganisationCreationBase;
-import com.kagami.studio.ProjectAndDashboardCreation;
+import com.kagami.studio.ProcessCreation;
 import com.kagami.studio.ProjectCreation;
+import com.kagami.studio.Relations;
 import com.kagami.testconfig.BrowserSelection;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 
 public class SmokeTestSuite {
 	public WebDriver driver;
-	public EntityManager entityManager;
+	//public EntityManager entityManager;
+	public EntityCreation entityCreation;
 	ExtentReports extent;
 	ExtentTest test;
 	public ProjectCreation projectCreation;
-	public ProjectAndDashboardCreation projectAndDashboardCreation;
 	public OrganisationCreationBase organisationCreationBase; 
 	public StudioCommonMethods studioCommonMethods;
 	public BulkProjectCreation bulkProjectCreation;
+	public ProcessCreation processCreation;
 	public CustomizeDashBoard customizeDashBoard;
+	public BuildDeploy buildDeploy;
+	public Relations relation;
+
+
 
 	@BeforeClass
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
@@ -75,99 +78,86 @@ public class SmokeTestSuite {
 	{
 		extent = ExtentManager.Instance();
 		extent.loadConfig(new File("./extent/config.xml"));
-		test = extent.startTest("Studio Login", "Login to Kagami Studio...");
+		test = extent.startTest("Studio Login", "Login to Kagami Studio....");
 		studioCommonMethods = new StudioCommonMethods(driver);
 		studioCommonMethods.studioLogin(test);
 		extent.endTest(test);
 		extent.flush();
 	}
-
-/*	@Test(priority = 2)
-	public void projectCreationBase()
+	
+	/*@Test(priority = 1)
+	public void relation()
 	{
-		test = extent.startTest("Project & Process Creation: Test Suite", "Create Project & Process in Studio....");	
-		projectCreationBase = new ProjectCreationBase(driver);
-		projectCreationBase.newProjectCreation(test);
+		test = extent.startTest("Relations: Test Suite", "Create Relations in Studio....");	
+		relation = new Relations(driver);
+		relation.relationManager(test);
 		extent.endTest(test);
 		extent.flush();
 	}*/	
-
-	/*@Test(priority = 1)
+	@Test(priority = 1)
+	public void projectCreation()
+	{
+		test = extent.startTest("Project Creation: Test Suite", "Create Project in Studio....");	
+		projectCreation = new ProjectCreation(driver);
+		projectCreation.newProjectCreation(test);
+		extent.endTest(test);
+		extent.flush();
+	}	
+	
+	@Test(priority = 2)
 	public void newOrgCreation()
 	{
 		test = extent.startTest("Organisation Creation: Test Suite", "Create Organisation....");	
-		projectCreationBase = new ProjectCreationBase(driver);
 		organisationCreationBase = new OrganisationCreationBase(driver);
 		organisationCreationBase.orgCreation(test);
 		extent.endTest(test);
 		extent.flush();
 	}
-
-
-	@Test(priority = 2)
+	
+	
+	@Test(priority = 3)
 	public void entityCreation()
 	{
 		test = extent.startTest("Entity Creation: Test Suite", "Create Entity with multiple attributes....");
-		entityManager = new EntityManager(driver);
-		entityManager.entityGeneration(test);
+		entityCreation = new EntityCreation(driver);
+		entityCreation.entityGeneration(test);
 		extent.endTest(test);
 		extent.flush();
 	}
+	
 
-	@Test(priority = 3)
-	public void projectCreation()
+	
+	@Test(priority = 4)
+	public void processCreation()
 	{
-		test = extent.startTest("Project & Process Creation: Test Suite", "Create Project & Process in Studio....");	
-		projectAndDashboardCreation = new ProjectAndDashboardCreation(driver);
-		projectAndDashboardCreation.newProjectCreation(test);
+		test = extent.startTest("Process Creation: Test Suite", "Create Process in Studio....");	
+		processCreation = new ProcessCreation(driver);
+		processCreation.newProcessCreation(test);
 		extent.endTest(test);
 		extent.flush();
 	}	
-	@Test(priority = 4)
-	public void dashBoardCreation()
+
+
+	@Test(priority = 5)
+	public void dashboardCreation()
 	{
-		test = extent.startTest("DashBoard Creation: Test Suite", "Create Dashboard in Studio....");	
+		test = extent.startTest("Dashboard Creation:", "Create Dashboard in Studio....");	
 		customizeDashBoard = new CustomizeDashBoard(driver);
 		customizeDashBoard.customizeDashBoard(test);
 		extent.endTest(test);
 		extent.flush();
 	}
-
-
-	@Test(priority = 5)
-	public void bulkProjectCreation()
+	
+	@Test(priority = 6)
+	public void buildDeployment()
 	{
-		test = extent.startTest("Bulk Project Creation", "Create Multiple Projects in Kagami Studio....");	
-		bulkProjectCreation = new BulkProjectCreation(driver);
-		bulkProjectCreation.bulkProjectCreationInStudio(test);
-		extent.endTest(test);
-		extent.flush();
-	}*/
-
-
-
-	/*@Test(priority = 7)
-	public void studioSignOutAndBackButton()
-	{
-		extent = ExtentManager.Instance();
-		extent.loadConfig(new File("C:\\extent\\config.xml"));
-		test = extent.startTest("Logout and click back button", "Logout and click back button....");	
-		studioCommonMethods = new StudioCommonMethods(driver);
-		studioCommonMethods.studioLogoutAndBack(test);
+		test = extent.startTest("Build Deployment:", "Build Deployment....");	
+		buildDeploy = new BuildDeploy(driver);
+		buildDeploy.generateTargetApp(test);
 		extent.endTest(test);
 		extent.flush();
 	}
-	 */
-
-	@Test(priority = 6, dependsOnMethods={"studioSignIn"})
-	public void studioSignOut()
-	{
-		test = extent.startTest("Logout", "Logout from Studio....");	
-		studioCommonMethods = new StudioCommonMethods(driver);
-		studioCommonMethods.studioLogOut(test);
-		extent.endTest(test);
-		extent.flush();
-	}
+		
 
 	@AfterClass
 	public void browserShutDown() throws AddressException, MessagingException

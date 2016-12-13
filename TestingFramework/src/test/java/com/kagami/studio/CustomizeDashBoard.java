@@ -46,6 +46,9 @@ public class CustomizeDashBoard
 	By themeSettingsClick=By.xpath("//a/h3/span[@class='glyphicon glyphicon-picture']");
 	By themeSelect=By.xpath("//div/div/span/input[@class='defaulttheme Almond ng-not-empty']");
 	By saveAllButton=By.xpath("//div/button/following-sibling::button[contains(text(),'Save All')]");
+	By menuButton = By.xpath("//a[contains(text(),'Menu')]");
+	By subMenu = By.xpath("//button[contains(text(),'Menu')]");
+	By customizedDashboardButton = By.linkText("Customize Dashboard");
 
 	public CustomizeDashBoard(WebDriver driver)
 	{
@@ -57,9 +60,15 @@ public class CustomizeDashBoard
 	{
 		try
 		{
+			//studioCommonMethods.navigateToModule(driver);
+			driver.navigate().back();
+			driver.navigate().back();
+			driver.navigate().back();
+			Thread.sleep(1000);	
 			//Mapping Organization
-			Thread.sleep(2000);	
-			genericMethods.clickElement(driver, dashboardButton, test);
+			genericMethods.clickElement(driver, subMenu, test);
+			Thread.sleep(1000);
+			genericMethods.clickElement(driver, customizedDashboardButton, test);
 			String pathOfFile = Global.testSheet;
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
@@ -84,7 +93,7 @@ public class CustomizeDashBoard
 					a.moveToElement(wb3).perform();	
 					a.click(wb3).build().perform();										
 					By processdropdown=By.xpath("//ul[@class='ui-select-choices ui-select-choices-content ui-select-dropdown dropdown-menu ng-scope']//div[@role='option']["+i+"]");
-					i++;
+					//i++;
 					genericMethods.getText(driver, processdropdown, test);
 					genericMethods.click(driver, processdropdown, test);			
 					genericMethods.clickElement(driver, saveLeftPanel, test);					
@@ -111,7 +120,7 @@ public class CustomizeDashBoard
 						a.moveToElement(wb3).perform();	
 						a.click(wb3).build().perform();										
 						By processdropdown=By.xpath("//ul[@class='ui-select-choices ui-select-choices-content ui-select-dropdown dropdown-menu ng-scope']//div[@role='option']["+i+"]");
-						i++;
+					//	i++;
 						genericMethods.getText(driver, processdropdown, test);
 						genericMethods.click(driver, processdropdown, test);			
 						genericMethods.clickElement(driver, saveLeftPanel, test);					
@@ -137,7 +146,8 @@ public class CustomizeDashBoard
 			genericMethods.clickElement(driver, themeSelect, test);
 			genericMethods.clickElement(driver, themeSettingsClick, test);
 			genericMethods.clickElement(driver, saveAllButton, test);
-			test.log(LogStatus.PASS, "Customize Dashboard is created in Studio.");						
+			test.log(LogStatus.PASS, "Customize Dashboard is created in Studio.");		
+			
 		}
 		catch(Exception e)
 		{
