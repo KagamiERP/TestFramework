@@ -5,8 +5,11 @@
     <classes>
       <class name="com.kagami.studio.StudioGeneration">
         <methods>
+          <include name="entityCreation"/>
           <include name="browserSelection"/>
-          <include name="buildDeployment"/>
+          <include name="projectCreation"/>
+          <include name="processCreation"/>
+          <include name="studioSignIn"/>
         </methods>
       </class> <!-- com.kagami.studio.StudioGeneration -->
     </classes>

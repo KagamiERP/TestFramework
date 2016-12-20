@@ -70,7 +70,7 @@ public class OrganisationCreationBase
 			//genericMethods.clickElement(driver, organization, test);	   
 			genericMethods.clickElement(driver, roles, test);
 			Actions actions = new Actions(driver);
-			String organisationName = null;
+		//	String organisationName = null;
 
 			for(int row = 1; row <= sheet.getLastRowNum(); row++)
 			{
@@ -79,7 +79,7 @@ public class OrganisationCreationBase
 
 					genericMethods.clickElement(driver, saveButton, test);
 					Thread.sleep(1500);
-					test.log(LogStatus.PASS, organisationName+ " Organisation is created..");
+					test.log(LogStatus.PASS, " Roles has been created..");
 					driver.navigate().back();
 					
 				} 

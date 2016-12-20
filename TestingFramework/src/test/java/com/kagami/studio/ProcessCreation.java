@@ -27,7 +27,7 @@ public class ProcessCreation {
 	ExtentReports extent;
 	ExtentTest test;
 	public  WebDriver driver;
-	static Logger log = Logger.getLogger("ProjectCreationBase.class");
+	static Logger log = Logger.getLogger("ProcessCreation.class");
 	GenericMethods genericMethods = new GenericMethods();
 	StudioCommonMethods studioCommonMethods = new StudioCommonMethods(driver);
 	CustomizeDashBoard customizeDashBoard = new CustomizeDashBoard(driver);
@@ -56,7 +56,8 @@ public class ProcessCreation {
 	By existingProcess = By.xpath("//p[text()='Process']");
 	By existingProjectErrorMsg = By.xpath("//div[text()='*Should not create same Project Name']");
 	By kagamiLogo = By.xpath("//img[@src='assets/img/logo.png']");
-
+	//Policies Xpath
+	
 	//	static int plusInc = 10000;
 	//	By plusIcon = By.xpath("//div[@data-id= '" +(++plusInc) +"']");
 
@@ -73,7 +74,7 @@ public class ProcessCreation {
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
-			Sheet sheet =  wb.getSheet("Process");
+			Sheet sheet =  wb.getSheet("ProcessAndPolicies");
 			String[] rowElements = new String[50];
 
 			int projectRowCount = 1;
@@ -139,7 +140,7 @@ public class ProcessCreation {
 
 	}
 
-
+	
 	int rowCount = 3;
 	public void processCreation(ExtentTest test)
 	{
@@ -149,7 +150,7 @@ public class ProcessCreation {
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
-			Sheet sheet =  wb.getSheet("Process");
+			Sheet sheet =  wb.getSheet("ProcessAndPolicies");
 			String[] rowElements = new String[50];
 			WebDriverWait wait = new WebDriverWait(driver, 8);
 
@@ -176,7 +177,6 @@ public class ProcessCreation {
 					Thread.sleep(1500);
 					rowCount++;
 				}
-
 				if(sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("create"))
 				{
 					Thread.sleep(1000);
@@ -187,9 +187,18 @@ public class ProcessCreation {
 					continue;
 				}
 
-				else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("delete"))
+				else if(sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("update"))
 				{
 					Thread.sleep(1000);
+					studioCommonMethods.addIcon(driver, test);
+					studioCommonMethods.update(driver, test ,rowElements[cellValue+2]);
+					cellValue = 2;
+					rowCount++;
+					continue;
+				}
+				else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("delete"))
+				{
+					Thread.sleep(2000);
 					studioCommonMethods.addIcon(driver, test);
 					studioCommonMethods.delete(driver, test ,rowElements[cellValue+2]);
 					cellValue = 2;
@@ -199,7 +208,7 @@ public class ProcessCreation {
 
 				else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("view"))
 				{
-					Thread.sleep(1000);
+					Thread.sleep(2500);
 					studioCommonMethods.addIcon(driver, test);
 					studioCommonMethods.view(driver, test ,rowElements[++cellValue],rowElements[++cellValue]);
 					cellValue = 2;
@@ -216,7 +225,18 @@ public class ProcessCreation {
 					rowCount++;
 					continue;
 				}
+				
 
+				else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("end"))
+				{
+					Thread.sleep(1000);
+					studioCommonMethods.addIcon(driver, test);
+					studioCommonMethods.end(driver, test);
+					cellValue = 2;
+					rowCount++;
+					continue;
+				}
+				
 				else if (sheet.getRow(row).getCell(2).toString().contains("Save"))
 				{
 					Thread.sleep(1000);

@@ -6,7 +6,6 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import com.kagami.library.ExtentManager;
 import com.kagami.library.GenericMethods;
 import com.kagami.library.StudioCommonMethods;
@@ -39,33 +38,26 @@ public class BuildDeploy
 	public BuildDeploy(WebDriver driver)
 	{
 		this.driver = driver;
-		System.out.println("Driver>>>");
 	}
 
 	public void generateTargetApp(ExtentTest test)
-	{
-		try
-		{
-			 WebDriverWait wait = new WebDriverWait(driver,240);
-			driver.navigate().back();
-			genericMethods.clickElement(driver, subMenu, test);
-			genericMethods.clickElement(driver, generateButton, test);
-			wait.until(ExpectedConditions.visibilityOfElementLocated(contractSuccessMsg));
-			
-			genericMethods.clickElement(driver, buildSelect, test);
-			genericMethods.clickElement(driver, buildButton, test);
-			Thread.sleep(300000);
-			//	wait.until(ExpectedConditions.visibilityOfElementLocated(buildSuccessMsg));
-		//	studioCommonMethods.fluentWait(driver, buildSuccessMsg, 60, 1000);
-			genericMethods.clickElement(driver, deploySelect, test);
-			Thread.sleep(1000);
-			genericMethods.clickElement(driver, deployButton, test);
-			Thread.sleep(100000);
-		//	wait.until(ExpectedConditions.visibilityOfElementLocated(deploySuccessMsg));
-		//	studioCommonMethods.fluentWait(driver, buildSuccessMsg, 10, 300);
-			genericMethods.clickElement(driver, testButton, test);
-			test.log(LogStatus.PASS, "Contract is generated successfully ");		
-		}
+	 {
+	  try
+	  {
+	    WebDriverWait wait = new WebDriverWait(driver,240);
+	   driver.navigate().back();
+	   genericMethods.clickElement(driver, subMenu, test);
+	   genericMethods.clickElement(driver, generateButton, test);
+	   wait.until(ExpectedConditions.visibilityOfElementLocated(contractSuccessMsg));
+	   genericMethods.selectByVisibleText(driver, By.xpath("//select[@ng-options='buildServer as buildServer.name for buildServer in buildServers']"), "192.168.1.55", test);
+	   genericMethods.clickElement(driver, buildButton, test);
+	   studioCommonMethods.fluentWait(driver, buildSuccessMsg, 30, 500);
+	   genericMethods.selectByVisibleText(driver, By.xpath("//select[@ng-options='deployServer as deployServer.name for deployServer in deployServers']"), "192.168.1.55", test);
+	   genericMethods.clickElement(driver, deployButton, test);
+	   studioCommonMethods.fluentWait(driver, deploySuccessMsg, 30, 500);
+	   genericMethods.clickElement(driver, testButton, test);
+	   test.log(LogStatus.PASS, "Contract is generated successfully ");  
+	  }
 		catch(Exception e)
 		{
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));

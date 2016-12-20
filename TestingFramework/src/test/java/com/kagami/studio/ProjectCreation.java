@@ -28,7 +28,7 @@ public class ProjectCreation {
 	ExtentReports extent;
 	ExtentTest test;
 	public  WebDriver driver;
-	static Logger log = Logger.getLogger("ProjectCreationBase.class");
+	static Logger log = Logger.getLogger("ProjectCreation.class");
 	GenericMethods genericMethods = new GenericMethods();
 	StudioCommonMethods studioCommonMethods = new StudioCommonMethods(driver);
 	CustomizeDashBoard customizeDashBoard = new CustomizeDashBoard(driver);

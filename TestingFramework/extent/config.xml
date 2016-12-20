@@ -1,43 +1,51 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <extentreports>
-    <configuration>
-        <!-- document encoding -->
-        <encoding>UTF-8</encoding>
+	<configuration>
+		<!-- document encoding -->
+		<encoding>UTF-8</encoding>
 
-        <!-- title of the document -->
-        <documentTitle>Automation Test Report</documentTitle>
+		<!-- title of the document -->
+		<documentTitle>Automation Test Report</documentTitle>
 		<theme>dark</theme>
-        <!-- report name - displayed at top-nav -->
-		
-        
+		<!-- report name - displayed at top-nav -->
+		<!-- <a href="applicationLogs.html"><img src='log.png' style="margin-left:354px;" 
+			title="Execution Logs" align="middle"/></a> -->
+
+
 		<reportName>
             <![CDATA[
                <a href="http://kagamierp.com/"><img src='kagami.png' style="margin-top:0px;"/></a>
-			   <a href="applicationLogs.html"><img src='log.png' style="margin-left:354px;" title="Execution Log File" align="middle"/></a>
+			   <a href="applicationLogs.html"><p title="Test Execution Logs"><b>Execution Logs</b></p></a>
             ]]>
-        </reportName>
+		</reportName>
 
-        <!-- report headline - displayed at top-nav, after reportHeadline -->
-        <reportHeadline></reportHeadline>
+		<!-- report headline - displayed at top-nav, after reportHeadline -->
+		<reportHeadline></reportHeadline>
 
-        <!-- custom javascript -->
-        <scripts>
+		<!-- custom javascript -->
+		<scripts>
             <![CDATA[
                 $(document).ready(function() {
 
                 });
             ]]>
-			
-        </scripts>
-		
-	
+
+		</scripts>
+
+
 		<!-- custom styles -->
-        <styles>
+		<styles>
             <![CDATA[
                 .report-name { padding-left: 1px; } 
 				.report-name > img {}
 				
             ]]>
-        </styles>
-    </configuration>
+			p {
+			position: absolute;
+			left: 292px;
+			top: 98px;
+			font-size: 120%;
+			}
+		</styles>
+	</configuration>
 </extentreports>

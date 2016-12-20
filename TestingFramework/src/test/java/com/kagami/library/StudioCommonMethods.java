@@ -2,14 +2,15 @@ package com.kagami.library;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
-import org.sikuli.script.FindFailed;
-import org.sikuli.script.Match;
-import org.sikuli.script.Pattern;
-import org.sikuli.script.Screen;
-import org.testng.Assert;
+
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
@@ -35,7 +36,7 @@ import com.relevantcodes.extentreports.LogStatus;
 
 public class StudioCommonMethods {
 
-	
+
 	private Logger log = Logger.getLogger("StudioCommonMethods.class");
 	private WebDriverWait wait;
 	private WebElement element;
@@ -44,6 +45,7 @@ public class StudioCommonMethods {
 	GenericMethods genericMethods = new GenericMethods();
 	By createVerb = By.xpath("//p[contains(text(),'CREATE')]");
 	By deleteVerb = By.xpath("//p[contains(text(),'DELETE')]");
+	By updateVerb = By.xpath("//p[contains(text(),'UPDATE')]");
 	By selectEntityButton = By.xpath("//span[@aria-label='Select box activate']");
 	By selectEntityTextArea = By.xpath("//input[contains(@placeholder,'Select a entity in the list')]");
 	By nextButton = By.xpath("//button[text()='Next']");
@@ -53,7 +55,7 @@ public class StudioCommonMethods {
 	public ExtentTest test;
 	public  WebDriver driver;
 	String expectedHeader = "Confirm";
-	
+
 
 	//*** Xpath's for Studio LogIn ***//
 	By uname = By.id("inputUsername");
@@ -92,6 +94,14 @@ public class StudioCommonMethods {
 	By deleteOrgOkButton = By.xpath("//div[text()='Delete Organization']//following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
 	By loginErrorMsg = By.xpath("//div[@ng-show='error']/span[@class='sr-only']");
 	By invalidUserName = By.xpath("//input[@id='inputUsername' and @class='form-control ng-touched ng-dirty ng-valid-parse ng-empty ng-invalid ng-invalid-required']");
+
+	By policiesButton = By.xpath("//span[@class='list-group-item text-center ng-binding ng-scope']/img[@ng-src='assets/img/stepmodal/policies.png']");
+	By restrictionsButton = By.xpath("//span[@class='list-group-item text-center ng-binding ng-scope']/img[@ng-src='assets/img/stepmodal/restrictions.png']");
+	By pathButton = By.xpath("//span[@class='list-group-item text-center ng-binding ng-scope']/img[@ng-src='assets/img/stepmodal/paths.png']");
+	By createPath = By.xpath("//button[@ng-click='createPath()']");
+	//By policyLHS = By.xpath("//div[@class='form-group lhs']//div[@class='ng-isolate-scope']//span[@ng-transclude='']/input[@ng-model='subCondition.lhs.value']");
+	//By policyCondition = By.xpath("//div[@class='form-group']/select[@ng-model='subCondition.operator']");
+	//By policyRHS = By.xpath("//span[@ng-transclude='']/input[@ng-model='subCondition.rhs.value']");
 
 
 	public StudioCommonMethods(WebDriver driver)
@@ -253,20 +263,20 @@ public class StudioCommonMethods {
 	}
 
 	public boolean dismissAlertPopUp(WebDriver driver){
-		  try{
-		   Alert alert = driver.switchTo().alert();
-		   String alertMessage = alert.getText();
-		   alert.dismiss();
-		   log.info("The alert with the text message "+alertMessage+ "has been dismissed successfully");
-		   return true;
-		  }
-		  catch(NoAlertPresentException e){
-		   errorMsg = e.getMessage();
-		  }
-		  log.warn("Unable to handle the alert pop-up because "+errorMsg);
-		  return false;
-		 }
-	
+		try{
+			Alert alert = driver.switchTo().alert();
+			String alertMessage = alert.getText();
+			alert.dismiss();
+			log.info("The alert with the text message "+alertMessage+ "has been dismissed successfully");
+			return true;
+		}
+		catch(NoAlertPresentException e){
+			errorMsg = e.getMessage();
+		}
+		log.warn("Unable to handle the alert pop-up because "+errorMsg);
+		return false;
+	}
+
 	public void studioLogoutAndBack(ExtentTest test)
 	{
 		try{
@@ -309,48 +319,48 @@ public class StudioCommonMethods {
 	}
 
 	public boolean deleteExistingEntity(WebDriver driver, String entityNameValue) throws InterruptedException{
-		  try {
-		   driver.findElement(By.xpath("//input[starts-with(@placeholder,'Search Entity')]")).clear();
-		   genericMethods.enterText(driver, By.xpath("//input[starts-with(@placeholder,'Search Entity')]"), entityNameValue, test);
-		   if(genericMethods.ElementVisibility(driver, By.xpath("//span[@title='"+entityNameValue+"']"), test)){
-		    System.out.println("Checking if");
-		    rightClickActions(driver, By.xpath("//ul[@class='treemenu_ul']//span[contains(text(),'"+entityNameValue+"')]"), test);
-		    genericMethods.clickElement(driver, By.xpath("//a[text()='Delete Entity']"), test);
-		    genericMethods.clickElement(driver, By.xpath("//div[text()='Confirm']/following::button[text()='OK']"), test);
-		    driver.findElement(By.xpath("//input[starts-with(@placeholder,'Search Entity')]")).sendKeys(Keys.chord(Keys.CONTROL, "a"));
-		    driver.findElement(By.xpath("//input[starts-with(@placeholder,'Search Entity')]")).sendKeys(Keys.BACK_SPACE);
-		    log.info("Existing Entity deleted successfully");
-		    return true;
-		   } 
-		  }
-		  catch (NoSuchElementException e){
-		   test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
-		   errorMsg = e.getMessage();
-		  }
-		  log.warn("The Element cannot be deleted because "+errorMsg);
-		  return false;
-		 }
-	
-	
-	
-	public void rightClickActions(WebDriver driver, By elementLocator, ExtentTest test)
-	 {
-	  //visibilityStatus = ElementVisibility(wDriver, elementLocator, test); 
-	  try{
-	   //highlightWebElement(wDriver, elementLocator, test);
-	   WebElement element = driver.findElement(elementLocator);
-	   Actions rightClick = new Actions(driver).contextClick(element);
-	   rightClick.build().perform();
-	   log.info("Context Click is performed on " + elementLocator+ " object.");
-	  }
+		try {
+			driver.findElement(By.xpath("//input[starts-with(@placeholder,'Search Entity')]")).clear();
+			genericMethods.enterText(driver, By.xpath("//input[starts-with(@placeholder,'Search Entity')]"), entityNameValue, test);
+			if(genericMethods.ElementVisibility(driver, By.xpath("//span[@title='"+entityNameValue+"']"), test)){
+				System.out.println("Checking if");
+				rightClickActions(driver, By.xpath("//ul[@class='treemenu_ul']//span[contains(text(),'"+entityNameValue+"')]"), test);
+				genericMethods.clickElement(driver, By.xpath("//a[text()='Delete Entity']"), test);
+				genericMethods.clickElement(driver, By.xpath("//div[text()='Confirm']/following::button[text()='OK']"), test);
+				driver.findElement(By.xpath("//input[starts-with(@placeholder,'Search Entity')]")).sendKeys(Keys.chord(Keys.CONTROL, "a"));
+				driver.findElement(By.xpath("//input[starts-with(@placeholder,'Search Entity')]")).sendKeys(Keys.BACK_SPACE);
+				log.info("Existing Entity deleted successfully");
+				return true;
+			} 
+		}
+		catch (NoSuchElementException e){
+			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			errorMsg = e.getMessage();
+		}
+		log.warn("The Element cannot be deleted because "+errorMsg);
+		return false;
+	}
 
-	  catch(NoSuchElementException e)
-	  { 
-	   errorMsg = e.getMessage();
-	  }
-	  log.warn("Element " + elementLocator + " was not found in DOM "+ errorMsg);
-	 }
-	
+
+
+	public void rightClickActions(WebDriver driver, By elementLocator, ExtentTest test)
+	{
+		//visibilityStatus = ElementVisibility(wDriver, elementLocator, test); 
+		try{
+			//highlightWebElement(wDriver, elementLocator, test);
+			WebElement element = driver.findElement(elementLocator);
+			Actions rightClick = new Actions(driver).contextClick(element);
+			rightClick.build().perform();
+			log.info("Context Click is performed on " + elementLocator+ " object.");
+		}
+
+		catch(NoSuchElementException e)
+		{ 
+			errorMsg = e.getMessage();
+		}
+		log.warn("Element " + elementLocator + " was not found in DOM "+ errorMsg);
+	}
+
 
 	public boolean deleteItem(WebDriver driver, String itemToDelete){
 		By deleteItem = By.xpath("//h3[text()='"+itemToDelete+"']/parent::div/parent::a/parent::div//span[@class='glyphicon glyphicon-trash pull-right card-menu-item']");
@@ -465,8 +475,8 @@ public class StudioCommonMethods {
 		return false;
 	}
 
-	
-	
+
+
 	public boolean addTriggers(WebDriver driver, String triggerName){
 		try{
 			genericMethods.clickElement(driver, editTabInView, test);
@@ -502,16 +512,212 @@ public class StudioCommonMethods {
 		return false;
 	}
 
-	public boolean create(WebDriver driver, ExtentTest test, String template, String entityName) throws InterruptedException {
+
+	int createPolicyCount = 0;
+	public boolean hasPolicy(WebDriver driver, ExtentTest test) throws InvalidFormatException, IOException, InterruptedException
+	{
+		System.out.println("Has Policies");
+		genericMethods.clickElement(driver, policiesButton, test);
+		String pathOfFile = Global.testSheet;
+		File f = new File(pathOfFile);
+		FileInputStream fis = new FileInputStream(f);
+		Workbook wb = WorkbookFactory.create(fis);
+		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
+		Map<String,List<String>> conditionMap = new HashMap<String,List<String>>();
+		String key = null;
+		int cellNum = 0;
+
+
+		for(int cell =0 ; cell<=sheet.getRow(2).getLastCellNum(); cell++){
+			if(sheet.getRow(2).getCell(cell).toString().trim().equals("Condition")){
+				key =  sheet.getRow(2).getCell(cell).toString();
+				cellNum = cell;
+				break;
+			}
+		}
+		List<String> conditionAllValue = new ArrayList<String>();
+		for(int rowNum = 3; rowNum < sheet.getLastRowNum(); rowNum++ ){
+			String val = sheet.getRow(rowNum).getCell(cellNum).toString();
+			if(val.length()>3){
+				conditionAllValue.add(val);
+			}
+			conditionMap.put(key,conditionAllValue);
+		}
+
+
+		List<String> conditionCellValue = null;
+		Set<String> keySet = conditionMap.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while(iterator.hasNext()){
+			String key1 = (String) iterator.next();
+			conditionCellValue = conditionMap.get(key1);
+			System.out.println("Key1 is: "+key1+ "Value is "+conditionCellValue);
+		}
+
+		int policyRowInc = 1;
+		String[] conditionSeparatedByAndValue = conditionCellValue.get(createPolicyCount++).split("and");
+		for(String conditionSeparatedBySingleCondition : conditionSeparatedByAndValue){
+			String[] conditionSeparatedByComma = conditionSeparatedBySingleCondition.split(",");
+			By policyLHS = By.xpath("//div[@class='childsubCondition ng-scope']["+(policyRowInc)+"]//input[@ng-model='subCondition.lhs.value']");
+			driver.findElement(policyLHS).sendKeys(new CharSequence[]{conditionSeparatedByComma[0]});
+			Thread.sleep(1000);
+			By policyCondition = By.xpath("//div[@class='childsubCondition ng-scope']["+(policyRowInc)+"]//div[@class='form-group']/select[@ng-model='subCondition.operator']");
+			genericMethods.clickElement(driver, policyCondition, test);
+			Thread.sleep(1000);
+			genericMethods.selectByVisibleText(driver, policyCondition, conditionSeparatedByComma[1], test);
+			Thread.sleep(1000);
+			By policyRHS = By.xpath("//div[@class='childsubCondition ng-scope']["+(policyRowInc)+"]//span[@ng-transclude='']/input[@ng-model='subCondition.rhs.value']");
+			genericMethods.enterText(driver, policyRHS, conditionSeparatedByComma[2], test);
+			By plusPolicy = By.xpath("//div[@class='childsubCondition ng-scope']["+(policyRowInc)+"]//button[@class='btn btn-primary btn-xs' and @ng-disabled='checkConditions()']");
+			genericMethods.clickElement(driver, plusPolicy, test);
+			policyRowInc++;
+			Thread.sleep(1000);
+		}
+		return true;
+
+	}
+
+
+
+	int switchPathCount = 0;
+	public boolean hasPath(WebDriver driver, ExtentTest test) throws InterruptedException, InvalidFormatException, IOException
+	{
+
+		System.out.println("Has Path");
+		genericMethods.clickElement(driver, pathButton, test);
+		genericMethods.clickElement(driver, createPath, test);
+		Thread.sleep(1000);
+		String pathOfFile = Global.testSheet;
+		File f = new File(pathOfFile);
+		FileInputStream fis = new FileInputStream(f);
+		Workbook wb = WorkbookFactory.create(fis);
+		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
+		Map<String,List<String>> pathMap = new HashMap<String,List<String>>();
+		String key = null;
+		int cellNum = 0;
+		for(int cell =0 ; cell<=sheet.getRow(2).getLastCellNum(); cell++){
+			if(sheet.getRow(2).getCell(cell).toString().trim().equals("Path")){
+				key =  sheet.getRow(2).getCell(cell).toString();
+				cellNum = cell;
+				break;
+			}
+		}
+		List<String> pathAllValue = new ArrayList<String>();
+		for(int rowNum = 3; rowNum < sheet.getLastRowNum(); rowNum++ ){
+			String val = sheet.getRow(rowNum).getCell(cellNum).toString();
+			if(val.length()>3){
+				pathAllValue.add(val);
+			}
+			pathMap.put(key,pathAllValue);
+		}
+
+
+		List<String> restrictionsCellValue = null;
+		Set<String> keySet = pathMap.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while(iterator.hasNext()){
+			String key1 = (String) iterator.next();
+			restrictionsCellValue = pathMap.get(key1);
+			System.out.println("Key1 is : "+key1+ "Value is : "+restrictionsCellValue);
+		}
+
+		int pathRowInc = 1;
+		String[] pathSeparatedByAndValue = restrictionsCellValue.get(switchPathCount++).split("and");
+		for(String pathSeparatedBySinglePath : pathSeparatedByAndValue){
+			String[] pathSeparatedByComma = pathSeparatedBySinglePath.split(",");
+			By pathLHS = By.xpath("//div[@class='childsubCondition ng-scope']["+(pathRowInc)+"]//input[@ng-model='subCondition.lhs.value']");
+			driver.findElement(pathLHS).sendKeys(new CharSequence[]{pathSeparatedByComma[0]});
+			Thread.sleep(1000);
+			By pathCondition = By.xpath("//div[@class='childsubCondition ng-scope']["+(pathRowInc)+"]//div[@class='form-group']/select[@ng-model='subCondition.operator']");
+			genericMethods.clickElement(driver, pathCondition, test);
+			Thread.sleep(1000);
+			genericMethods.selectByVisibleText(driver, pathCondition, pathSeparatedByComma[1], test);
+			Thread.sleep(1000);
+			By pathRHS = By.xpath("//div[@class='childsubCondition ng-scope']["+(pathRowInc)+"]//span[@ng-transclude='']/input[@ng-model='subCondition.rhs.value']");
+			genericMethods.enterText(driver, pathRHS, pathSeparatedByComma[2], test);
+			By plusPath = By.xpath("//div[@class='childsubCondition ng-scope']["+(pathRowInc)+"]//button[@class='btn btn-primary btn-xs' and @ng-disabled='checkConditions()']");
+			genericMethods.clickElement(driver, plusPath, test);
+			pathRowInc++;
+			Thread.sleep(1000);
+		}
+		By modalSavePath = By.xpath("//div[@class='modal-footer']/button[text()='Save']");
+		genericMethods.clickElement(driver, modalSavePath, test);
+		return true;
+	}
+
+	int viewRestrictionCount = 0;
+	public boolean hasRestrictions(WebDriver driver, ExtentTest test) throws InterruptedException, InvalidFormatException, IOException
+	{
+
+		System.out.println("Has Restrictions");
+		genericMethods.clickElement(driver, restrictionsButton, test);
+		String pathOfFile = Global.testSheet;
+		File f = new File(pathOfFile);
+		FileInputStream fis = new FileInputStream(f);
+		Workbook wb = WorkbookFactory.create(fis);
+		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
+		Map<String,List<String>> conditionMap = new HashMap<String,List<String>>();
+		String key = null;
+		int cellNum = 0;
+		for(int cell =0 ; cell<=sheet.getRow(2).getLastCellNum(); cell++){
+			if(sheet.getRow(2).getCell(cell).toString().trim().equals("Restrictions")){
+				key =  sheet.getRow(2).getCell(cell).toString();
+				cellNum = cell;
+				break;
+			}
+		}
+		List<String> conditionAllValue = new ArrayList<String>();
+		for(int rowNum = 3; rowNum < sheet.getLastRowNum(); rowNum++ ){
+			String val = sheet.getRow(rowNum).getCell(cellNum).toString();
+			if(val.length()>3){
+				conditionAllValue.add(val);
+			}
+			conditionMap.put(key,conditionAllValue);
+		}
+
+
+		List<String> restrictionsCellValue = null;
+		Set<String> keySet = conditionMap.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while(iterator.hasNext()){
+			String key1 = (String) iterator.next();
+			restrictionsCellValue = conditionMap.get(key1);
+			System.out.println("Key1 is : "+key1+ "Value is : "+restrictionsCellValue);
+		}
+
+		int restrictionRowInc = 1;
+		String[] conditionSeparatedByAndValue = restrictionsCellValue.get(viewRestrictionCount++).split("and");
+		for(String conditionSeparatedBySingleCondition : conditionSeparatedByAndValue){
+			String[] conditionSeparatedByComma = conditionSeparatedBySingleCondition.split(",");
+			By policyLHS = By.xpath("//div[@class='childsubCondition ng-scope']["+(restrictionRowInc)+"]//input[@ng-model='subCondition.lhs.value']");
+			driver.findElement(policyLHS).sendKeys(new CharSequence[]{conditionSeparatedByComma[0]});
+			Thread.sleep(1000);
+			By policyCondition = By.xpath("//div[@class='childsubCondition ng-scope']["+(restrictionRowInc)+"]//div[@class='form-group']/select[@ng-model='subCondition.operator']");
+			genericMethods.clickElement(driver, policyCondition, test);
+			Thread.sleep(1000);
+			genericMethods.selectByVisibleText(driver, policyCondition, conditionSeparatedByComma[1], test);
+			Thread.sleep(1000);
+			By policyRHS = By.xpath("//div[@class='childsubCondition ng-scope']["+(restrictionRowInc)+"]//span[@ng-transclude='']/input[@ng-model='subCondition.rhs.value']");
+			genericMethods.enterText(driver, policyRHS, conditionSeparatedByComma[2], test);
+			By plusPolicy = By.xpath("//div[@class='childsubCondition ng-scope']["+(restrictionRowInc)+"]//button[@class='btn btn-primary btn-xs' and @ng-disabled='checkConditions()']");
+			genericMethods.clickElement(driver, plusPolicy, test);
+			restrictionRowInc++;
+			Thread.sleep(1000);
+		}
+		return true;
+	}
+
+	public boolean create(WebDriver driver, ExtentTest test, String template, String entityName) throws InterruptedException, InvalidFormatException, IOException {
 
 		try{
 			By formTemplate = By.xpath("//div[@class='card']/img[@alt='form']");
 			By tabbedTemplate = By.xpath("//div[@class='card']/img[@alt='tabbed']");
-			By pcEmbedForm = By.xpath("//div[@class='card']/img[@alt='pcEmbedForm']");
-			By pcCreate = By.xpath("//div[@class='card']/img[@alt='pcCreate']");
+			By pcEmbedFormTemplate = By.xpath("//div[@class='card']/img[@alt='pcEmbedForm']");
+			By pcCreateTemplate = By.xpath("//div[@class='card']/img[@alt='pcCreate']");
+			By pcMultiFormTemplate = By.xpath("//div[@class='card']/img[@alt='pcMultiForm']");
+			By pcModalFormTemplate =  By.xpath("//div[@class='card']/img[@alt='pcModalForm']");
 
 			genericMethods.clickElement(driver, createVerb, test);
-			//genericMethods.clickElement(driver, clickConstruct, test);
 			constructCounter(driver, test);
 
 			if(template.equalsIgnoreCase("formTemplate"))
@@ -521,7 +727,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				//genericMethods.clickElement(driver,closeIcon, test);
+				hasPolicy(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
 			}
 
@@ -532,26 +738,53 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
+				hasPolicy(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
 
 			}
 
 			else if(template.equalsIgnoreCase("pcCreate")){	
-				genericMethods.clickElement(driver, pcCreate, test);
+				genericMethods.clickElement(driver, pcCreateTemplate, test);
 				Thread.sleep(1000);
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
+				hasPolicy(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
 
 			}
 			else if(template.equalsIgnoreCase("pcEmbedForm")){
-				genericMethods.clickElement(driver, pcEmbedForm, test);
-
+				genericMethods.clickElement(driver, pcEmbedFormTemplate, test);
+				Thread.sleep(1000);
+				genericMethods.clickElement(driver, selectEntityButton, test);
+				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
+				genericMethods.clickElement(driver, nextButton, test);
+				hasPolicy(driver, test);
+				genericMethods.clickElement(driver, saveButton, test);
 			}
 
-			return true;
+			else if(template.equalsIgnoreCase("pcMultiForm"))
+			{ 
+				genericMethods.clickElement(driver, pcMultiFormTemplate, test);
+				Thread.sleep(1000);
+				genericMethods.clickElement(driver, selectEntityButton, test);
+				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
+				genericMethods.clickElement(driver, nextButton, test);
+				hasPolicy(driver, test);
+				genericMethods.clickElement(driver, saveButton, test);
+			}
 
+			else if(template.equalsIgnoreCase("pcModalForm"))
+			{ 
+				genericMethods.clickElement(driver, pcModalFormTemplate, test);
+				Thread.sleep(1000);
+				genericMethods.clickElement(driver, selectEntityButton, test);
+				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
+				genericMethods.clickElement(driver, nextButton, test);
+				hasPolicy(driver, test);
+				genericMethods.clickElement(driver, saveButton, test);
+			}
+			return true;
 		}
 		catch (NoSuchElementException e){
 			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
@@ -564,62 +797,47 @@ public class StudioCommonMethods {
 	}
 
 
-	public boolean delete(WebDriver driver, ExtentTest test , String entityName) throws InterruptedException {
-
-		try{
-			genericMethods.clickElement(driver, deleteVerb, test);
-			//genericMethods.clickElement(driver, clickConstruct, test);
-			constructCounter(driver, test);
-			genericMethods.clickElement(driver, selectEntityButton, test);
-			genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
-			//genericMethods.clickElement(driver,closeIcon, test);
-			genericMethods.clickElement(driver, saveButton, test);
-			return true;
-
-		}
-		catch (NoSuchElementException e){
-			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
-			errorMsg = e.getMessage();
-			log.warn("The Element cannot be clicked because "+errorMsg);
-		}
-
-		log.warn("The Element cannot be clicked because "+errorMsg);
-		return false;
-	}	
-
-
-
-
-	public boolean view(WebDriver driver, ExtentTest test, String template, String entityName) throws InterruptedException {
+	public boolean view(WebDriver driver, ExtentTest test, String template, String entityName) throws InterruptedException, InvalidFormatException, IOException {
 
 		try{
 			By viewVerb = By.xpath("//p[contains(text(),'VIEW')]");
 			By pChild = By.xpath("//b[text()='pChild']");
 			By list = By.xpath("//b[text()='list']");
 			By search = By.xpath("//b[text()='search']");
-			
+
 			genericMethods.clickElement(driver, viewVerb, test);
 			Thread.sleep(700);
-			constructCounter(driver, test);
-			if(template.equalsIgnoreCase("pChild"))
-			{ 
+			//constructCounter(driver, test);
+			By dataPosition = By.xpath("//div[@data-position-left='4' and @data-position-top='0']");
+			genericMethods.clickElement(driver, dataPosition, test);
+			if(template.equalsIgnoreCase("pChild")){ 
 				genericMethods.clickElement(driver, pChild, test);	
 				Thread.sleep(1000);
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				//genericMethods.clickElement(driver,closeIcon, test);
+				//	hasRestrictions(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
 			}
-			else if(template.equalsIgnoreCase("list"))
-			{
+			else if(template.equalsIgnoreCase("list")){
 				genericMethods.clickElement(driver, list, test);	
 				Thread.sleep(1000);
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				//genericMethods.clickElement(driver,closeIcon, test);
+				//		hasRestrictions(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
+
+			}
+			else if(template.equalsIgnoreCase("search")){
+				genericMethods.clickElement(driver, search, test);	
+				Thread.sleep(1000);
+				genericMethods.clickElement(driver, selectEntityButton, test);
+				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
+				genericMethods.clickElement(driver, nextButton, test);
+				//	hasRestrictions(driver, test);
+				genericMethods.clickElement(driver, saveButton, test);
+
 
 			}
 			return true;
@@ -639,18 +857,71 @@ public class StudioCommonMethods {
 	}
 
 
-
-	public boolean Switch(WebDriver driver, ExtentTest test , String entityName) throws InterruptedException {
+	public boolean update(WebDriver driver, ExtentTest test , String entityName) throws InterruptedException, InvalidFormatException, IOException {
 
 		try{
-			By switchVerb = By.xpath("//p[contains(text(),'switch')]");
-			genericMethods.clickElement(driver, switchVerb, test);
-			Thread.sleep(700);
+			genericMethods.clickElement(driver, updateVerb, test);
 			constructCounter(driver, test);
 			Thread.sleep(1000);
 			genericMethods.clickElement(driver, selectEntityButton, test);
 			genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
-			//genericMethods.clickElement(driver,closeIcon, test);
+			genericMethods.clickElement(driver, nextButton, test);
+			hasPolicy(driver, test);
+			genericMethods.clickElement(driver, saveButton, test);
+			return true;
+
+		}
+		catch (NoSuchElementException e){
+			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			errorMsg = e.getMessage();
+			log.warn("The Element cannot be clicked because "+errorMsg);
+		}
+
+		log.warn("The Element cannot be clicked because "+errorMsg);
+		return false;
+	}	
+
+	
+
+	public boolean delete(WebDriver driver, ExtentTest test , String entityName) throws InterruptedException {
+
+		try{
+			genericMethods.clickElement(driver, deleteVerb, test);
+			Thread.sleep(1500);			
+			//genericMethods.clickElement(driver, clickConstruct, test);
+			//constructCounter(driver, test);
+			By dataPosition = By.xpath("//div[@data-position-left='4' and @data-position-top='1']");
+			genericMethods.clickElement(driver, dataPosition, test);
+			
+			genericMethods.clickElement(driver, selectEntityButton, test);
+			genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
+			genericMethods.clickElement(driver, saveButton, test);
+			return true;
+
+		}
+		catch (NoSuchElementException e){
+			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			errorMsg = e.getMessage();
+			log.warn("The Element cannot be clicked because "+errorMsg);
+		}
+
+		log.warn("The Element cannot be clicked because "+errorMsg);
+		return false;
+	}	
+
+
+
+	public boolean Switch(WebDriver driver, ExtentTest test , String entityName) throws InterruptedException, InvalidFormatException, IOException {
+
+		try{
+			By switchVerb = By.xpath("//p[contains(text(),'switch')]");
+			genericMethods.clickElement(driver, switchVerb, test);
+			Thread.sleep(1000);
+			constructCounter(driver, test);
+			Thread.sleep(1000);
+			genericMethods.clickElement(driver, selectEntityButton, test);
+			genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
+			hasPath(driver, test);
 			genericMethods.clickElement(driver, saveButton, test);
 			return true;
 
@@ -666,7 +937,28 @@ public class StudioCommonMethods {
 	}
 
 
+	public boolean end(WebDriver driver, ExtentTest test) throws InterruptedException, InvalidFormatException, IOException {
 
+		try{
+			By endConstuct = By.xpath("//p[contains(text(),'END')]");
+			genericMethods.clickElement(driver, endConstuct, test);
+			Thread.sleep(1000);
+		//	constructCounter(driver, test);
+			return true;
+
+		}
+		catch (NoSuchElementException e){
+			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			errorMsg = e.getMessage();
+			log.warn("The Element cannot be clicked because "+errorMsg);
+		}
+
+		log.warn("The Element cannot be clicked because "+errorMsg);
+		return false;
+	}
+
+	
+	
 
 
 	public boolean email(WebDriver driver, ExtentTest test) {
@@ -726,14 +1018,26 @@ public class StudioCommonMethods {
 		return false;
 	}
 
+	int xpathLen = 1;
 	public boolean addIcon(WebDriver driver, ExtentTest test) throws InterruptedException
 	{
 
 		try{
+
 			// By plusIcon = By.xpath("//div[@data-id= '" +(++plusInc) +"']");
-			By plusIcon = By.xpath("//div[@class='step circle plus_step']"); 
-			Thread.sleep(1500);
-			genericMethods.clickElement(driver, plusIcon, test);
+			By plusIcon = By.xpath("//div[@class='step circle plus_step'][1]"); 
+			int xpathCount;
+			xpathCount = genericMethods.getXpathSize(driver, plusIcon, test);
+			/*if(xpathCount > 1 && xpathCount < 3 ){
+				System.out.println("Two plus Icon");
+				Thread.sleep(1500);
+				genericMethods.clickElement(driver, By.xpath("//div[@class='step circle plus_step']["+(xpathLen++)+"]"), test);
+			}*/
+			//else{
+				System.out.println("Single plus Icon");
+				genericMethods.clickElement(driver, plusIcon, test);
+				Thread.sleep(4500);
+			//}
 			return true;
 
 		}
@@ -750,6 +1054,7 @@ public class StudioCommonMethods {
 
 	public boolean constructCounter(WebDriver driver, ExtentTest test)
 	{
+
 		try{
 			By clickConstruct = By.xpath("//div[@data-position-left='"+(constructCount++)+"']");
 			genericMethods.clickElement(driver, clickConstruct, test);
@@ -842,6 +1147,88 @@ public class StudioCommonMethods {
 			log.warn("Element is not found in the Dom "+errorMsg);
 		}
 		return false;
+	}
+
+	public void getEntityDataTypes(WebDriver driver, List<String> attributeType, List<String> attributeValidations, int value, int totalAttributesCount){
+		try{
+
+			if(attributeType.get(value).toString().equalsIgnoreCase("Number")){
+				genericMethods.clickElement(driver, By.xpath("//tr["+(totalAttributesCount)+"]//a[@ng-click='editValidations(attribute)']"), test);
+				fluentWait(driver, By.xpath("//div[@class='modal-header']//h4[text()='Edit Attribute Validations']"), 5, 30);
+				genericMethods.selectSingleCheckbox(driver, By.xpath("//input[@id='attributeRange' and @type='checkbox']"), test);
+				String numberValidationValues = attributeValidations.get(value);
+				System.out.println(numberValidationValues);
+				String[] listOfNumbers = numberValidationValues.split(",");
+				genericMethods.enterText(driver, By.xpath("//input[@id='rangeMin']"), listOfNumbers[0].trim(), test);
+				genericMethods.enterText(driver, By.xpath("//input[@id='rangeMax']"), listOfNumbers[1].trim(), test);
+				genericMethods.clickElement(driver, By.xpath("//div[@class='modal-footer']//button[@type='button' and contains(text(),'Update')]"), test); 
+			}
+
+
+
+			else if(attributeType.get(value).toString().equalsIgnoreCase("date")){
+				genericMethods.clickElement(driver, By.xpath("//tr["+(totalAttributesCount)+"]//a[@ng-click='editValidations(attribute)']"), test);
+				fluentWait(driver, By.xpath("//div[@class='modal-header']//h4[text()='Edit Attribute Validations']"), 5, 30);
+				String dateValidationValues = attributeValidations.get(value);
+				System.out.println(dateValidationValues);
+				String[] listOfDateAttributes = dateValidationValues.split(",");
+				genericMethods.selectRadioButton(driver, By.xpath("//label/input[@name='dateValidation' and @value='"+listOfDateAttributes[0].trim()+"']"), test);
+				//if(listOfDateAttributes[1].equalsIgnoreCase("DateTime"))
+				genericMethods.selectSingleCheckbox(driver, By.xpath("//input[@type='checkbox' and @name='dateValidation']"), test);
+				genericMethods.clickElement(driver, By.xpath("//div[@class='modal-footer']//button[@type='button' and contains(text(),'Update')]"), test);
+			}
+
+			else if(attributeType.get(value).toString().equalsIgnoreCase("text")){
+				genericMethods.clickElement(driver, By.xpath("//tr["+(totalAttributesCount)+"]//a[@ng-click='editValidations(attribute)']"), test);
+				fluentWait(driver, By.xpath("//div[@class='modal-header']//h4[text()='Edit Attribute Validations']"), 5, 30);
+				String textValidationValues = attributeValidations.get(value);
+				System.out.println(textValidationValues);
+				String[] listOfTextValues = textValidationValues.split(",");
+				if(listOfTextValues[0].trim().equalsIgnoreCase("UpperCase"))
+					genericMethods.selectSingleCheckbox(driver, By.xpath("//input[@id='attributeUppercase']"), test);
+				else if(listOfTextValues[0].trim().equalsIgnoreCase("UpperCase"))
+					genericMethods.selectSingleCheckbox(driver, By.xpath("//input[@id='attributeLowercase']"), test);
+				genericMethods.selectSingleCheckbox(driver, By.xpath("//input[@id='attributeTextLength']"), test);
+				genericMethods.enterText(driver, By.xpath("//input[@id='textLengthMin']"), listOfTextValues[1].trim(), test);
+				genericMethods.enterText(driver, By.xpath("//input[@id='textLengthMax']"), listOfTextValues[2].trim(), test);
+				if(listOfTextValues[3].trim().equalsIgnoreCase("Alphabets"))
+					genericMethods.selectSingleCheckbox(driver, By.xpath("//input[@id='attributeOnlyAlphabets']"), test);
+				else if(listOfTextValues[3].trim().equalsIgnoreCase("Alphanumeric"))
+					genericMethods.selectSingleCheckbox(driver, By.xpath("//input[@id='attributeAlphaNumeric']"), test);
+				genericMethods.clickElement(driver, By.xpath("//div[@class='modal-footer']//button[@type='button' and contains(text(),'Update')]"), test);
+			}
+		}
+		catch (NoSuchElementException e){
+			errorMsg = ExceptionUtils.getStackTrace(e);
+			log.warn("Element is not found in the Dom "+errorMsg);
+		}
+	}
+
+	public void getEntityType(WebDriver driver, List<String> getEntityType, int value){
+		try{
+			if(getEntityType.get(value).toString().equalsIgnoreCase("Master"))
+				genericMethods.selectRadioButton(driver, By.xpath("//div[@ng-init='newEntity.master = false; newEntity.embedded = false']//label[1]/input"), test);
+			else if(getEntityType.get(value).toString().equalsIgnoreCase("Transaction"))
+				genericMethods.selectRadioButton(driver, By.xpath("//div[@ng-init='newEntity.master = false; newEntity.embedded = false']//label[2]/input"), test);
+			else if(getEntityType.get(value).toString().equalsIgnoreCase("Embedded"))
+				genericMethods.selectRadioButton(driver, By.xpath("//div[@ng-init='newEntity.master = false; newEntity.embedded = false']//label[3]/input"), test);  
+		}
+		catch (NoSuchElementException e){
+			errorMsg = ExceptionUtils.getStackTrace(e);
+			log.warn("Element is not found in the Dom "+errorMsg);
+		}
+	}
+
+	public void removeText(WebDriver driver, By elementLocator){
+		try{
+			driver.findElement(elementLocator).sendKeys(Keys.chord(Keys.CONTROL, "a"));
+			driver.findElement(elementLocator).sendKeys(Keys.BACK_SPACE);
+		}
+
+		catch (NoSuchElementException e){
+			errorMsg = ExceptionUtils.getStackTrace(e);
+			log.warn("Element is not found in the Dom "+errorMsg);
+		}
 	}
 
 }

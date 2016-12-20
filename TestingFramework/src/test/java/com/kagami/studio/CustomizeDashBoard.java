@@ -92,10 +92,10 @@ public class CustomizeDashBoard
 					WebElement wb3 = driver.findElement(By.xpath("//span[@class='btn btn-default form-control ui-select-toggle']"));						
 					a.moveToElement(wb3).perform();	
 					a.click(wb3).build().perform();										
-					By processdropdown=By.xpath("//ul[@class='ui-select-choices ui-select-choices-content ui-select-dropdown dropdown-menu ng-scope']//div[@role='option']["+i+"]");
+					By processDropdown=By.xpath("//ul[@class='ui-select-choices ui-select-choices-content ui-select-dropdown dropdown-menu ng-scope']//div[@role='option']["+i+"]");
 					//i++;
-					genericMethods.getText(driver, processdropdown, test);
-					genericMethods.click(driver, processdropdown, test);			
+					genericMethods.getText(driver, processDropdown, test);
+					genericMethods.click(driver, processDropdown, test);			
 					genericMethods.clickElement(driver, saveLeftPanel, test);					
 				}
 				else if(sheet.getRow(row).getCell(0).toString().equalsIgnoreCase("Group")){
@@ -108,21 +108,21 @@ public class CustomizeDashBoard
 					genericMethods.enterText(driver, groupNameClick,groupName, test);					
 					genericMethods.clickElement(driver, saveLeftPanel, test);
 					Thread.sleep(1500);							
-					String reportees = sheet.getRow(row).getCell(2).toString();
-					//System.out.println(reportees);
-					String[] listOfReportess = reportees.split(",");
+					String groups = sheet.getRow(row).getCell(2).toString();
+					//System.out.println(groups);
+					String[] multipleGroup = groups.split(",");
 
-					for (String reportee : listOfReportess) {
+					for (String reportee : multipleGroup) {
 						By leftGroupAddBtn=By.xpath("//ul/li/span[contains(text()," + "'" + groupName + "'" + ")]/following-sibling::button[@class='btn btn-default ng-scope']");
 						genericMethods.clickElement(driver, leftGroupAddBtn, test);
 						genericMethods.enterText(driver, groupNameClick,reportee, test);					
 						WebElement wb3=driver.findElement(By.xpath("//span[@class='btn btn-default form-control ui-select-toggle']"));						
 						a.moveToElement(wb3).perform();	
 						a.click(wb3).build().perform();										
-						By processdropdown=By.xpath("//ul[@class='ui-select-choices ui-select-choices-content ui-select-dropdown dropdown-menu ng-scope']//div[@role='option']["+i+"]");
-					//	i++;
-						genericMethods.getText(driver, processdropdown, test);
-						genericMethods.click(driver, processdropdown, test);			
+						By processDropdown=By.xpath("//ul[@class='ui-select-choices ui-select-choices-content ui-select-dropdown dropdown-menu ng-scope']//div[@role='option']["+i+"]");
+						//	i++;
+						genericMethods.getText(driver, processDropdown, test);
+						genericMethods.click(driver, processDropdown, test);			
 						genericMethods.clickElement(driver, saveLeftPanel, test);					
 					}
 				}
@@ -130,7 +130,7 @@ public class CustomizeDashBoard
 			genericMethods.clickElement(driver, saveDashBoard, test);	
 			Thread.sleep(2000);
 			genericMethods.clickElement(driver, okSave, test);
-			
+
 			//Settings
 			genericMethods.clickElement(driver, settingsButton, test);
 			genericMethods.clickElement(driver, userDataSettingsButton, test);
@@ -146,15 +146,15 @@ public class CustomizeDashBoard
 			genericMethods.clickElement(driver, themeSelect, test);
 			genericMethods.clickElement(driver, themeSettingsClick, test);
 			genericMethods.clickElement(driver, saveAllButton, test);
-			test.log(LogStatus.PASS, "Customize Dashboard is created in Studio.");		
-			
+			test.log(LogStatus.PASS, "Dashboard is created in the Studio.");		
+
 		}
 		catch(Exception e)
 		{
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
 			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
 		}
-		
+
 	}	  
 }
 
