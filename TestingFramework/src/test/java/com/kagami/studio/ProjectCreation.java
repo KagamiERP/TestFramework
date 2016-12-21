@@ -83,7 +83,7 @@ public class ProjectCreation {
 				for(int row = outerRow; row <= projectRowCount; row++){
 					for (int rowItr = 0; rowItr < sheet.getRow(row).getLastCellNum() ; rowItr++){
 						rowElements[rowItr] =  sheet.getRow(row).getCell(rowItr).toString();
-						System.out.println(rowElements);
+						System.out.println("Row Value is ="+rowElements[rowItr]);
 					}
 
 					genericMethods.clickElement(driver, kagamiLogo, test);
@@ -102,7 +102,7 @@ public class ProjectCreation {
 						Thread.sleep(1000);
 					}
 					genericMethods.clickElement(driver, createButton, test);
-					test.log(LogStatus.PASS, "Project with name "+rowElements[cellValue]+" is Created.");
+					test.log(LogStatus.PASS, "Project with name "+rowElements[0]+" is Created.");
 					genericMethods.clickElementByJsExecutor(driver,By.xpath("//h3[text()='"+(rowElements[cellValue])+"']") , test);
 
 

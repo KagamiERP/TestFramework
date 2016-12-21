@@ -18,11 +18,12 @@ import com.kagami.library.Global;
 import com.kagami.library.StudioCommonMethods;
 import com.kagami.studio.CustomizeDashBoard;
 import com.kagami.studio.EntityCreation;
+import com.kagami.studio.ProjectCreation;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-public class ProjectCreationAndEdit {
+public class ProjectCreationAndEdit{
 
 	ExtentReports extent;
 	ExtentTest test;
@@ -32,6 +33,7 @@ public class ProjectCreationAndEdit {
 	StudioCommonMethods studioCommonMethods = new StudioCommonMethods(driver);
 	CustomizeDashBoard customizeDashBoard = new CustomizeDashBoard(driver);
 	public EntityCreation entityCreation;
+	public ProjectCreation projectCreation;
 
 	By newProject = By.xpath("//button[@ng-click='add()']");
 	By newProjectText = By.xpath("//input[@id='new-project-text']");
@@ -63,10 +65,11 @@ public class ProjectCreationAndEdit {
 
 	public ProjectCreationAndEdit(WebDriver driver)
 	{
+
 		this.driver = driver;
 	}
 
-	public void newProjectCreationAndEdit(ExtentTest test)
+	public void newProjectCreateAndEdit(ExtentTest test)
 	{
 		try{
 
@@ -75,7 +78,7 @@ public class ProjectCreationAndEdit {
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
-			Sheet sheet =  wb.getSheet("Entity");
+			Sheet sheet =  wb.getSheet("Edit");
 			String[] rowElements = new String[50];
 
 			int projectRowCount = 1;
@@ -83,37 +86,33 @@ public class ProjectCreationAndEdit {
 				for(int row = outerRow; row <= projectRowCount; row++){
 					for (int rowItr = 0; rowItr < sheet.getRow(row).getLastCellNum() ; rowItr++){
 						rowElements[rowItr] =  sheet.getRow(row).getCell(rowItr).toString();
-						System.out.println(rowElements);
+
 					}
 
+					String projectNameSplitedName[] = rowElements[cellValue].split(":");
 					genericMethods.clickElement(driver, kagamiLogo, test);
 					Thread.sleep(1000);
 					genericMethods.clickElementByJsExecutor(driver, newProject, test);
-					genericMethods.enterText(driver, newProjectText, rowElements[cellValue], test);
+					genericMethods.enterText(driver, newProjectText,projectNameSplitedName[0].trim(), test);
 					Thread.sleep(1000);
 
 
-					if(genericMethods.ElementVisibility(driver, existingProjectErrorMsg, test))
-					{
-						studioCommonMethods.deleteExistingProject(driver, rowElements[cellValue]);
+					if(genericMethods.ElementVisibility(driver, existingProjectErrorMsg, test)){
+						studioCommonMethods.deleteExistingProject(driver, projectNameSplitedName[0].trim());
 						Thread.sleep(1500);
-						genericMethods.clickElementByJsExecutor(driver, newProject, test);
-						genericMethods.enterText(driver, newProjectText, rowElements[cellValue], test);
-						Thread.sleep(1000);
 					}
+						genericMethods.clickElementByJsExecutor(driver, newProject, test);
+						genericMethods.enterText(driver, newProjectText, projectNameSplitedName[0].trim(), test);
+					
 					genericMethods.clickElement(driver, createButton, test);
-					test.log(LogStatus.PASS, "Project with name "+rowElements[cellValue]+" is Created.");
-					By editItem = By.xpath("//h3[text()='"+rowElements[cellValue]+"']/parent::div/parent::a/parent::div//span[@class='glyphicon glyphicon-edit card-menu-item']");
+					test.log(LogStatus.PASS, "Project with name "+projectNameSplitedName[0].trim()+" is Created.");
+					By editItem = By.xpath("//h3[text()='"+projectNameSplitedName[0].trim()+"']/parent::div/parent::a/parent::div//span[@class='glyphicon glyphicon-edit card-menu-item']");
 					genericMethods.clickElement(driver, editItem, test);
 					By textBox = By.xpath("//input[@id='new-project-text']");
 					studioCommonMethods.removeText(driver,textBox );
-					genericMethods.enterText(driver, textBox, "EditedText", test);
+					genericMethods.enterText(driver, textBox, projectNameSplitedName[1].trim(), test);
 					genericMethods.clickElement(driver, updateProjectButton, test);
-					
-			
-					//		genericMethods.clickElementByJsExecutor(driver,By.xpath("//h3[text()='"+(rowElements[cellValue])+"']") , test);
-
-
+					test.log(LogStatus.PASS, "Project name is renamed with "+projectNameSplitedName[1].trim());
 
 				}
 			}

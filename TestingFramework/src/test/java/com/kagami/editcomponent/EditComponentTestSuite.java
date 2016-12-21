@@ -72,7 +72,7 @@ public class EditComponentTestSuite {
 	{
 		test = extent.startTest("Project Name Edit:", "Create Project & Edit it....");	
 		projectCreationAndEdit = new ProjectCreationAndEdit(driver);
-		projectCreationAndEdit.newProjectCreationAndEdit(test);
+		projectCreationAndEdit.newProjectCreateAndEdit(test);
 		extent.endTest(test);
 		extent.flush();
 	}	

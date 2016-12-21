@@ -3,15 +3,12 @@
 <suite guice-stage="DEVELOPMENT" name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="com.kagami.studio.StudioGeneration">
+      <class name="com.kagami.editcomponent.EditComponentTestSuite">
         <methods>
-          <include name="entityCreation"/>
+          <include name="projectCreationAndEdit"/>
           <include name="browserSelection"/>
-          <include name="projectCreation"/>
-          <include name="processCreation"/>
-          <include name="studioSignIn"/>
         </methods>
-      </class> <!-- com.kagami.studio.StudioGeneration -->
+      </class> <!-- com.kagami.editcomponent.EditComponentTestSuite -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

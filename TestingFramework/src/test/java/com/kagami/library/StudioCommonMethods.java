@@ -36,7 +36,6 @@ import com.relevantcodes.extentreports.LogStatus;
 
 public class StudioCommonMethods {
 
-
 	private Logger log = Logger.getLogger("StudioCommonMethods.class");
 	private WebDriverWait wait;
 	private WebElement element;
@@ -96,6 +95,7 @@ public class StudioCommonMethods {
 	By invalidUserName = By.xpath("//input[@id='inputUsername' and @class='form-control ng-touched ng-dirty ng-valid-parse ng-empty ng-invalid ng-invalid-required']");
 
 	By policiesButton = By.xpath("//span[@class='list-group-item text-center ng-binding ng-scope']/img[@ng-src='assets/img/stepmodal/policies.png']");
+	By businessValidation = By.xpath("//a[text()='Bussiness Validation']");
 	By restrictionsButton = By.xpath("//span[@class='list-group-item text-center ng-binding ng-scope']/img[@ng-src='assets/img/stepmodal/restrictions.png']");
 	By pathButton = By.xpath("//span[@class='list-group-item text-center ng-binding ng-scope']/img[@ng-src='assets/img/stepmodal/paths.png']");
 	By createPath = By.xpath("//button[@ng-click='createPath()']");
@@ -399,8 +399,6 @@ public class StudioCommonMethods {
 	}
 
 
-
-
 	public boolean saveProcess(WebDriver driver){
 
 		try{
@@ -513,11 +511,14 @@ public class StudioCommonMethods {
 	}
 
 
+
+
 	int createPolicyCount = 0;
 	public boolean hasPolicy(WebDriver driver, ExtentTest test) throws InvalidFormatException, IOException, InterruptedException
 	{
 		System.out.println("Has Policies");
 		genericMethods.clickElement(driver, policiesButton, test);
+		applyRule(driver, test);
 		String pathOfFile = Global.testSheet;
 		File f = new File(pathOfFile);
 		FileInputStream fis = new FileInputStream(f);
@@ -529,7 +530,7 @@ public class StudioCommonMethods {
 
 
 		for(int cell =0 ; cell<=sheet.getRow(2).getLastCellNum(); cell++){
-			if(sheet.getRow(2).getCell(cell).toString().trim().equals("Condition")){
+			if(sheet.getRow(2).getCell(cell).toString().trim().equals("Policies")){
 				key =  sheet.getRow(2).getCell(cell).toString();
 				cellNum = cell;
 				break;
@@ -577,6 +578,135 @@ public class StudioCommonMethods {
 
 	}
 
+
+	int bValidationCount = 0;
+	public boolean hasBusinessValidation(WebDriver driver, ExtentTest test) throws InvalidFormatException, IOException, InterruptedException
+	{
+		System.out.println("Has Business Validation");
+		genericMethods.clickElement(driver, businessValidation, test);
+//		applyRule(driver, test);
+		String pathOfFile = Global.testSheet;
+		File f = new File(pathOfFile);
+		FileInputStream fis = new FileInputStream(f);
+		Workbook wb = WorkbookFactory.create(fis);
+		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
+		Map<String,List<String>> conditionMap = new HashMap<String,List<String>>();
+		String key = null;
+		int cellNum = 0;
+
+
+		for(int cell =0 ; cell<=sheet.getRow(2).getLastCellNum(); cell++){
+			if(sheet.getRow(2).getCell(cell).toString().trim().equals("Business Validation")){
+				key =  sheet.getRow(2).getCell(cell).toString();
+				cellNum = cell;
+				break;
+			}
+		}
+		List<String> conditionAllValue = new ArrayList<String>();
+		for(int rowNum = 3; rowNum < sheet.getLastRowNum(); rowNum++ ){
+			String val = sheet.getRow(rowNum).getCell(cellNum).toString();
+			if(val.length()>3){
+				conditionAllValue.add(val);
+			}
+			conditionMap.put(key,conditionAllValue);
+		}
+
+
+		List<String> conditionCellValue = null;
+		Set<String> keySet = conditionMap.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while(iterator.hasNext()){
+			String key1 = (String) iterator.next();
+			conditionCellValue = conditionMap.get(key1);
+			System.out.println("Key1 is: "+key1+ " and Value is "+conditionCellValue);
+		}
+
+		int policyRowInc = 1;
+		String[] conditionSeparatedByAndValue = conditionCellValue.get(bValidationCount++).split("and");
+		for(String conditionSeparatedBySingleCondition : conditionSeparatedByAndValue){
+			String[] conditionSeparatedByComma = conditionSeparatedBySingleCondition.split(",");
+			System.out.println("Busin.....");
+			Thread.sleep(1500);
+			By policyLHS = By.xpath("//div[@class='childsubCondition ng-scope'][1]//input[@ng-model='subCondition.lhs.value']");
+			boolean isDis = driver.findElement(policyLHS).isDisplayed();
+			System.out.println("LHS is displayed : "+isDis);
+			genericMethods.enterText(driver, policyLHS, conditionSeparatedByComma[0], test);
+			Thread.sleep(1000);
+			System.out.println("After LHS......");
+			By policyCondition = By.xpath("//div[@class='childsubCondition ng-scope']["+(policyRowInc)+"]//div[@class='form-group']/select[@ng-model='subCondition.operator']");
+			genericMethods.clickElement(driver, policyCondition, test);
+			Thread.sleep(1000);
+			//genericMethods.selectByVisibleText(driver, policyCondition, conditionSeparatedByComma[1], test);
+			Thread.sleep(1000);
+			By policyRHS = By.xpath("//div[@class='childsubCondition ng-scope']["+(policyRowInc)+"]//span[@ng-transclude='']/input[@ng-model='subCondition.rhs.value']");
+			genericMethods.enterText(driver, policyRHS, conditionSeparatedByComma[2], test);
+			By plusPolicy = By.xpath("//div[@class='childsubCondition ng-scope']["+(policyRowInc)+"]//button[@class='btn btn-primary btn-xs' and @ng-disabled='checkConditions()']");
+			genericMethods.clickElement(driver, plusPolicy, test);
+			policyRowInc++;
+			Thread.sleep(1000);
+		}
+		return true;
+
+	}
+
+	
+	
+	
+	
+	
+	int ruleCount = 0;
+	public boolean applyRule(WebDriver driver, ExtentTest test) throws InvalidFormatException, IOException, InterruptedException
+	{
+		System.out.println("Apply Rules");
+		genericMethods.clickElement(driver, policiesButton, test);
+		String pathOfFile = Global.testSheet;
+		File f = new File(pathOfFile);
+		FileInputStream fis = new FileInputStream(f);
+		Workbook wb = WorkbookFactory.create(fis);
+		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
+		Map<String,List<String>> applyRuleMap = new HashMap<String,List<String>>();
+		String key = null;
+		int cellNum = 0;
+
+
+		for(int cell =0 ; cell<=sheet.getRow(2).getLastCellNum(); cell++){
+			if(sheet.getRow(2).getCell(cell).toString().trim().equals("Select Rules")){
+				key =  sheet.getRow(2).getCell(cell).toString();
+				cellNum = cell;
+				break;
+			}
+		}
+
+
+		List<String> applyRulesAllValue = new ArrayList<String>();
+		for(int rowNum = 3; rowNum < sheet.getLastRowNum(); rowNum++ ){
+			String val = sheet.getRow(rowNum).getCell(cellNum).toString();
+			if(val.length()>1){
+				applyRulesAllValue.add(val);
+			}
+			applyRuleMap.put(key,applyRulesAllValue);
+		}
+
+
+
+		List<String> applyRuleCellValue = null;
+		Set<String> keySet = applyRuleMap.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while(iterator.hasNext()){
+			String key1 = (String) iterator.next();
+			applyRuleCellValue = applyRuleMap.get(key1);
+			System.out.println("Key1 is : "+key1+ " and Value is : "+applyRuleCellValue);
+		}
+
+
+		String applyRulesSingleValue = applyRuleCellValue.get(ruleCount++);
+		System.out.println("applyRulesSingleValue : "+applyRulesSingleValue);
+		Thread.sleep(1000);
+		By selectAllAnyDD = By.xpath("//span[contains(text(),'following true')]/parent::div[@class='form-inline']/select[@ng-model='condition.type']");
+		genericMethods.clickElement(driver, selectAllAnyDD, test);
+		genericMethods.selectByVisibleText(driver, selectAllAnyDD, applyRulesSingleValue, test);
+		return true;
+	}
 
 
 	int switchPathCount = 0;
@@ -645,12 +775,15 @@ public class StudioCommonMethods {
 		return true;
 	}
 
+
+
 	int viewRestrictionCount = 0;
 	public boolean hasRestrictions(WebDriver driver, ExtentTest test) throws InterruptedException, InvalidFormatException, IOException
 	{
 
 		System.out.println("Has Restrictions");
 		genericMethods.clickElement(driver, restrictionsButton, test);
+		applyRule(driver, test);
 		String pathOfFile = Global.testSheet;
 		File f = new File(pathOfFile);
 		FileInputStream fis = new FileInputStream(f);
@@ -728,6 +861,8 @@ public class StudioCommonMethods {
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
 				hasPolicy(driver, test);
+				Thread.sleep(2500);
+				hasBusinessValidation(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
 			}
 
@@ -739,6 +874,8 @@ public class StudioCommonMethods {
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
 				hasPolicy(driver, test);
+				Thread.sleep(1500);
+				hasBusinessValidation(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
 
 			}
@@ -750,6 +887,8 @@ public class StudioCommonMethods {
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
 				hasPolicy(driver, test);
+				Thread.sleep(1500);
+				hasBusinessValidation(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
 
 			}
@@ -760,6 +899,8 @@ public class StudioCommonMethods {
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
 				hasPolicy(driver, test);
+				Thread.sleep(1500);
+				hasBusinessValidation(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
 			}
 
@@ -771,7 +912,8 @@ public class StudioCommonMethods {
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
 				hasPolicy(driver, test);
-				genericMethods.clickElement(driver, saveButton, test);
+				Thread.sleep(1500);
+				hasBusinessValidation(driver, test);	genericMethods.clickElement(driver, saveButton, test);
 			}
 
 			else if(template.equalsIgnoreCase("pcModalForm"))
@@ -782,6 +924,8 @@ public class StudioCommonMethods {
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
 				hasPolicy(driver, test);
+				Thread.sleep(1500);
+				hasBusinessValidation(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
 			}
 			return true;
@@ -807,16 +951,17 @@ public class StudioCommonMethods {
 
 			genericMethods.clickElement(driver, viewVerb, test);
 			Thread.sleep(700);
-			//constructCounter(driver, test);
-			By dataPosition = By.xpath("//div[@data-position-left='4' and @data-position-top='0']");
-			genericMethods.clickElement(driver, dataPosition, test);
+			constructCounter(driver, test);
+			//	By dataPosition = By.xpath("//div[@data-position-left='4' and @data-position-top='0']");
+			//	genericMethods.clickElement(driver, dataPosition, test);
+
 			if(template.equalsIgnoreCase("pChild")){ 
 				genericMethods.clickElement(driver, pChild, test);	
 				Thread.sleep(1000);
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				//	hasRestrictions(driver, test);
+				hasRestrictions(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
 			}
 			else if(template.equalsIgnoreCase("list")){
@@ -825,7 +970,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				//		hasRestrictions(driver, test);
+				hasRestrictions(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
 
 			}
@@ -835,7 +980,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				//	hasRestrictions(driver, test);
+				hasRestrictions(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
 
 
@@ -867,6 +1012,8 @@ public class StudioCommonMethods {
 			genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 			genericMethods.clickElement(driver, nextButton, test);
 			hasPolicy(driver, test);
+			Thread.sleep(1500);
+			hasBusinessValidation(driver, test);
 			genericMethods.clickElement(driver, saveButton, test);
 			return true;
 
@@ -881,18 +1028,17 @@ public class StudioCommonMethods {
 		return false;
 	}	
 
-	
+
 
 	public boolean delete(WebDriver driver, ExtentTest test , String entityName) throws InterruptedException {
 
 		try{
 			genericMethods.clickElement(driver, deleteVerb, test);
 			Thread.sleep(1500);			
-			//genericMethods.clickElement(driver, clickConstruct, test);
-			//constructCounter(driver, test);
-			By dataPosition = By.xpath("//div[@data-position-left='4' and @data-position-top='1']");
-			genericMethods.clickElement(driver, dataPosition, test);
-			
+			constructCounter(driver, test);
+			//	By dataPosition = By.xpath("//div[@data-position-left='4' and @data-position-top='1']");
+			//	genericMethods.clickElement(driver, dataPosition, test);
+
 			genericMethods.clickElement(driver, selectEntityButton, test);
 			genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 			genericMethods.clickElement(driver, saveButton, test);
@@ -943,7 +1089,7 @@ public class StudioCommonMethods {
 			By endConstuct = By.xpath("//p[contains(text(),'END')]");
 			genericMethods.clickElement(driver, endConstuct, test);
 			Thread.sleep(1000);
-		//	constructCounter(driver, test);
+			//	constructCounter(driver, test);
 			return true;
 
 		}
@@ -957,8 +1103,8 @@ public class StudioCommonMethods {
 		return false;
 	}
 
-	
-	
+
+
 
 
 	public boolean email(WebDriver driver, ExtentTest test) {
@@ -1034,9 +1180,9 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, By.xpath("//div[@class='step circle plus_step']["+(xpathLen++)+"]"), test);
 			}*/
 			//else{
-				System.out.println("Single plus Icon");
-				genericMethods.clickElement(driver, plusIcon, test);
-				Thread.sleep(4500);
+			System.out.println("Single plus Icon");
+			genericMethods.clickElement(driver, plusIcon, test);
+			Thread.sleep(4500);
 			//}
 			return true;
 
