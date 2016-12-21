@@ -18,6 +18,8 @@ import com.kagami.library.ExtentManager;
 import com.kagami.library.GenericMethods;
 import com.kagami.library.Global;
 import com.kagami.library.StudioCommonMethods;
+import com.kagami.studio.CustomizeDashBoard;
+import com.kagami.studio.EntityCreation;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
@@ -27,7 +29,7 @@ public class ProcessCreationEdit {
 	ExtentReports extent;
 	ExtentTest test;
 	public  WebDriver driver;
-	static Logger log = Logger.getLogger("ProcessCreation.class");
+	static Logger log = Logger.getLogger("ProcessCreationEdit.class");
 	GenericMethods genericMethods = new GenericMethods();
 	StudioCommonMethods studioCommonMethods = new StudioCommonMethods(driver);
 	CustomizeDashBoard customizeDashBoard = new CustomizeDashBoard(driver);
@@ -56,11 +58,7 @@ public class ProcessCreationEdit {
 	By existingProcess = By.xpath("//p[text()='Process']");
 	By existingProjectErrorMsg = By.xpath("//div[text()='*Should not create same Project Name']");
 	By kagamiLogo = By.xpath("//img[@src='assets/img/logo.png']");
-	//Policies Xpath
 	
-	//	static int plusInc = 10000;
-	//	By plusIcon = By.xpath("//div[@data-id= '" +(++plusInc) +"']");
-
 	public ProcessCreationEdit(WebDriver driver)
 	{
 		this.driver = driver;
@@ -74,7 +72,7 @@ public class ProcessCreationEdit {
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
-			Sheet sheet =  wb.getSheet("ProcessAndPolicies");
+			Sheet sheet =  wb.getSheet("Edit");
 			String[] rowElements = new String[50];
 
 			int projectRowCount = 1;

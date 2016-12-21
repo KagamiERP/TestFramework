@@ -113,6 +113,7 @@ public class ProjectCreationAndEdit{
 					genericMethods.enterText(driver, textBox, projectNameSplitedName[1].trim(), test);
 					genericMethods.clickElement(driver, updateProjectButton, test);
 					test.log(LogStatus.PASS, "Project name is renamed with "+projectNameSplitedName[1].trim());
+					genericMethods.clickElementByJsExecutor(driver,By.xpath("//h3[text()='"+(rowElements[cellValue])+"']") , test);
 
 				}
 			}
