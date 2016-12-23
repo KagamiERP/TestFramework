@@ -40,13 +40,12 @@ public class EditComponentTestSuite {
 	public OrganisationCreationBase organisationCreationBase; 
 	public StudioCommonMethods studioCommonMethods;
 	public BulkProjectCreation bulkProjectCreation;
-	public ProcessCreation processCreation;
+	public ProcessCreationEdit processCreationEdit;
 	public CustomizeDashBoard customizeDashBoard;
 	public BuildDeploy buildDeploy;
 	public Relations relation;
 	public MasterData masterData;
-
-
+	
 
 	@BeforeClass
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
@@ -60,7 +59,7 @@ public class EditComponentTestSuite {
 	{
 		extent = ExtentManager.Instance();
 		extent.loadConfig(new File("./extent/config.xml"));
-		test = extent.startTest("Studio Login", "Login to Kagami Studio....");
+		test = extent.startTest("Studio Login", "Login to Kagami Studio..");
 		studioCommonMethods = new StudioCommonMethods(driver);
 		studioCommonMethods.studioLogin(test);
 		extent.endTest(test);
@@ -70,13 +69,37 @@ public class EditComponentTestSuite {
 	@Test(priority = 1)
 	public void projectCreationAndEdit()
 	{
-		test = extent.startTest("Project Name Edit:", "Create Project & Edit it....");	
+		test = extent.startTest("Edit Project:", "Create Project & Edit it..");	
 		projectCreationAndEdit = new ProjectCreationAndEdit(driver);
 		projectCreationAndEdit.newProjectCreateAndEdit(test);
 		extent.endTest(test);
 		extent.flush();
 	}	
 
+	/*@Test(priority = 2)
+	public void entityCreation()
+	{
+		test = extent.startTest("Entity Creation: Test Suite", "Create Entity with multiple attributes....");
+		entityCreation = new EntityCreation(driver);
+		entityCreation.entityGeneration(test);
+		extent.endTest(test);
+		extent.flush();
+	}*/
+	
+	
+	@Test(priority = 3)
+	public void moduleProcessCreationAndEdit()
+	{
+		test = extent.startTest("Edit Module & Process: Test Suite", "Edit Module, Submodule & Process in Studio..");	
+		processCreationEdit = new ProcessCreationEdit(driver);
+		processCreationEdit.newProcessCreationAndEdit(test);
+		extent.endTest(test);
+		extent.flush();
+	}	
+
+	
+
+	
 	/*@Test(priority = 2)
 	public void newOrgCreation()
 	{

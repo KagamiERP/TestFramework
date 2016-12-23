@@ -60,9 +60,7 @@ public class ProjectCreationAndEdit{
 	By kagamiLogo = By.xpath("//img[@src='assets/img/logo.png']");
 	By updateProjectButton = By.xpath("//div[@class='modal-footer']/button[contains(text(),'Update')]");
 
-	//	static int plusInc = 10000;
-	//	By plusIcon = By.xpath("//div[@data-id= '" +(++plusInc) +"']");
-
+	
 	public ProjectCreationAndEdit(WebDriver driver)
 	{
 
@@ -99,22 +97,21 @@ public class ProjectCreationAndEdit{
 
 					if(genericMethods.ElementVisibility(driver, existingProjectErrorMsg, test)){
 						studioCommonMethods.deleteExistingProject(driver, projectNameSplitedName[0].trim());
-						Thread.sleep(1500);
+						Thread.sleep(1000);
 					}
-						genericMethods.clickElementByJsExecutor(driver, newProject, test);
-						genericMethods.enterText(driver, newProjectText, projectNameSplitedName[0].trim(), test);
-					
+							
 					genericMethods.clickElement(driver, createButton, test);
 					test.log(LogStatus.PASS, "Project with name "+projectNameSplitedName[0].trim()+" is Created.");
-					By editItem = By.xpath("//h3[text()='"+projectNameSplitedName[0].trim()+"']/parent::div/parent::a/parent::div//span[@class='glyphicon glyphicon-edit card-menu-item']");
+					By editItem = By.xpath("//span[@class='ng-scope studio-card-menu-item glyphicon glyphicon-edit']");
 					genericMethods.clickElement(driver, editItem, test);
 					By textBox = By.xpath("//input[@id='new-project-text']");
 					studioCommonMethods.removeText(driver,textBox );
 					genericMethods.enterText(driver, textBox, projectNameSplitedName[1].trim(), test);
 					genericMethods.clickElement(driver, updateProjectButton, test);
 					test.log(LogStatus.PASS, "Project name is renamed with "+projectNameSplitedName[1].trim());
-					genericMethods.clickElementByJsExecutor(driver,By.xpath("//h3[text()='"+(rowElements[cellValue])+"']") , test);
-
+					genericMethods.clickElementByJsExecutor(driver,By.xpath("//h3[text()='"+(projectNameSplitedName[1].trim())+"']") , test);
+					
+					
 				}
 			}
 		}

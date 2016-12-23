@@ -74,7 +74,7 @@ public class ProcessCreation {
 			File f = new File(pathOfFile);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
-			Sheet sheet =  wb.getSheet("ProcessAndPolicies");
+			Sheet sheet =  wb.getSheet("Edit");
 			String[] rowElements = new String[50];
 
 			int projectRowCount = 1;

@@ -185,7 +185,7 @@ public class StudioCommonMethods {
 			genericMethods.clickElement(driver, loginButton , test);
 			//	boolean errorMsgText = driver.findElement(loginErrorMsg).isDisplayed();
 			Thread.sleep(2500);
-			if(driver.findElement(menuButton).isDisplayed()){
+			if(driver.findElement(signOut).isDisplayed()){
 				test.log(LogStatus.PASS, "Login Successful");
 			}
 			//boolean blankInputfound = driver.findElement(invalidUserName).isDisplayed();

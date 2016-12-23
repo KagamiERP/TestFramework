@@ -5,7 +5,7 @@
     <classes>
       <class name="com.kagami.editcomponent.EditComponentTestSuite">
         <methods>
-          <include name="projectCreationAndEdit"/>
+          <include name="studioSignIn"/>
           <include name="browserSelection"/>
         </methods>
       </class> <!-- com.kagami.editcomponent.EditComponentTestSuite -->

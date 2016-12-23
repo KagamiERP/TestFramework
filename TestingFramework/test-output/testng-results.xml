@@ -1,24 +1,28 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="2" passed="2">
+<testng-results skipped="0" failed="0" total="3" passed="3">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="18806" started-at="2016-12-21T09:42:11Z" finished-at="2016-12-21T09:42:30Z">
+  <suite name="Default suite" duration-ms="54427" started-at="2016-12-23T06:42:29Z" finished-at="2016-12-23T06:43:24Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="18806" started-at="2016-12-21T09:42:11Z" finished-at="2016-12-21T09:42:30Z">
+    <test name="Default test" duration-ms="54427" started-at="2016-12-23T06:42:29Z" finished-at="2016-12-23T06:43:24Z">
       <class name="com.kagami.editcomponent.EditComponentTestSuite">
-        <test-method status="PASS" signature="browserSelection()[pri:0, instance:com.kagami.editcomponent.EditComponentTestSuite@5ec0a365]" name="browserSelection" is-config="true" duration-ms="6481" started-at="2016-12-21T15:12:11Z" finished-at="2016-12-21T15:12:17Z">
+        <test-method status="PASS" signature="browserSelection()[pri:0, instance:com.kagami.editcomponent.EditComponentTestSuite@5ec0a365]" name="browserSelection" is-config="true" duration-ms="5925" started-at="2016-12-23T12:12:29Z" finished-at="2016-12-23T12:12:35Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- browserSelection -->
-        <test-method status="PASS" signature="studioSignIn()[pri:0, instance:com.kagami.editcomponent.EditComponentTestSuite@5ec0a365]" name="studioSignIn" duration-ms="4543" started-at="2016-12-21T15:12:17Z" finished-at="2016-12-21T15:12:22Z">
+        <test-method status="PASS" signature="studioSignIn()[pri:0, instance:com.kagami.editcomponent.EditComponentTestSuite@5ec0a365]" name="studioSignIn" duration-ms="4554" started-at="2016-12-23T12:12:35Z" finished-at="2016-12-23T12:12:40Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- studioSignIn -->
-        <test-method status="PASS" signature="projectCreationAndEdit()[pri:1, instance:com.kagami.editcomponent.EditComponentTestSuite@5ec0a365]" name="projectCreationAndEdit" duration-ms="7758" started-at="2016-12-21T15:12:22Z" finished-at="2016-12-21T15:12:30Z">
+        <test-method status="PASS" signature="projectCreationAndEdit()[pri:1, instance:com.kagami.editcomponent.EditComponentTestSuite@5ec0a365]" name="projectCreationAndEdit" duration-ms="7995" started-at="2016-12-23T12:12:40Z" finished-at="2016-12-23T12:12:48Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- projectCreationAndEdit -->
+        <test-method status="PASS" signature="moduleProcessCreationAndEdit()[pri:3, instance:com.kagami.editcomponent.EditComponentTestSuite@5ec0a365]" name="moduleProcessCreationAndEdit" duration-ms="35931" started-at="2016-12-23T12:12:48Z" finished-at="2016-12-23T12:13:24Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- moduleProcessCreationAndEdit -->
       </class> <!-- com.kagami.editcomponent.EditComponentTestSuite -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
