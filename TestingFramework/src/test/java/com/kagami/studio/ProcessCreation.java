@@ -17,12 +17,13 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.kagami.library.ExtentManager;
 import com.kagami.library.GenericMethods;
 import com.kagami.library.Global;
+import com.kagami.library.GlobalXpath;
 import com.kagami.library.StudioCommonMethods;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-public class ProcessCreation {
+public class ProcessCreation implements GlobalXpath{
 
 	ExtentReports extent;
 	ExtentTest test;
@@ -33,38 +34,7 @@ public class ProcessCreation {
 	CustomizeDashBoard customizeDashBoard = new CustomizeDashBoard(driver);
 	public EntityCreation entityCreation;
 
-	By newProject = By.xpath("//button[@ng-click='add()']");
-	By newProjectText = By.xpath("//input[@id='new-project-text']");
-	By projectName = By.xpath("//input[@id='new-project-text']");
-	By createButton = By.xpath("//button[contains(text(),'Create')]");
-
-	By newModuleButton = By.xpath("//button[@ng-click='addModule()']");
-	By newModuleText = By.xpath("//input[@id='prompt-input-field']");
-	By newSubModuleButton = By.xpath("//button[@ng-click='addSubModule()']");
-	By newSubModuleText = By.xpath("//input[@placeholder='(Eg: Leave Management System)']");
-	By newProcessButton = By.xpath("//button[@ng-click='addProcess()']");
-	By newProcessText = By.xpath("//label[text()='Process Name']/following::input[@placeholder='(Eg: Leave Request Process)']");
-	By saveProcess = By.xpath("//button[@ng-click='saveProcess()']");
-	By ok = By.xpath("//div[text()='Save']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
-	By project  = By.xpath("//h3[text()='test']");
-	By module = By.xpath("//div[@class='studio-card-inner']//p[(text()='Module')]");
-	By subModule = By.xpath("//p[(text()='Sub Module')]");
-	By newProcess = By.xpath("//button[@class='btn btn-primary process-add pull-right']");
-	By processName = By.xpath("//input[@class='ajs-input']");
-	By submitButtonModule = By.xpath("//div[@class='modal-footer']/button[text()='Submit']");
-	By submitButtonSubModule = By.xpath("//label[text()='Submodule Name']/following::div[@class='modal-footer']//button[text()='Submit']");
-	By submitButtonProcess = By.xpath("//label[text()='Process Name']/following::button[text()='Submit']");
-	By existingProcess = By.xpath("//p[text()='Process']");
-	By existingProjectErrorMsg = By.xpath("//div[text()='*Should not create same Project Name']");
-	By kagamiLogo = By.xpath("//img[@src='assets/img/logo.png']");
-	By updateProjectButton = By.xpath("//div[@class='modal-footer']/button[contains(text(),'Update')]");
-	By deleteSubmodule = By.xpath("//span[@class='ng-scope studio-card-menu-item glyphicon glyphicon-trash']");
-	By deleteSubModuleOk = By.xpath("//div[text()='Delete Sub Module']/following::button[text()='OK']");
-	By deleteModuleOk = By.xpath("//div[text()='Delete Module']/following::button[text()='OK']");
-	By okButtonModule = By.xpath("//div[text()='Create Module']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
-
-	//Policies Xpath
-
+	
 	//	static int plusInc = 10000;
 	//	By plusIcon = By.xpath("//div[@data-id= '" +(++plusInc) +"']");
 
@@ -77,8 +47,8 @@ public class ProcessCreation {
 	{
 		try{
 			int cellValue = 0;	
-			String testDataSheet = sheetName;
-			File f = new File(testDataSheet);
+			String workbookTestData = sheetName;
+			File f = new File(workbookTestData);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("ProcessAndPolicies");
@@ -118,7 +88,7 @@ public class ProcessCreation {
 						test.log(LogStatus.PASS, "Sub Module with name "+singleSubModule+" is Created.");
 						Thread.sleep(1000);
 						genericMethods.click(driver, By.xpath("//h3[contains(text(),'"+(singleSubModule)+"')]"), test);
-						processCreation(test,testDataSheet);
+						processCreation(test,workbookTestData);
 
 
 					}
@@ -152,8 +122,8 @@ public class ProcessCreation {
 	{
 		try{
 			int cellValue = 1;	
-			String testDataSheet = sheetName;
-			File f = new File(testDataSheet);
+			String workbookTestData = sheetName;
+			File f = new File(workbookTestData);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("ProcessAndPolicies");
@@ -187,7 +157,7 @@ public class ProcessCreation {
 				{
 					Thread.sleep(1000);
 					studioCommonMethods.addIcon(driver, test);
-					studioCommonMethods.create(driver, test, rowElements[++cellValue],rowElements[++cellValue],testDataSheet);
+					studioCommonMethods.create(driver, test, rowElements[++cellValue],rowElements[++cellValue],workbookTestData);
 					cellValue = 2;
 					rowCount++;
 					continue;
@@ -197,7 +167,7 @@ public class ProcessCreation {
 				{
 					Thread.sleep(1000);
 					studioCommonMethods.addIcon(driver, test);
-					studioCommonMethods.update(driver, test ,rowElements[cellValue+2], testDataSheet);
+					studioCommonMethods.update(driver, test ,rowElements[cellValue+2], workbookTestData);
 					cellValue = 2;
 					rowCount++;
 					continue;

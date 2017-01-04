@@ -77,8 +77,8 @@ public class CustomizeDashBoard
 			genericMethods.clickElement(driver, subMenu, test);
 			Thread.sleep(1000);
 			genericMethods.clickElement(driver, customizedDashboardButton, test);
-			String testDatasheet = sheetName;
-			File f = new File(testDatasheet);
+			String workbookTestData = sheetName;
+			File f = new File(workbookTestData);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("dashboard");

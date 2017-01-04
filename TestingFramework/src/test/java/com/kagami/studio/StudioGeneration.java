@@ -35,6 +35,7 @@ import com.kagami.editcomponent.ProcessCreationEdit;
 import com.kagami.library.ExtentManager;
 import com.kagami.library.Global;
 import com.kagami.library.StudioCommonMethods;
+import com.kagami.regression.MultipleProjectAndProcessCreation;
 import com.kagami.testconfig.BrowserSelection;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
@@ -48,7 +49,7 @@ public class StudioGeneration {
 	public ProjectCreation projectCreation;
 	public OrganisationCreationBase organisationCreationBase; 
 	public StudioCommonMethods studioCommonMethods;
-	public BulkProjectCreation bulkProjectCreation;
+	public MultipleProjectAndProcessCreation multipleProjectAndProcessCreation;
 	public ProcessCreationEdit processCreationEdit;
 	public CustomizeDashBoard customizeDashBoard;
 	public BuildDeploy buildDeploy;
@@ -60,7 +61,7 @@ public class StudioGeneration {
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
 	{
 		BrowserSelection browserSelection = new BrowserSelection();
-		driver = browserSelection.browserType(driver, Global.sBrowserType);
+		driver = browserSelection.browserType(driver, Global.browserType);
 	}
 
 	@Test(priority = 0)

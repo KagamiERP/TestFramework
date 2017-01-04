@@ -258,7 +258,7 @@ public class EmailConfig implements IReporter{
 								+"<tr>"
 									+"<th colspan='2'class=text-center bgcolor='#FFE4E1'>Automation Test Environment</th>"
 								+"</tr>"
-								+environmentDetailsRow("Browser Type", Global.sBrowserType)
+								+environmentDetailsRow("Browser Type", Global.browserType)
 								+environmentDetailsRow("URL", Global.sUrl)
 								+environmentDetailsRow("OS", System.getProperty("os.name"))
 								+environmentDetailsRow("BUILD Info", Global.BuildInfo)

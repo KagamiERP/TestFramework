@@ -79,7 +79,7 @@ public class CustomizedReport1 implements IReporter{
 				+"</tr>"
 					+"<tr>"
 				    +"<th>Browser</th>"
-				    +"<td>"+Global.sBrowserType+"</td>"
+				    +"<td>"+Global.browserType+"</td>"
 				    +"</tr>"
 				    +"<tr>"
 				    +"<th>URL</th>"

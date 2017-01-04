@@ -21,42 +21,22 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.kagami.library.ExtentManager;
 import com.kagami.library.GenericMethods;
 import com.kagami.library.Global;
+import com.kagami.library.GlobalXpath;
 import com.kagami.library.StudioCommonMethods;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-public class EntityCreation {
+public class EntityCreation implements GlobalXpath{
 	ExtentReports extent;
 	ExtentTest test;
 	public  WebDriver driver;
-	public Logger log = Logger.getLogger("EntityGenerationBase.class");
+	public Logger log = Logger.getLogger("EntityCreation.class");
 	GenericMethods genericMethods = new GenericMethods();
 	StudioCommonMethods studioCommonMethods = new StudioCommonMethods(driver);
 	Global global = new Global();
 	MasterData master = new MasterData(driver);
-	//WebDriverWait wait = new WebDriverWait(driver, 60);
-
-	By uname = By.id("inputUsername");
-	By password = By.id("inputPassword");
-	By loginButton = By.xpath("//button[contains(text(),'SIGN IN')]");
-	By menuButton = By.xpath("//a[@class='dropdown-toggle' and text()='Menu ']");
-	By entityCreationButton = By.linkText("Entity Management");
-	By addNewEntityButton = By.xpath("//a[@ng-click='addEntity()']");
-	By entityName = By.id("entityName");
-	By attributeName = By.id("attributeName");
-	By attributeType = By.id("attributeType");
-	By pastDate = By.xpath("//input[@id='mindate']");
-	By attributeValidationtype = By.id("attributeValidationtypenn");
-	By attributeValidationtypePkUq = By.id("attributeValidationtypepkuq"); 
-	By addNewAttribute = By.xpath("//input[@value ='Add Attribute']");
-	By updateEntity = By.xpath("//button[contains(text(),'Update')]");
 	String[] entityArray = {"Day Calculation","Data Import", "Data Validation", "Daily Attendance","Consolidated Attendance"};
-	//String entityValue; 
-
-	By minValue = By.xpath("//input[@id='attributeValidationtypemin']");
-	By maxValue = By.xpath("//input[@id='attributeValidationtypemax']");
-	By numberRangeCheckbox = By.xpath("//input[@id='attributeValidationtyperange']");
 
 	public EntityCreation(WebDriver driver)
 	{
@@ -71,8 +51,8 @@ public class EntityCreation {
 			Thread.sleep(2000);
 			genericMethods.clickElement(driver, By.xpath("//a[contains(text(),'Entity Management')]"), test);
 			Thread.sleep(1000);
-			String testDataSheet = sheetName; 
-			File f = new File(testDataSheet);
+			String workbookTestData = sheetName; 
+			File f = new File(workbookTestData);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("Entity");

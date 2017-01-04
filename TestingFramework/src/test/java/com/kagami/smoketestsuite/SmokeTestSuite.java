@@ -9,15 +9,14 @@ import javax.mail.internet.AddressException;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.kagami.library.ExtentManager;
 import com.kagami.library.Global;
 import com.kagami.library.StudioCommonMethods;
+import com.kagami.regression.MultipleProjectAndProcessCreation;
 import com.kagami.studio.BuildDeploy;
-import com.kagami.studio.BulkProjectCreation;
 import com.kagami.studio.CustomizeDashBoard;
 import com.kagami.studio.EntityCreation;
 import com.kagami.studio.MasterData;
@@ -26,10 +25,11 @@ import com.kagami.studio.ProcessCreation;
 import com.kagami.studio.ProjectCreation;
 import com.kagami.studio.Relations;
 import com.kagami.testconfig.BrowserSelection;
+import com.kagami.testconfig.Testconfiguration;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 
-public class SmokeTestSuite {
+public class SmokeTestSuite extends Testconfiguration {
 	public WebDriver driver;
 	//public EntityManager entityManager;
 	public EntityCreation entityCreation;
@@ -39,7 +39,7 @@ public class SmokeTestSuite {
 	public ProjectCreation projectCreation;
 	public OrganisationCreationBase organisationCreationBase; 
 	public StudioCommonMethods studioCommonMethods;
-	public BulkProjectCreation bulkProjectCreation;
+	public MultipleProjectAndProcessCreation multipleProjectAndProcessCreation;
 	public ProcessCreation processCreation;
 	public CustomizeDashBoard customizeDashBoard;
 	public BuildDeploy buildDeploy;
@@ -52,9 +52,9 @@ public class SmokeTestSuite {
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
 	{
 		BrowserSelection browserSelection = new BrowserSelection();
-		driver = browserSelection.browserType(driver, Global.sBrowserType);
+		driver = browserSelection.browserType(driver, Global.browserType);
 	}
-
+	
 	@Test(priority = 0)
 	public void studioSignIn() throws InvalidFormatException, IOException, InterruptedException
 	{

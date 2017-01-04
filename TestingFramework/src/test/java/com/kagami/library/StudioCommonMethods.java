@@ -168,8 +168,8 @@ public class StudioCommonMethods {
 	public void studioLogin(ExtentTest test, String workbookName) throws InvalidFormatException, IOException, InterruptedException
 	{
 
-		String testDataSheet = workbookName;
-		File f = new File(testDataSheet);
+		String workbookTestData = workbookName;
+		File f = new File(workbookTestData);
 		FileInputStream fis = new FileInputStream(f);
 		Workbook wb = WorkbookFactory.create(fis);
 		Sheet sheet =  wb.getSheet("studiologin");
@@ -517,11 +517,11 @@ public class StudioCommonMethods {
 	int createPolicyCount = 0;
 	public boolean hasPolicy(WebDriver driver, ExtentTest test, String workbookName) throws InvalidFormatException, IOException, InterruptedException
 	{
-		String testDatasheet = workbookName;
+		String workbookTestData = workbookName;
 		System.out.println("Has Policies");
 		genericMethods.clickElement(driver, policiesButton, test);
 		applyRule(driver, test);
-		File f = new File(testDatasheet);
+		File f = new File(workbookTestData);
 		FileInputStream fis = new FileInputStream(f);
 		Workbook wb = WorkbookFactory.create(fis);
 		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
@@ -891,7 +891,7 @@ public class StudioCommonMethods {
 
 			genericMethods.clickElement(driver, createVerb, test);
 			constructCounter(driver, test);
-			String testDataSheet = workbookName;
+			String workbookTestData = workbookName;
 
 			if(template.equalsIgnoreCase("formTemplate"))
 			{ 
@@ -900,7 +900,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				hasPolicy(driver, test, testDataSheet);
+				hasPolicy(driver, test, workbookTestData);
 				Thread.sleep(1500);
 				hasBusinessValidation(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
@@ -913,7 +913,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				hasPolicy(driver, test, testDataSheet);
+				hasPolicy(driver, test, workbookTestData);
 				Thread.sleep(1500);
 				//	hasBusinessValidation(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
@@ -926,7 +926,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				hasPolicy(driver, test, testDataSheet);
+				hasPolicy(driver, test, workbookTestData);
 				Thread.sleep(1500);
 				//	hasBusinessValidation(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
@@ -938,7 +938,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				hasPolicy(driver, test, testDataSheet);
+				hasPolicy(driver, test, workbookTestData);
 				Thread.sleep(1500);
 				//	hasBusinessValidation(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
@@ -951,7 +951,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				hasPolicy(driver, test, testDataSheet);
+				hasPolicy(driver, test, workbookTestData);
 				Thread.sleep(1500);
 				//	hasBusinessValidation(driver, test);	genericMethods.clickElement(driver, saveButton, test);
 			}
@@ -963,7 +963,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				hasPolicy(driver, test, testDataSheet);
+				hasPolicy(driver, test, workbookTestData);
 				Thread.sleep(1500);
 				//	hasBusinessValidation(driver, test);
 				genericMethods.clickElement(driver, saveButton, test);
@@ -1045,14 +1045,14 @@ public class StudioCommonMethods {
 	public boolean update(WebDriver driver, ExtentTest test , String entityName, String workbookName) throws InterruptedException, InvalidFormatException, IOException {
 
 		try{
-			String testDataSheet = workbookName;
+			String workbookTestData = workbookName;
 			genericMethods.clickElement(driver, updateVerb, test);
 			constructCounter(driver, test);
 			Thread.sleep(1000);
 			genericMethods.clickElement(driver, selectEntityButton, test);
 			genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 			genericMethods.clickElement(driver, nextButton, test);
-			hasPolicy(driver, test, testDataSheet);
+			hasPolicy(driver, test, workbookTestData);
 			Thread.sleep(1000);
 			hasBusinessValidation(driver, test);
 			genericMethods.clickElement(driver, saveButton, test);

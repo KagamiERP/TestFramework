@@ -16,8 +16,8 @@ import org.testng.annotations.Test;
 import com.kagami.library.ExtentManager;
 import com.kagami.library.Global;
 import com.kagami.library.StudioCommonMethods;
+import com.kagami.regression.MultipleProjectAndProcessCreation;
 import com.kagami.studio.BuildDeploy;
-import com.kagami.studio.BulkProjectCreation;
 import com.kagami.studio.CustomizeDashBoard;
 import com.kagami.studio.EntityCreation;
 import com.kagami.studio.MasterData;
@@ -38,7 +38,7 @@ public class TC_01_Create_View {
 	public ProjectCreation projectCreation;
 	public OrganisationCreationBase organisationCreationBase; 
 	public StudioCommonMethods studioCommonMethods;
-	public BulkProjectCreation bulkProjectCreation;
+	public MultipleProjectAndProcessCreation multipleProjectAndProcessCreation;
 	public ProcessCreation processCreation;
 	public CustomizeDashBoard customizeDashBoard;
 	public BuildDeploy buildDeploy;
@@ -51,7 +51,7 @@ public class TC_01_Create_View {
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
 	{
 		BrowserSelection browserSelection = new BrowserSelection();
-		driver = browserSelection.browserType(driver, Global.sBrowserType);
+		driver = browserSelection.browserType(driver, Global.browserType);
 	}
 
 	@Test(priority = 0)

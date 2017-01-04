@@ -252,7 +252,7 @@ public class EmailOperations {
 				    + "<br>"
 				    + "Browser: "
 				    + "\t"
-				    + Global.sBrowserType
+				    + Global.browserType
 				    + "<br>"
 				    + "Operating System:"
 				    + "\t"

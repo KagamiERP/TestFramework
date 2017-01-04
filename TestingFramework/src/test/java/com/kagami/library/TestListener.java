@@ -17,10 +17,10 @@ import org.testng.ITestListener;
 import org.testng.ITestResult;
 
 import com.kagami.testconfig.BrowserSelection;
-import com.kagami.testconfig.PreSuiteConfig;
+import com.kagami.testconfig.Testconfiguration;
 
 
-public class TestListener extends PreSuiteConfig implements ITestListener {
+public class TestListener extends Testconfiguration implements ITestListener {
 	WebDriver driver=null;
 	String filePath = "./Screenshots/";
 	
@@ -54,7 +54,7 @@ public class TestListener extends PreSuiteConfig implements ITestListener {
     
     public void takeScreenShot(String methodName) throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException {
     	//get the driver
-    	driver=browserSelection.browserType(driver, Global.sBrowserType);
+    	driver=browserSelection.browserType(driver, Global.browserType);
     	 File scrFile = ((TakesScreenshot)driver).getScreenshotAs(OutputType.FILE);
          //The below method will save the screen shot in d drive with test method name 
             try {
