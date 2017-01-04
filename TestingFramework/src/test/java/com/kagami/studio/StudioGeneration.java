@@ -1,14 +1,33 @@
 package com.kagami.studio;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -35,6 +54,7 @@ public class StudioGeneration {
 	public BuildDeploy buildDeploy;
 	public Relations relation;
 	public ProcessCreation processCreation;
+	String sheetName =  "./TestData/TC_01.xlsx";
 
 	@BeforeClass
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
@@ -50,34 +70,24 @@ public class StudioGeneration {
 		extent.loadConfig(new File("./extent/config.xml"));
 		test = extent.startTest("Studio Login", "Login to Kagami Studio....");
 		studioCommonMethods = new StudioCommonMethods(driver);
-		studioCommonMethods.studioLogin(test);
+		studioCommonMethods.studioLogin(test, sheetName);
 		extent.endTest(test);
 		extent.flush();
 	}
 	
-/*	@Test(priority = 1)
-	public void relation()
-	{
-		test = extent.startTest("Relations: Test Suite", "Create Relations in Studio....");	
-		relation = new Relations(driver);
-		relation.relationManager(test);
-		extent.endTest(test);
-		extent.flush();
-	}	*/
+
 	
-	
-	@Test(priority = 2)
+	@Test(priority = 1)
 	public void projectCreation()
 	{
 		test = extent.startTest("Project Creation: Test Suite", "Create Project in Studio....");	
 		projectCreation = new ProjectCreation(driver);
-		projectCreation.newProjectCreation(test);
+		projectCreation.newProjectCreation(test, sheetName);
 		extent.endTest(test);
 		extent.flush();
 	}	
-	
-	/*
-	@Test(priority = 3)
+
+	/*@Test(priority = 2)
 	public void newOrgCreation()
 	{
 		test = extent.startTest("Organisation Creation: Test Suite", "Create Organisation....");	
@@ -87,8 +97,8 @@ public class StudioGeneration {
 		extent.flush();
 	}
 	
-	*/
-	@Test(priority = 4)
+	
+	@Test(priority = 3)
 	public void entityCreation()
 	{
 		test = extent.startTest("Entity Creation: Test Suite", "Create Entity with multiple attributes....");
@@ -98,7 +108,18 @@ public class StudioGeneration {
 		extent.flush();
 	}
 	
-
+	
+	@Test(priority = 4)
+	public void relation()
+	{
+		test = extent.startTest("Relations: Test Suite", "Create Relations in Studio....");	
+		relation = new Relations(driver);
+		relation.relationManager(test);
+		extent.endTest(test);
+		extent.flush();
+	}	
+	
+	
 	
 	@Test(priority = 5)
 	public void processCreation()
@@ -109,9 +130,11 @@ public class StudioGeneration {
 		extent.endTest(test);
 		extent.flush();
 	}	
+	
+	
 
 
-	/*@Test(priority = 6)
+	@Test(priority = 6)
 	public void dashboardCreation()
 	{
 		test = extent.startTest("Dashboard Creation:", "Create Dashboard in Studio....");	
@@ -130,7 +153,7 @@ public class StudioGeneration {
 		extent.endTest(test);
 		extent.flush();
 	}
-	*/	
+		*/
 		
 	
 		
@@ -198,7 +221,7 @@ public class StudioGeneration {
 
 
 
-
+*/
 
 
 	@AfterSuite
@@ -364,7 +387,7 @@ public class StudioGeneration {
 		} catch	 (IOException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 
 }
 

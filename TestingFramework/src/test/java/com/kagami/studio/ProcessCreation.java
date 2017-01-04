@@ -37,12 +37,13 @@ public class ProcessCreation {
 	By newProjectText = By.xpath("//input[@id='new-project-text']");
 	By projectName = By.xpath("//input[@id='new-project-text']");
 	By createButton = By.xpath("//button[contains(text(),'Create')]");
+
 	By newModuleButton = By.xpath("//button[@ng-click='addModule()']");
-	By newModuleText = By.xpath("//input[@class='ajs-input']");
+	By newModuleText = By.xpath("//input[@id='prompt-input-field']");
 	By newSubModuleButton = By.xpath("//button[@ng-click='addSubModule()']");
-	By newSubModuleText = By.xpath("//input[@class='ajs-input']");
+	By newSubModuleText = By.xpath("//input[@placeholder='(Eg: Leave Management System)']");
 	By newProcessButton = By.xpath("//button[@ng-click='addProcess()']");
-	By newProcessText = By.xpath("//input[@class='ajs-input']");
+	By newProcessText = By.xpath("//label[text()='Process Name']/following::input[@placeholder='(Eg: Leave Request Process)']");
 	By saveProcess = By.xpath("//button[@ng-click='saveProcess()']");
 	By ok = By.xpath("//div[text()='Save']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
 	By project  = By.xpath("//h3[text()='test']");
@@ -50,14 +51,20 @@ public class ProcessCreation {
 	By subModule = By.xpath("//p[(text()='Sub Module')]");
 	By newProcess = By.xpath("//button[@class='btn btn-primary process-add pull-right']");
 	By processName = By.xpath("//input[@class='ajs-input']");
-	By okButtonModule = By.xpath("//div[text()='Create Module']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
-	By okButtonSubModule = By.xpath("//div[text()='Create Sub Module']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
-	By okButtonProcess = By.xpath("//div[text()='Create Process']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
+	By submitButtonModule = By.xpath("//div[@class='modal-footer']/button[text()='Submit']");
+	By submitButtonSubModule = By.xpath("//label[text()='Submodule Name']/following::div[@class='modal-footer']//button[text()='Submit']");
+	By submitButtonProcess = By.xpath("//label[text()='Process Name']/following::button[text()='Submit']");
 	By existingProcess = By.xpath("//p[text()='Process']");
 	By existingProjectErrorMsg = By.xpath("//div[text()='*Should not create same Project Name']");
 	By kagamiLogo = By.xpath("//img[@src='assets/img/logo.png']");
+	By updateProjectButton = By.xpath("//div[@class='modal-footer']/button[contains(text(),'Update')]");
+	By deleteSubmodule = By.xpath("//span[@class='ng-scope studio-card-menu-item glyphicon glyphicon-trash']");
+	By deleteSubModuleOk = By.xpath("//div[text()='Delete Sub Module']/following::button[text()='OK']");
+	By deleteModuleOk = By.xpath("//div[text()='Delete Module']/following::button[text()='OK']");
+	By okButtonModule = By.xpath("//div[text()='Create Module']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
+
 	//Policies Xpath
-	
+
 	//	static int plusInc = 10000;
 	//	By plusIcon = By.xpath("//div[@data-id= '" +(++plusInc) +"']");
 
@@ -66,15 +73,15 @@ public class ProcessCreation {
 		this.driver = driver;
 	}
 
-	public void newProcessCreation(ExtentTest test)
+	public void newProcessCreation(ExtentTest test, String sheetName)
 	{
 		try{
 			int cellValue = 0;	
-			String pathOfFile = Global.testSheet;
-			File f = new File(pathOfFile);
+			String testDataSheet = sheetName;
+			File f = new File(testDataSheet);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
-			Sheet sheet =  wb.getSheet("Edit");
+			Sheet sheet =  wb.getSheet("ProcessAndPolicies");
 			String[] rowElements = new String[50];
 
 			int projectRowCount = 1;
@@ -90,7 +97,7 @@ public class ProcessCreation {
 					Thread.sleep(1500);
 					genericMethods.enterText(driver, newModuleText, rowElements[++cellValue], test);
 					Thread.sleep(1000);
-					genericMethods.clickElement(driver, okButtonModule, test);
+					genericMethods.clickElement(driver, submitButtonModule, test);
 					test.log(LogStatus.PASS, "Module with name "+rowElements[cellValue]+" is Created.");
 					genericMethods.clickElement(driver,By.xpath("//h3[text()='"+(rowElements[cellValue])+"']") , test);
 
@@ -107,19 +114,18 @@ public class ProcessCreation {
 						Thread.sleep(1500);
 						//wait.until(ExpectedConditions.visibilityOfElementLocated(newSubModuleText));
 						genericMethods.enterText(driver, newSubModuleText, singleSubModule, test);
-						genericMethods.clickElement(driver, okButtonSubModule, test);
+						genericMethods.clickElement(driver, submitButtonSubModule, test);
 						test.log(LogStatus.PASS, "Sub Module with name "+singleSubModule+" is Created.");
-						
 						Thread.sleep(1000);
 						genericMethods.click(driver, By.xpath("//h3[contains(text(),'"+(singleSubModule)+"')]"), test);
-						processCreation(test);
+						processCreation(test,testDataSheet);
 
 
 					}
 					//test.log(LogStatus.PASS, "Project Created");
 				}
 			}
-		
+
 		}
 
 		catch(NoSuchElementException e)
@@ -140,14 +146,14 @@ public class ProcessCreation {
 
 	}
 
-	
+
 	int rowCount = 3;
-	public void processCreation(ExtentTest test)
+	public void processCreation(ExtentTest test, String sheetName)
 	{
 		try{
 			int cellValue = 1;	
-			String pathOfFile = Global.testSheet;
-			File f = new File(pathOfFile);
+			String testDataSheet = sheetName;
+			File f = new File(testDataSheet);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("ProcessAndPolicies");
@@ -170,7 +176,7 @@ public class ProcessCreation {
 					//	wait.until(ExpectedConditions.visibilityOfElementLocated(newProcessText));
 					Thread.sleep(1500);
 					genericMethods.enterText(driver, newProcessText, rowElements[cellValue], test);
-					genericMethods.click(driver, okButtonProcess, test);
+					genericMethods.click(driver, submitButtonProcess, test);
 					Thread.sleep(1500);
 					genericMethods.click(driver,By.xpath("//h3[text()='"+(rowElements[cellValue++])+"']") , test);
 
@@ -181,7 +187,7 @@ public class ProcessCreation {
 				{
 					Thread.sleep(1000);
 					studioCommonMethods.addIcon(driver, test);
-					studioCommonMethods.create(driver, test, rowElements[++cellValue],rowElements[++cellValue]);
+					studioCommonMethods.create(driver, test, rowElements[++cellValue],rowElements[++cellValue],testDataSheet);
 					cellValue = 2;
 					rowCount++;
 					continue;
@@ -191,7 +197,7 @@ public class ProcessCreation {
 				{
 					Thread.sleep(1000);
 					studioCommonMethods.addIcon(driver, test);
-					studioCommonMethods.update(driver, test ,rowElements[cellValue+2]);
+					studioCommonMethods.update(driver, test ,rowElements[cellValue+2], testDataSheet);
 					cellValue = 2;
 					rowCount++;
 					continue;
@@ -225,7 +231,7 @@ public class ProcessCreation {
 					rowCount++;
 					continue;
 				}
-				
+
 
 				else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("end"))
 				{
@@ -236,7 +242,7 @@ public class ProcessCreation {
 					rowCount++;
 					continue;
 				}
-				
+
 				else if (sheet.getRow(row).getCell(2).toString().contains("Save"))
 				{
 					Thread.sleep(1000);
@@ -246,7 +252,7 @@ public class ProcessCreation {
 					test.log(LogStatus.PASS, sheet.getRow(row).getCell(2).toString().substring(4) +" has been Created.");
 					//	driver.navigate().back();
 					//	driver.navigate().back();
-				//	studioCommonMethods.navigateToModule(driver);
+					//	studioCommonMethods.navigateToModule(driver);
 					System.out.println("After Navigating to Module");
 					break;
 
@@ -255,7 +261,7 @@ public class ProcessCreation {
 			}
 			//	driver.navigate().back();
 			//	customizeDashBoard.customizeDashBoard(driver,test);
-			
+
 			studioCommonMethods.mapRoles(driver, "CTO");
 
 		}

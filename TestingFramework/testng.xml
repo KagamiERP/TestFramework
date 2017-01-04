@@ -8,8 +8,8 @@
 
 	<test name="Test">
 		<classes>
-			<!-- <class name="com.kagami.studio.EntityGeneration" /> -->
-			<class name ="com.kagami.smoketestsuite.SmokeTestSuite" />
+			 <class name="com.kagami.studio.StudioGeneration" /> 
+			<!-- <class name ="com.kagami.smoketestsuite.SmokeTestSuite" /> -->
 		</classes>
 	</test> <!-- Test -->
 </suite> <!-- Suite -->

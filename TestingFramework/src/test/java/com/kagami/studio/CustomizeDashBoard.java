@@ -34,7 +34,12 @@ public class CustomizeDashBoard
 	By leftPaneloButton = By.xpath("//ul/li/span/following-sibling::button[@ng-click='add(menu)']");
 	By name=By.xpath("//div/label/following-sibling::input[@class='form-control ng-pristine ng-untouched ng-valid ng-empty']");
 	By saveLeftPanel = By.xpath("//div/div/button/following-sibling::button[contains(text(),'Save')]");
+	By createLeftPanel = By.xpath("//div/div/button/following-sibling::button[contains(text(),'Create')]");
+	
 	By saveDashBoard=By.xpath("//div/div/button/img[@src='assets/img/save.png']");
+	By createDashBoard = By.xpath("//div[@class='dashboard-modal ng-scope']//button[contains(text(),'Create')]");
+	
+	By createChild = By.xpath("//div[@class='modal-footer']//button[contains(text(),'Create')]");
 	By okSave=By.xpath("//div[text()='Save']/following::button[text()='OK']");
 	By groupRadioButton=By.xpath("//div/label/following-sibling::label/input[@name='menu_type']");
 	By groupNameClick=By.xpath("//div/label/following-sibling::input[@class='form-control ng-pristine ng-untouched ng-valid ng-empty']");
@@ -56,21 +61,24 @@ public class CustomizeDashBoard
 	}
 
 
-	public void customizeDashBoard(ExtentTest test)
+	public void customizeDashBoard(ExtentTest test, String sheetName)
 	{
 		try
 		{
 			//studioCommonMethods.navigateToModule(driver);
+			/*driver.navigate().back();
 			driver.navigate().back();
-			driver.navigate().back();
-			driver.navigate().back();
+			driver.navigate().back();*/
+			
+			studioCommonMethods.navigateToProject(driver);
+			
 			Thread.sleep(1000);	
 			//Mapping Organization
 			genericMethods.clickElement(driver, subMenu, test);
 			Thread.sleep(1000);
 			genericMethods.clickElement(driver, customizedDashboardButton, test);
-			String pathOfFile = Global.testSheet;
-			File f = new File(pathOfFile);
+			String testDatasheet = sheetName;
+			File f = new File(testDatasheet);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("dashboard");
@@ -96,7 +104,7 @@ public class CustomizeDashBoard
 					//i++;
 					genericMethods.getText(driver, processDropdown, test);
 					genericMethods.click(driver, processDropdown, test);			
-					genericMethods.clickElement(driver, saveLeftPanel, test);					
+					genericMethods.clickElement(driver, createLeftPanel, test);					
 				}
 				else if(sheet.getRow(row).getCell(0).toString().equalsIgnoreCase("Group")){
 					Thread.sleep(1500);
@@ -106,7 +114,7 @@ public class CustomizeDashBoard
 					Thread.sleep(1500);
 					String groupName=sheet.getRow(row).getCell(1).toString();
 					genericMethods.enterText(driver, groupNameClick,groupName, test);					
-					genericMethods.clickElement(driver, saveLeftPanel, test);
+					genericMethods.clickElement(driver, createLeftPanel, test);
 					Thread.sleep(1500);							
 					String groups = sheet.getRow(row).getCell(2).toString();
 					//System.out.println(groups);
@@ -123,7 +131,7 @@ public class CustomizeDashBoard
 						//	i++;
 						genericMethods.getText(driver, processDropdown, test);
 						genericMethods.click(driver, processDropdown, test);			
-						genericMethods.clickElement(driver, saveLeftPanel, test);					
+						genericMethods.clickElement(driver, createLeftPanel, test);					
 					}
 				}
 			}

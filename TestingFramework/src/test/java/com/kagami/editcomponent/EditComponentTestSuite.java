@@ -9,7 +9,6 @@ import javax.mail.internet.AddressException;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
-import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -22,8 +21,6 @@ import com.kagami.studio.CustomizeDashBoard;
 import com.kagami.studio.EntityCreation;
 import com.kagami.studio.MasterData;
 import com.kagami.studio.OrganisationCreationBase;
-import com.kagami.studio.ProcessCreation;
-import com.kagami.studio.ProjectCreation;
 import com.kagami.studio.Relations;
 import com.kagami.testconfig.BrowserSelection;
 import com.relevantcodes.extentreports.ExtentReports;
@@ -45,6 +42,7 @@ public class EditComponentTestSuite {
 	public BuildDeploy buildDeploy;
 	public Relations relation;
 	public MasterData masterData;
+	String sheetName =  "./TestData/TC_01.xlsx";
 	
 
 	@BeforeClass
@@ -61,7 +59,7 @@ public class EditComponentTestSuite {
 		extent.loadConfig(new File("./extent/config.xml"));
 		test = extent.startTest("Studio Login", "Login to Kagami Studio..");
 		studioCommonMethods = new StudioCommonMethods(driver);
-		studioCommonMethods.studioLogin(test);
+		studioCommonMethods.studioLogin(test, sheetName);
 		extent.endTest(test);
 		extent.flush();
 	}
@@ -69,22 +67,22 @@ public class EditComponentTestSuite {
 	@Test(priority = 1)
 	public void projectCreationAndEdit()
 	{
-		test = extent.startTest("Edit Project:", "Create Project & Edit it..");	
+		test = extent.startTest("Edit Project", "Create Project & Edit it..");	
 		projectCreationAndEdit = new ProjectCreationAndEdit(driver);
 		projectCreationAndEdit.newProjectCreateAndEdit(test);
 		extent.endTest(test);
 		extent.flush();
 	}	
 
-	/*@Test(priority = 2)
+	@Test(priority = 2)
 	public void entityCreation()
 	{
 		test = extent.startTest("Entity Creation: Test Suite", "Create Entity with multiple attributes....");
 		entityCreation = new EntityCreation(driver);
-		entityCreation.entityGeneration(test);
+		entityCreation.entityGeneration(test, sheetName);
 		extent.endTest(test);
 		extent.flush();
-	}*/
+	}
 	
 	
 	@Test(priority = 3)

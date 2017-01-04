@@ -58,7 +58,7 @@ public class ProjectCreationAndEdit{
 	By existingProcess = By.xpath("//p[text()='Process']");
 	By existingProjectErrorMsg = By.xpath("//div[text()='*Should not create same Project Name']");
 	By kagamiLogo = By.xpath("//img[@src='assets/img/logo.png']");
-	By updateProjectButton = By.xpath("//div[@class='modal-footer']/button[contains(text(),'Update')]");
+	By submitProjectButton = By.xpath("//div[@class='modal-footer']/button[contains(text(),'Submit')]");
 
 	
 	public ProjectCreationAndEdit(WebDriver driver)
@@ -104,10 +104,11 @@ public class ProjectCreationAndEdit{
 					test.log(LogStatus.PASS, "Project with name "+projectNameSplitedName[0].trim()+" is Created.");
 					By editItem = By.xpath("//span[@class='ng-scope studio-card-menu-item glyphicon glyphicon-edit']");
 					genericMethods.clickElement(driver, editItem, test);
-					By textBox = By.xpath("//input[@id='new-project-text']");
+					By textBox = By.xpath("//input[@id='prompt-input-field']");
+					System.out.println("2nd data is "+projectNameSplitedName[1].trim());
 					studioCommonMethods.removeText(driver,textBox );
 					genericMethods.enterText(driver, textBox, projectNameSplitedName[1].trim(), test);
-					genericMethods.clickElement(driver, updateProjectButton, test);
+					genericMethods.clickElement(driver, submitProjectButton, test);
 					test.log(LogStatus.PASS, "Project name is renamed with "+projectNameSplitedName[1].trim());
 					genericMethods.clickElementByJsExecutor(driver,By.xpath("//h3[text()='"+(projectNameSplitedName[1].trim())+"']") , test);
 					

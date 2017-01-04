@@ -3,7 +3,6 @@ package com.kagami.studio;
 import java.io.File;
 import java.io.FileInputStream;
 import java.util.NoSuchElementException;
-import java.util.concurrent.TimeoutException;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -12,8 +11,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.kagami.library.ExtentManager;
 import com.kagami.library.GenericMethods;
@@ -38,8 +35,10 @@ public class ProjectCreation {
 	By newProjectText = By.xpath("//input[@id='new-project-text']");
 	By projectName = By.xpath("//input[@id='new-project-text']");
 	By createButton = By.xpath("//button[contains(text(),'Create')]");
+	By okButtonModule = By.xpath("//div[text()='Create Module']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
+	
 	By newModuleButton = By.xpath("//button[@ng-click='addModule()']");
-	By newModuleText = By.xpath("//input[@class='ajs-input']");
+	By newModuleText = By.xpath("//input[@id='prompt-input-field']");
 	By newSubModuleButton = By.xpath("//button[@ng-click='addSubModule()']");
 	By newSubModuleText = By.xpath("//input[@class='ajs-input']");
 	By newProcessButton = By.xpath("//button[@ng-click='addProcess()']");
@@ -51,13 +50,18 @@ public class ProjectCreation {
 	By subModule = By.xpath("//p[(text()='Sub Module')]");
 	By newProcess = By.xpath("//button[@class='btn btn-primary process-add pull-right']");
 	By processName = By.xpath("//input[@class='ajs-input']");
-	By okButtonModule = By.xpath("//div[text()='Create Module']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
+	By submitButtonModule = By.xpath("//div[@class='modal-footer']/button[text()='Submit']");
 	By okButtonSubModule = By.xpath("//div[text()='Create Sub Module']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
 	By okButtonProcess = By.xpath("//div[text()='Create Process']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
 	By existingProcess = By.xpath("//p[text()='Process']");
 	By existingProjectErrorMsg = By.xpath("//div[text()='*Should not create same Project Name']");
 	By kagamiLogo = By.xpath("//img[@src='assets/img/logo.png']");
-
+	By updateProjectButton = By.xpath("//div[@class='modal-footer']/button[contains(text(),'Update')]");
+	By deleteSubmodule = By.xpath("//span[@class='ng-scope studio-card-menu-item glyphicon glyphicon-trash']");
+	By deleteSubModuleOk = By.xpath("//div[text()='Delete Sub Module']/following::button[text()='OK']");
+	By deleteModuleOk = By.xpath("//div[text()='Delete Module']/following::button[text()='OK']");
+	
+	
 	//	static int plusInc = 10000;
 	//	By plusIcon = By.xpath("//div[@data-id= '" +(++plusInc) +"']");
 
@@ -66,13 +70,13 @@ public class ProjectCreation {
 		this.driver = driver;
 	}
 
-	public void newProjectCreation(ExtentTest test)
+	public void newProjectCreation(ExtentTest test, String sheetName)
 	{
 		try{
 
 			int cellValue = 0;	
-			String pathOfFile = Global.testSheet;
-			File f = new File(pathOfFile);
+			String testDataSheet = sheetName;
+			File f = new File(testDataSheet);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("Entity");

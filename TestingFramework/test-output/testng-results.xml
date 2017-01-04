@@ -1,29 +1,53 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="3" passed="3">
+<testng-results skipped="0" failed="0" total="9" passed="9">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="54427" started-at="2016-12-23T06:42:29Z" finished-at="2016-12-23T06:43:24Z">
+  <suite name="Default suite" duration-ms="301504" started-at="2017-01-03T12:01:33Z" finished-at="2017-01-03T12:06:35Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="54427" started-at="2016-12-23T06:42:29Z" finished-at="2016-12-23T06:43:24Z">
-      <class name="com.kagami.editcomponent.EditComponentTestSuite">
-        <test-method status="PASS" signature="browserSelection()[pri:0, instance:com.kagami.editcomponent.EditComponentTestSuite@5ec0a365]" name="browserSelection" is-config="true" duration-ms="5925" started-at="2016-12-23T12:12:29Z" finished-at="2016-12-23T12:12:35Z">
+    <test name="Default test" duration-ms="301504" started-at="2017-01-03T12:01:33Z" finished-at="2017-01-03T12:06:35Z">
+      <class name="com.kagami.testcases.TC_01_Create_View">
+        <test-method status="PASS" signature="browserSelection()[pri:0, instance:com.kagami.testcases.TC_01_Create_View@4fe3c938]" name="browserSelection" is-config="true" duration-ms="7053" started-at="2017-01-03T17:31:33Z" finished-at="2017-01-03T17:31:40Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- browserSelection -->
-        <test-method status="PASS" signature="studioSignIn()[pri:0, instance:com.kagami.editcomponent.EditComponentTestSuite@5ec0a365]" name="studioSignIn" duration-ms="4554" started-at="2016-12-23T12:12:35Z" finished-at="2016-12-23T12:12:40Z">
+        <test-method status="PASS" signature="studioSignIn()[pri:0, instance:com.kagami.testcases.TC_01_Create_View@4fe3c938]" name="studioSignIn" duration-ms="4641" started-at="2017-01-03T17:31:40Z" finished-at="2017-01-03T17:31:45Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- studioSignIn -->
-        <test-method status="PASS" signature="projectCreationAndEdit()[pri:1, instance:com.kagami.editcomponent.EditComponentTestSuite@5ec0a365]" name="projectCreationAndEdit" duration-ms="7995" started-at="2016-12-23T12:12:40Z" finished-at="2016-12-23T12:12:48Z">
+        <test-method status="PASS" signature="projectCreation()[pri:1, instance:com.kagami.testcases.TC_01_Create_View@4fe3c938]" name="projectCreation" duration-ms="8206" started-at="2017-01-03T17:31:45Z" finished-at="2017-01-03T17:31:53Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- projectCreationAndEdit -->
-        <test-method status="PASS" signature="moduleProcessCreationAndEdit()[pri:3, instance:com.kagami.editcomponent.EditComponentTestSuite@5ec0a365]" name="moduleProcessCreationAndEdit" duration-ms="35931" started-at="2016-12-23T12:12:48Z" finished-at="2016-12-23T12:13:24Z">
+        </test-method> <!-- projectCreation -->
+        <test-method status="PASS" signature="newOrgCreation()[pri:2, instance:com.kagami.testcases.TC_01_Create_View@4fe3c938]" name="newOrgCreation" duration-ms="29831" started-at="2017-01-03T17:31:53Z" finished-at="2017-01-03T17:32:23Z">
           <reporter-output>
           </reporter-output>
-        </test-method> <!-- moduleProcessCreationAndEdit -->
-      </class> <!-- com.kagami.editcomponent.EditComponentTestSuite -->
+        </test-method> <!-- newOrgCreation -->
+        <test-method status="PASS" signature="entityCreation()[pri:3, instance:com.kagami.testcases.TC_01_Create_View@4fe3c938]" name="entityCreation" duration-ms="28267" started-at="2017-01-03T17:32:23Z" finished-at="2017-01-03T17:32:51Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- entityCreation -->
+        <test-method status="PASS" signature="relation()[pri:4, instance:com.kagami.testcases.TC_01_Create_View@4fe3c938]" name="relation" duration-ms="16572" started-at="2017-01-03T17:32:51Z" finished-at="2017-01-03T17:33:08Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- relation -->
+        <test-method status="PASS" signature="processCreation()[pri:5, instance:com.kagami.testcases.TC_01_Create_View@4fe3c938]" name="processCreation" duration-ms="105689" started-at="2017-01-03T17:33:08Z" finished-at="2017-01-03T17:34:54Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- processCreation -->
+        <test-method status="PASS" signature="dashboardCreation()[pri:6, instance:com.kagami.testcases.TC_01_Create_View@4fe3c938]" name="dashboardCreation" duration-ms="27756" started-at="2017-01-03T17:34:54Z" finished-at="2017-01-03T17:35:21Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- dashboardCreation -->
+        <test-method status="PASS" signature="buildDeployment()[pri:7, instance:com.kagami.testcases.TC_01_Create_View@4fe3c938]" name="buildDeployment" duration-ms="68874" started-at="2017-01-03T17:35:21Z" finished-at="2017-01-03T17:36:30Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- buildDeployment -->
+        <test-method status="PASS" signature="studioSignOut()[pri:8, instance:com.kagami.testcases.TC_01_Create_View@4fe3c938]" name="studioSignOut" duration-ms="4570" started-at="2017-01-03T17:36:30Z" finished-at="2017-01-03T17:36:35Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- studioSignOut -->
+      </class> <!-- com.kagami.testcases.TC_01_Create_View -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

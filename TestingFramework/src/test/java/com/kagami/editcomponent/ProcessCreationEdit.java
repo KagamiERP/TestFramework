@@ -11,7 +11,6 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 
@@ -59,11 +58,11 @@ public class ProcessCreationEdit {
 	By existingProcess = By.xpath("//p[text()='Process']");
 	By existingProjectErrorMsg = By.xpath("//div[text()='*Should not create same Project Name']");
 	By kagamiLogo = By.xpath("//img[@src='assets/img/logo.png']");
-	By updateProjectButton = By.xpath("//div[@class='modal-footer']/button[contains(text(),'Update')]");
+	By submitSubModButton = By.xpath("//div[@class='modal-footer']/button[contains(text(),'Submit')]");
 	By deleteSubmodule = By.xpath("//span[@class='ng-scope studio-card-menu-item glyphicon glyphicon-trash']");
 	By deleteSubModuleOk = By.xpath("//div[text()='Delete Sub Module']/following::button[text()='OK']");
 	By deleteModuleOk = By.xpath("//div[text()='Delete Module']/following::button[text()='OK']");
-	
+
 	public ProcessCreationEdit(WebDriver driver)
 	{
 		this.driver = driver;
@@ -88,7 +87,7 @@ public class ProcessCreationEdit {
 					}
 
 					//Module
-				//	driver.navigate().back();
+					driver.navigate().back();
 					String moduleSplitedName[] = rowElements[++cellValue].split(":");
 					Thread.sleep(1500);
 					genericMethods.clickElement(driver, newModuleButton, test);
@@ -100,9 +99,9 @@ public class ProcessCreationEdit {
 					Thread.sleep(1500);
 					By editModule = By.xpath("//h3[text()='"+moduleSplitedName[0].trim()+"']/parent::div/parent::a/parent::div//span[@class='ng-scope studio-card-menu-item glyphicon glyphicon-edit']");
 					genericMethods.clickElement(driver, editModule, test);
-					By textBox = By.xpath("//input[@placeholder='(Eg: HRMS, SRM, CRM etc.)']");
-					studioCommonMethods.removeText(driver,textBox );
-					genericMethods.enterText(driver, textBox, moduleSplitedName[1].trim(), test);
+					By textBoxMod = By.xpath("//input[@placeholder='(Eg: HRMS, SRM, CRM etc.)']");
+					studioCommonMethods.removeText(driver,textBoxMod );
+					genericMethods.enterText(driver, textBoxMod, moduleSplitedName[1].trim(), test);
 					genericMethods.clickElement(driver, submitButtonModule, test);
 					test.log(LogStatus.PASS, "Module name is renamed with "+moduleSplitedName[1].trim());
 					genericMethods.clickElementByJsExecutor(driver,By.xpath("//h3[text()='"+(moduleSplitedName[1].trim())+"']") , test);
@@ -112,7 +111,7 @@ public class ProcessCreationEdit {
 					String allSubModules = sheet.getRow(1).getCell(2).toString();
 					String[] listOfSubModules = allSubModules.split(","); 
 					WebDriverWait wait = new WebDriverWait(driver, 8);
-			
+
 					for(String singleSubModule : listOfSubModules)
 					{
 						int subModuleCount = 0;
@@ -126,10 +125,10 @@ public class ProcessCreationEdit {
 						Thread.sleep(1000);
 						By editSubModule = By.xpath("//h3[text()='"+subModuleSplitedName[subModuleCount].trim()+"']/parent::div/parent::a/parent::div//span[@class='ng-scope studio-card-menu-item glyphicon glyphicon-edit']");
 						genericMethods.clickElement(driver, editSubModule, test);
-						By textBoxSub = By.xpath("//input[@placeholder='Enter Name']");
-						studioCommonMethods.removeText(driver, textBoxSub);
-						genericMethods.enterText(driver, textBoxSub, subModuleSplitedName[++subModuleCount].trim(), test);
-						genericMethods.clickElement(driver, updateProjectButton, test);
+						By textBoxSubMod = By.xpath("//input[@placeholder='(Eg: Leave Management System)']");
+						studioCommonMethods.removeText(driver, textBoxSubMod);
+						genericMethods.enterText(driver, textBoxSubMod, subModuleSplitedName[++subModuleCount].trim(), test);
+						genericMethods.clickElement(driver, submitSubModButton, test);
 						test.log(LogStatus.PASS, "Sub Module name is renamed with "+subModuleSplitedName[subModuleCount].trim());
 						genericMethods.click(driver, By.xpath("//h3[contains(text(),'"+(subModuleSplitedName[subModuleCount].trim())+"')]"), test);
 						processCreationAndEdit(test);
@@ -182,8 +181,8 @@ public class ProcessCreationEdit {
 
 				if(sheet.getRow(row).getCell(1).toString().contains("Process"))
 				{
-					
-					
+
+
 					//wait.until(ExpectedConditions.visibilityOfElementLocated(newProcessButton));
 					Thread.sleep(1500);
 					genericMethods.click(driver, newProcessButton, test);
@@ -209,12 +208,12 @@ public class ProcessCreationEdit {
 					genericMethods.clickElement(driver, deleteModuleOk, test);
 					test.log(LogStatus.PASS,"Module is deleted.");
 					//genericMethods.click(driver,By.xpath("//h3[text()='"+(rowElements[cellValue++])+"']") , test);
-					Thread.sleep(1500);
+					Thread.sleep(1000);
 					rowCount++;
 				}
-				
-				
-				
+
+
+
 				/*if(sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("create"))
 				{
 					Thread.sleep(1000);
@@ -290,11 +289,11 @@ public class ProcessCreationEdit {
 
 				}
 
-*/			}
+				 */			}
 			//	driver.navigate().back();
 			//	customizeDashBoard.customizeDashBoard(driver,test);
 
-	//		studioCommonMethods.mapRoles(driver, "CTO");
+			//		studioCommonMethods.mapRoles(driver, "CTO");
 
 		}
 

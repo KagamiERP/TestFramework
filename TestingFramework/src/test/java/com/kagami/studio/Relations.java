@@ -58,14 +58,12 @@ public class Relations {
 	}
 
 
-	public void relationManager(ExtentTest test)
+	public void relationManager(ExtentTest test, String sheetName)
 	{
 		try{
 			extent = ExtentManager.Instance();
 			WebDriverWait wait = new WebDriverWait(driver,10);
-			Thread.sleep(2000);
-			extent.loadConfig(new File("C:\\extent\\config.xml"));
-			
+			Thread.sleep(1500);
 			genericMethods.clickElement(driver, By.xpath("//p[text()='Project']"), test);
 			genericMethods.clickElement(driver, By.xpath("//a[contains(text(),'Entity Management')]"), test);
 			genericMethods.clickElement(driver, By.xpath("//button[text()='Manage Associations']"), test);

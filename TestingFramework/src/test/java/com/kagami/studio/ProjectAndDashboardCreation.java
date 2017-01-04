@@ -64,13 +64,13 @@ public class ProjectAndDashboardCreation {
 		this.driver = driver;
 	}
 
-	public void newProjectCreation(ExtentTest test)
+	public void newProjectCreation(ExtentTest test, String sheetName)
 	{
 		try{
 
 			int cellValue = 0;	
-			String pathOfFile = Global.testSheet;
-			File f = new File(pathOfFile);
+			String testDataSheet = sheetName;
+			File f = new File(testDataSheet);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("Process");
@@ -127,7 +127,7 @@ public class ProjectAndDashboardCreation {
 						test.log(LogStatus.PASS, "SubModule with name "+singleSubModule+" is Created.");
 						Thread.sleep(1000);
 						genericMethods.click(driver, By.xpath("//h3[contains(text(),'"+(singleSubModule)+"')]"), test);
-						processCreation(test);
+						processCreation(test, testDataSheet);
 	
 					
 					}
@@ -154,12 +154,12 @@ public class ProjectAndDashboardCreation {
 	}
 
 	int rowCount = 3;
-	public void processCreation(ExtentTest test)
+	public void processCreation(ExtentTest test, String sheetName)
 	{
 		try{
 			int cellValue = 1;	
-			String pathOfFile = Global.testSheet;
-			File f = new File(pathOfFile);
+			String testDataSheet = sheetName;
+			File f = new File(testDataSheet);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("Process");
@@ -194,7 +194,7 @@ public class ProjectAndDashboardCreation {
 					{
 						Thread.sleep(700);
 						studioCommonMethods.addIcon(driver, test);
-						studioCommonMethods.create(driver, test, firstRowElements[++cellValue],firstRowElements[++cellValue]);
+						studioCommonMethods.create(driver, test, firstRowElements[++cellValue],firstRowElements[++cellValue], testDataSheet);
 						cellValue = 2;
 						rowCount++;
 						continue;

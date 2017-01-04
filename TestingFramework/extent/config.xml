@@ -10,19 +10,17 @@
 		<!-- report name - displayed at top-nav -->
 		<!-- <a href="applicationLogs.html"><img src='log.png' style="margin-left:354px;" 
 			title="Execution Logs" align="middle"/></a> -->
-			
-		<!--   <a href="applicationLogs.html" class="tooltip">Execution Logs <span>
-               <strong>Click me to see the Logs.</strong><br />
-        		</span></a> -->
+
+		<!-- <a href="applicationLogs.html" class="tooltip">Execution Logs <span> 
+			<strong>Click me to see the Logs.</strong><br /> </span></a> -->
 
 		<reportName>
             <![CDATA[
                <a href="http://kagamierp.com/"><img src='kagami.png' style="margin-top:0px;"/></a>
-			  <a href="applicationLogs.html" class="tooltip"><p title="Test Execution 
-			Logs"><b>Execution Logs</b></p></a>
-			  
-			 
-            ]]>
+			<p> <a href="applicationLogs.html" class="tooltip">Execution Logs <span> 
+			<strong><b>Click to see the Logs.</b></strong><br /> </span></a> </p>
+						  
+			   ]]>
 		</reportName>
 
 		<!-- report headline - displayed at top-nav, after reportHeadline -->
@@ -46,11 +44,12 @@
 				.report-name > img {}
 				
             ]]>
+
 			p {
 			position: absolute;
 			left: 292px;
-			top: 98px;
-			font-size: 120%;
+			top: 100px;
+			font-size: 110%;
 			}
 
 			a.tooltip {outline:none; }
@@ -60,18 +59,22 @@
 			z-index:10;display:none; padding:14px 20px;
 			margin-top:-30px;
 			margin-left:28px;
-			width:200px; line-height:10px;
+			width:255px; line-height:14px;
 			}
+			
 			a.tooltip:hover span{
 			display:inline; position:absolute; color:#111;
-			background:#FFFFF0;}
+			border:1px solid #DCA;
+			background:#fffAF0;}
 			.callout
 			{z-index:20;position:absolute;top:30px;border:0;left:-12px;}
 
 			a.tooltip span
 			{
-			border-radius:2px;
+			border-radius:4px;
 			}
+
+
 
 		</styles>
 	</configuration>

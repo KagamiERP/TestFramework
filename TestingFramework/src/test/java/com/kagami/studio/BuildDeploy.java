@@ -34,7 +34,9 @@ public class BuildDeploy
 	By deploySuccessMsg=By.xpath("//div/div[contains(text(),'Deployment Completed and App')]");
 	By testButton=By.xpath("//button[contains(text(),'Test')]");
 	By subMenu = By.xpath("//button[contains(text(),'Menu')]");
-
+	By projectLink = By.xpath("//span[@class='ng-binding']");
+	
+	
 	public BuildDeploy(WebDriver driver)
 	{
 		this.driver = driver;
@@ -45,7 +47,8 @@ public class BuildDeploy
 	  try
 	  {
 	    WebDriverWait wait = new WebDriverWait(driver,240);
-	   driver.navigate().back();
+	//   driver.navigate().back();
+	   genericMethods.clickElement(driver, projectLink, test);
 	   genericMethods.clickElement(driver, subMenu, test);
 	   genericMethods.clickElement(driver, generateButton, test);
 	   wait.until(ExpectedConditions.visibilityOfElementLocated(contractSuccessMsg));

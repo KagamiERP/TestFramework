@@ -56,11 +56,11 @@ public class OrganisationCreationBase
 	}
 
 
-	public void orgCreation(ExtentTest test)
+	public void orgCreation(ExtentTest test, String sheetName)
 	{
 		try{
-			String pathOfFile = Global.testSheet;
-			File f = new File(pathOfFile);
+			String testDataSheet = sheetName;
+			File f = new File(testDataSheet);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("Organisation");

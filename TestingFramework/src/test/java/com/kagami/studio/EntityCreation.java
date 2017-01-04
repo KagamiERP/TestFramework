@@ -63,7 +63,7 @@ public class EntityCreation {
 		this.driver = driver;
 	}
 
-	public void entityGeneration(ExtentTest test)
+	public void entityGeneration(ExtentTest test, String sheetName)
 	{
 		try{
 			extent = ExtentManager.Instance();
@@ -71,8 +71,8 @@ public class EntityCreation {
 			Thread.sleep(2000);
 			genericMethods.clickElement(driver, By.xpath("//a[contains(text(),'Entity Management')]"), test);
 			Thread.sleep(1000);
-			String pathOfFile = Global.testSheet; 
-			File f = new File(pathOfFile);
+			String testDataSheet = sheetName; 
+			File f = new File(testDataSheet);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("Entity");

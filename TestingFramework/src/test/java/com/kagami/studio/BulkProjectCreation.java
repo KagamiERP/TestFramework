@@ -62,8 +62,8 @@ public class BulkProjectCreation {
 	{
 		try{
 
-			String pathOfFile = Global.testSheet;
-			File f = new File(pathOfFile);
+			String testDataSheet = "./TestData/MultipleProject.xlsx";
+			File f = new File(testDataSheet);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("bulkpro");
