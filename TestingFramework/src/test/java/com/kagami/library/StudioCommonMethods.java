@@ -187,7 +187,7 @@ public class StudioCommonMethods {
 			//	boolean errorMsgText = driver.findElement(loginErrorMsg).isDisplayed();
 			Thread.sleep(2500);
 			if(driver.findElement(signOut).isDisplayed()){
-				test.log(LogStatus.PASS, "Login Successful");
+				test.log(LogStatus.PASS, "Login Successful.");
 			}
 			//boolean blankInputfound = driver.findElement(invalidUserName).isDisplayed();
 
@@ -510,8 +510,6 @@ public class StudioCommonMethods {
 		log.warn("The Element cannot be deleted because "+errorMsg);
 		return false;
 	}
-
-
 
 
 	int createPolicyCount = 0;

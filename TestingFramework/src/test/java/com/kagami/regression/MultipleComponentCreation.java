@@ -51,8 +51,7 @@ public class MultipleComponentCreation extends Testconfiguration{
 		BrowserSelection browserSelection = new BrowserSelection();
 		driver = browserSelection.browserType(driver, Global.browserType);
 	}
-	
-	
+
 
 	@Test(priority = 0)
 	public void studioSignIn() throws InvalidFormatException, IOException, InterruptedException
@@ -67,19 +66,7 @@ public class MultipleComponentCreation extends Testconfiguration{
 	}
 
 
-
-	/*@Test(priority = 1)
-	public void multipleProjectCreation()
-	{
-		test = extent.startTest("Multiple Project Creation", "Create Multiple Projects, Modules & Submodules in Kagami Studio....");	
-		multipleProjectAndProcessCreation = new MultipleProjectAndProcessCreation(driver);
-		multipleProjectAndProcessCreation.multipleProjectCreation(test, workBookName);
-		extent.endTest(test);
-		extent.flush();
-	}
-*/
-	
-	@Test(priority = 1)
+	@Test(priority = 2)
 	public void projectCreation()
 	{
 		test = extent.startTest("Project Creation: Test Suite", "Create Project in Studio....");	
@@ -88,7 +75,7 @@ public class MultipleComponentCreation extends Testconfiguration{
 		extent.endTest(test);
 		extent.flush();
 	}
-	
+
 	@Test(priority = 3)
 	public void entityCreation()
 	{
@@ -98,9 +85,21 @@ public class MultipleComponentCreation extends Testconfiguration{
 		extent.endTest(test);
 		extent.flush();
 	}
+
+
+
+	@Test(priority = 4)
+	public void multipleProjectCreation()
+	{
+		test = extent.startTest("Multiple Project Creation", "Create Multiple Projects, Modules & Submodules in Kagami Studio....");	
+		multipleProjectAndProcessCreation = new MultipleProjectAndProcessCreation(driver);
+		multipleProjectAndProcessCreation.multipleProjectCreation(test, workBookName);
+		extent.endTest(test);
+		extent.flush();
+	}
 	
 
-/*	@Test(priority = 1)
+	/*	@Test(priority = 1)
 	public void projectCreation()
 	{
 		test = extent.startTest("Project Creation: Test Suite", "Create Project in Studio....");	
@@ -109,7 +108,7 @@ public class MultipleComponentCreation extends Testconfiguration{
 		extent.endTest(test);
 		extent.flush();
 	}	
-	
+
 	@Test(priority = 3)
 	public void entityCreation()
 	{

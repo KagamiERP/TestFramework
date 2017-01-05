@@ -5,10 +5,8 @@
     <classes>
       <class name="com.kagami.regression.MultipleComponentCreation">
         <methods>
-          <include name="studioSignIn"/>
+          <include name="multipleProjectCreation"/>
           <include name="reportBackup"/>
-          <include name="entityCreation"/>
-          <include name="projectCreation"/>
           <include name="postsuite"/>
           <include name="studioSignOut"/>
           <include name="browserSelection"/>

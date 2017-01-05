@@ -63,7 +63,7 @@ public class EntityCreation implements GlobalXpath{
 			int uniqueKey = 1;
 			int totalAttributesCount = 2;
 			List<String> addEntityValues = null;
-
+			
 
 			int rowCnt = sheet.getLastRowNum();
 			Row row = sheet.getRow(0);
@@ -96,15 +96,19 @@ public class EntityCreation implements GlobalXpath{
 			addEntityList.get("UQ");
 			addEntityList.get("AG");
 
+			int attCountforReport = 0;
 			for(int value=0; value < attributeListCnt; value++){
+				
 				if(entity.get(value).toString().equalsIgnoreCase("Yes"))
 				{
+					
 					if(!((getEntityName.get(value) == null || getEntityName.get(value).toString().equalsIgnoreCase("")))){
 
 						genericMethods.clickElement(driver, By.xpath("//a[@ng-click='addEntity()']"), test);
 						genericMethods.waitForElementVisibility(driver, By.xpath("//input[@ng-change='createEntityNameChanged(newEntity)' and @placeholder='Enter Entity Name']"), 20);
 						genericMethods.enterText(driver, By.xpath("//input[@ng-change='createEntityNameChanged(newEntity)' and @placeholder='Enter Entity Name']"), getEntityName.get(value), test);
 						studioCommonMethods.getEntityType(driver, getEntityType, value);
+						
 					}
 					Thread.sleep(1000);
 					if((genericMethods.ElementVisibility(driver, By.xpath("//div[@class='haserror pull-left ng-binding ng-scope' or contains(text(),'*Entity with same name already exists')]"), test)))
@@ -127,17 +131,20 @@ public class EntityCreation implements GlobalXpath{
 					studioCommonMethods.getEntityDataTypes(driver, attributeType, attributeValidations, value, totalAttributesCount);
 					genericMethods.enterText(driver, By.xpath("//tr["+(++defaultAtt)+"]//input[@placeholder='Default Value']"), defaultValue.get(value), test);	
 					genericMethods.clickElement(driver, By.xpath("//tr["+(++uniqueKey)+"]//input[@type='checkbox' and @ng-click='setAsUniqueKey(attribute)']"), test);
+					
 					totalAttributesCount++;
+					attCountforReport++;
 
 				}
 
 				else if(entity.get(value).toString().contains("Save"))
 				{
+				
 					System.out.println("In else block");
 					wait.until(ExpectedConditions.elementToBeClickable(updateEntity));
 					genericMethods.clickElementByJsExecutor(driver, updateEntity, test);
 					String entityName = entity.get(value).toString().substring(4);
-					test.log(LogStatus.PASS, "Entity is created for the " +entityName+ "..");
+					test.log(LogStatus.PASS, "Entity is created as '"+entityName.trim()+"' with "+attCountforReport+" attributes..");
 					if(driver.findElement(By.xpath("//label[1]/input[@type='radio']")).isSelected()){
 						master.masterDataCreation(driver, test);
 					}
@@ -146,6 +153,8 @@ public class EntityCreation implements GlobalXpath{
 					defaultAtt = 1;
 					uniqueKey = 1;
 					totalAttributesCount = 2;
+					attCountforReport = 0;
+					
 				}
 
 			}
@@ -153,8 +162,9 @@ public class EntityCreation implements GlobalXpath{
 		catch(Exception e)
 		{
 			e.printStackTrace();;
+			test.log(LogStatus.FAIL, "Entity Creation is failed due to below reasons.");
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
-			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			test.log(LogStatus.FAIL, "Exception is: "+ExceptionUtils.getStackTrace(e));
 		}
 
 	}

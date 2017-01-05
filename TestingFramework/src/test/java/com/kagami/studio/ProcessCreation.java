@@ -239,8 +239,9 @@ public class ProcessCreation implements GlobalXpath{
 		catch(Exception e)
 		{
 			e.printStackTrace();
+			test.log(LogStatus.FAIL, "Process Creation is failed due to below reasons.");
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
-			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			test.log(LogStatus.FAIL, "Exception is: "+ExceptionUtils.getStackTrace(e));
 
 		}
 

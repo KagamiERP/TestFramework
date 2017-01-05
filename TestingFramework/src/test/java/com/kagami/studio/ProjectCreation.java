@@ -75,7 +75,7 @@ public class ProjectCreation implements GlobalXpath{
 						Thread.sleep(1000);
 					}
 					genericMethods.clickElement(driver, createButton, test);
-					test.log(LogStatus.PASS, "Project with name "+rowElements[0]+" is Created.");
+					test.log(LogStatus.PASS, "Project with name '"+rowElements[0]+"' is Created.");
 					genericMethods.clickElementByJsExecutor(driver,By.xpath("//h3[text()='"+(rowElements[cellValue])+"']") , test);
 
 
@@ -91,8 +91,9 @@ public class ProjectCreation implements GlobalXpath{
 		}
 		catch(Exception e)	{
 			e.printStackTrace();
+			test.log(LogStatus.FAIL, "Project Creation is failed due to below reasons.");
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
-			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			test.log(LogStatus.FAIL, "Exception is : "+ExceptionUtils.getStackTrace(e));
 		}
 	}
 

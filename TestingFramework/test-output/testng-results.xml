@@ -1,37 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="4" passed="4">
+<testng-results skipped="0" failed="0" total="5" passed="5">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="350206" started-at="2017-01-04T12:21:27Z" finished-at="2017-01-04T12:27:17Z">
+  <suite name="Default suite" duration-ms="59152" started-at="2017-01-05T12:28:40Z" finished-at="2017-01-05T12:29:39Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="350206" started-at="2017-01-04T12:21:27Z" finished-at="2017-01-04T12:27:17Z">
+    <test name="Default test" duration-ms="59152" started-at="2017-01-05T12:28:40Z" finished-at="2017-01-05T12:29:39Z">
       <class name="com.kagami.regression.MultipleComponentCreation">
-        <test-method status="PASS" signature="reportBackup()[pri:0, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="reportBackup" is-config="true" duration-ms="232" started-at="2017-01-04T17:51:27Z" finished-at="2017-01-04T17:51:27Z">
+        <test-method status="PASS" signature="reportBackup()[pri:0, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="reportBackup" is-config="true" duration-ms="205" started-at="2017-01-05T17:58:40Z" finished-at="2017-01-05T17:58:40Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- reportBackup -->
-        <test-method status="PASS" signature="browserSelection()[pri:0, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="browserSelection" is-config="true" duration-ms="9391" started-at="2017-01-04T17:51:27Z" finished-at="2017-01-04T17:51:36Z">
+        <test-method status="PASS" signature="browserSelection()[pri:0, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="browserSelection" is-config="true" duration-ms="6434" started-at="2017-01-05T17:58:40Z" finished-at="2017-01-05T17:58:46Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- browserSelection -->
-        <test-method status="PASS" signature="studioSignIn()[pri:0, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="studioSignIn" duration-ms="4599" started-at="2017-01-04T17:51:36Z" finished-at="2017-01-04T17:51:41Z">
+        <test-method status="PASS" signature="studioSignIn()[pri:0, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="studioSignIn" duration-ms="4587" started-at="2017-01-05T17:58:46Z" finished-at="2017-01-05T17:58:51Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- studioSignIn -->
-        <test-method status="PASS" signature="projectCreation()[pri:1, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="projectCreation" duration-ms="8267" started-at="2017-01-04T17:51:41Z" finished-at="2017-01-04T17:51:49Z">
+        <test-method status="PASS" signature="projectCreation()[pri:2, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="projectCreation" duration-ms="8231" started-at="2017-01-05T17:58:51Z" finished-at="2017-01-05T17:58:59Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- projectCreation -->
-        <test-method status="PASS" signature="entityCreation()[pri:3, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="entityCreation" duration-ms="323408" started-at="2017-01-04T17:51:49Z" finished-at="2017-01-04T17:57:13Z">
+        <test-method status="PASS" signature="entityCreation()[pri:3, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="entityCreation" duration-ms="29143" started-at="2017-01-05T17:58:59Z" finished-at="2017-01-05T17:59:28Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- entityCreation -->
-        <test-method status="PASS" signature="studioSignOut()[pri:8, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="studioSignOut" duration-ms="4519" started-at="2017-01-04T17:57:13Z" finished-at="2017-01-04T17:57:17Z">
+        <test-method status="PASS" signature="multipleProjectCreation()[pri:4, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="multipleProjectCreation" duration-ms="6292" started-at="2017-01-05T17:59:28Z" finished-at="2017-01-05T17:59:35Z">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- multipleProjectCreation -->
+        <test-method status="PASS" signature="studioSignOut()[pri:8, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="studioSignOut" duration-ms="4439" started-at="2017-01-05T17:59:35Z" finished-at="2017-01-05T17:59:39Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- studioSignOut -->
-        <test-method status="PASS" signature="postsuite()[pri:0, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="postsuite" is-config="true" duration-ms="7" started-at="2017-01-04T17:57:17Z" finished-at="2017-01-04T17:57:17Z">
+        <test-method status="PASS" signature="postsuite()[pri:0, instance:com.kagami.regression.MultipleComponentCreation@7e2d773b]" name="postsuite" is-config="true" duration-ms="0" started-at="2017-01-05T17:59:39Z" finished-at="2017-01-05T17:59:39Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- postsuite -->
