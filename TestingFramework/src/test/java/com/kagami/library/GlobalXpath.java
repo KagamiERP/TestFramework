@@ -39,6 +39,8 @@ public interface GlobalXpath {
 	final By minValue = By.xpath("//input[@id='attributeValidationtypemin']");
 	final By maxValue = By.xpath("//input[@id='attributeValidationtypemax']");
 	final By numberRangeCheckbox = By.xpath("//input[@id='attributeValidationtyperange']");
+	final By submitSubModButton = By.xpath("//div[@class='modal-footer']/button[contains(text(),'Submit')]");
+	final By submitProjectButton = By.xpath("//div[@class='modal-footer']/button[contains(text(),'Submit')]");
 
 
 }

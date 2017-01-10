@@ -592,13 +592,13 @@ public class StudioCommonMethods {
 
 
 	int bValidationCount = 0;
-	public boolean hasBusinessValidation(WebDriver driver, ExtentTest test) throws InvalidFormatException, IOException, InterruptedException
+	public boolean hasBusinessValidation(WebDriver driver, ExtentTest test, String workbookName) throws InvalidFormatException, IOException, InterruptedException
 	{
 		System.out.println("Has Business Validation");
 		genericMethods.clickElement(driver, businessValidation, test);
 		//		applyRule(driver, test);
-		String pathOfFile = Global.testSheet;
-		File f = new File(pathOfFile);
+		String workbookTestData = workbookName;
+		File f = new File(workbookTestData);
 		FileInputStream fis = new FileInputStream(f);
 		Workbook wb = WorkbookFactory.create(fis);
 		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
@@ -730,14 +730,14 @@ public class StudioCommonMethods {
 
 
 	int switchPathCount = 0;
-	public boolean hasPath(WebDriver driver, ExtentTest test) throws InterruptedException, InvalidFormatException, IOException
+	public boolean hasPath(WebDriver driver, ExtentTest test, String workbookName) throws InterruptedException, InvalidFormatException, IOException
 	{
 
 		System.out.println("Has Path");
 		//By pathButton = By.xpath("//span[@class='list-group-item text-center ng-binding ng-scope']/img[@ng-src='assets/img/stepmodal/paths.png']");
 		By createPath = By.xpath("//button[@ng-click='createPath()']");   
-		String pathOfFile = Global.testSheet;
-		File f = new File(pathOfFile);
+		String workbookTestData = workbookName;
+		File f = new File(workbookTestData);
 		FileInputStream fis = new FileInputStream(f);
 		Workbook wb = WorkbookFactory.create(fis);
 		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
@@ -808,14 +808,15 @@ public class StudioCommonMethods {
 
 
 	int viewRestrictionCount = 0;
-	public boolean hasRestrictions(WebDriver driver, ExtentTest test) throws InterruptedException, InvalidFormatException, IOException
+	public boolean hasRestrictions(WebDriver driver, ExtentTest test, String workbookName) throws InterruptedException, InvalidFormatException, IOException
 	{
 
 		System.out.println("Has Restrictions");
 		genericMethods.clickElement(driver, restrictionsButton, test);
 		applyRule(driver, test);
-		String pathOfFile = Global.testSheet;
-		File f = new File(pathOfFile);
+		String workbookTestData = workbookName;
+		File f = new File(workbookTestData);
+		
 		FileInputStream fis = new FileInputStream(f);
 		Workbook wb = WorkbookFactory.create(fis);
 		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
@@ -900,7 +901,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, nextButton, test);
 				hasPolicy(driver, test, workbookTestData);
 				Thread.sleep(1500);
-				hasBusinessValidation(driver, test);
+				hasBusinessValidation(driver, test, workbookName);
 				genericMethods.clickElement(driver, saveButton, test);
 			}
 
@@ -979,7 +980,7 @@ public class StudioCommonMethods {
 	}
 
 
-	public boolean view(WebDriver driver, ExtentTest test, String template, String entityName) throws InterruptedException, InvalidFormatException, IOException {
+	public boolean view(WebDriver driver, ExtentTest test, String template, String entityName, String workbookName) throws InterruptedException, InvalidFormatException, IOException {
 
 		try{
 			By viewVerb = By.xpath("//p[contains(text(),'VIEW')]");
@@ -987,6 +988,7 @@ public class StudioCommonMethods {
 			By list = By.xpath("//b[text()='list']");
 			By search = By.xpath("//b[text()='search']");
 
+			String workBook = workbookName;
 			genericMethods.clickElement(driver, viewVerb, test);
 			Thread.sleep(1000);
 			constructCounter(driver, test);
@@ -999,7 +1001,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				hasRestrictions(driver, test);
+				hasRestrictions(driver, test, workBook);
 				genericMethods.clickElement(driver, saveButton, test);
 			}
 			else if(template.equalsIgnoreCase("list")){
@@ -1008,7 +1010,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				hasRestrictions(driver, test);
+				hasRestrictions(driver, test, workBook);
 				genericMethods.clickElement(driver, saveButton, test);
 
 			}
@@ -1018,7 +1020,7 @@ public class StudioCommonMethods {
 				genericMethods.clickElement(driver, selectEntityButton, test);
 				genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 				genericMethods.clickElement(driver, nextButton, test);
-				hasRestrictions(driver, test);
+				hasRestrictions(driver, test, workBook);
 				genericMethods.clickElement(driver, saveButton, test);
 
 
@@ -1052,7 +1054,7 @@ public class StudioCommonMethods {
 			genericMethods.clickElement(driver, nextButton, test);
 			hasPolicy(driver, test, workbookTestData);
 			Thread.sleep(1000);
-			hasBusinessValidation(driver, test);
+			hasBusinessValidation(driver, test, workbookName);
 			genericMethods.clickElement(driver, saveButton, test);
 			return true;
 
@@ -1106,7 +1108,7 @@ public class StudioCommonMethods {
 			Thread.sleep(1000);
 			genericMethods.clickElement(driver, selectEntityButton, test);
 			genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
-			hasPath(driver, test);
+//			hasPath(driver, test);
 			genericMethods.clickElement(driver, saveButton, test);
 			return true;
 
@@ -1125,7 +1127,7 @@ public class StudioCommonMethods {
 	public boolean end(WebDriver driver, ExtentTest test) throws InterruptedException, InvalidFormatException, IOException {
 
 		try{
-			By endConstuct = By.xpath("//p[contains(text(),'END')]");
+			By endConstuct = By.xpath("//img[contains(@src,'end.png')]");
 			genericMethods.clickElement(driver, endConstuct, test);
 			Thread.sleep(1000);
 			//	constructCounter(driver, test);
@@ -1146,94 +1148,94 @@ public class StudioCommonMethods {
 
 
 	public boolean calender(WebDriver driver,ExtentTest test) throws InterruptedException, InvalidFormatException, IOException
-	  {
-	   try{
-	   By calenderVerb=By.xpath("//p[contains(text(),'CALENDER')]");  
-	   genericMethods.clickElement(driver, calenderVerb, test);
-	   Thread.sleep(700);
-	   constructCounter(driver, test);
-	   Thread.sleep(1000);
-	   String pathOfFile = Global.testSheet;
-	   File f = new File(pathOfFile);
-	   FileInputStream fis = new FileInputStream(f);
-	   Workbook wb = WorkbookFactory.create(fis);
-	   Sheet sheet =  wb.getSheet("Calender");
-	   String[] rowElements = new String[50];
-	   int cell=0;
-	   for(int row=1;row<=sheet.getLastRowNum();row++)
-	   {
-	    for(int value=0;value<sheet.getRow(row).getLastCellNum();value++)
-	    {
-	     System.out.println(sheet.getRow(row).getLastCellNum());
-	     rowElements[value]=sheet.getRow(row).getCell(value).toString();
-	     System.out.println(rowElements[value]);
-	    }
-	     By x=By.xpath("//span[contains(text(),'Select or search a source in the list...')]");
-	     By y=By.xpath("//input[@placeholder='Select or search a source in the list...']");
-	     genericMethods.clickElement(driver, x, test);
-	     genericMethods.inputTextAndEnter(driver, y, rowElements[cell], test);
-	     //genericMethods.selectByVisibleText(driver, By.xpath("//input[@placeholder='Select or search a source in the list...']"), rowElements[cell], test);
-	     if(rowElements[cell].trim().equalsIgnoreCase("static")){
-	      cell++;
-	      genericMethods.inputTextAndEnter(driver, By.xpath("//div/input[@placeholder='Enter Email']"), rowElements[cell++], test);
-	     }
-	     else if(rowElements[cell]=="entity"){
-	      cell++;
-	      genericMethods.inputTextAndEnter(driver, By.xpath("//studio-attribute-selector[@attribute-selected='toEmailAttributeSelected']//input"), rowElements[cell++], test);
-	     }
-	     else if(rowElements[cell].trim().equalsIgnoreCase("role")){
-	      cell++;
-	      genericMethods.inputTextAndEnter(driver, By.xpath("//div/input[@placeholder='Enter Expression']"), rowElements[cell++], test);
-	     }
-	     else{
-	      cell+=2;
-	     }
-	     String[] dateSeparation=rowElements[cell++].split("and");
-	     genericMethods.inputTextAndEnter(driver, By.xpath("//div/label[contains(text(),'From Date')]/following::input[@class='form-control input-sm']"), dateSeparation[0], test);
-	     genericMethods.inputTextAndEnter(driver, By.xpath("//div/label[contains(text(),'To Date')]/following::input[@class='form-control input-sm']"), dateSeparation[1], test);
-	     genericMethods.inputTextAndEnter(driver, By.xpath("//div/input[@id='email-subject-text']"), rowElements[cell++], test);
-	     genericMethods.inputTextAndEnter(driver, By.xpath("//label/following::textarea[@id='email-message-text']"), rowElements[cell++], test);
-	     genericMethods.clickElement(driver, saveButton, test);
-	    }
-	   
-	   
-	   return true;
-	   }
-	   catch (NoSuchElementException e){
-	    test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
-	    errorMsg = e.getMessage();
-	    log.warn("The Element cannot be clicked because "+errorMsg);
-	   }
+	{
+		try{
+			By calenderVerb=By.xpath("//p[contains(text(),'CALENDER')]");  
+			genericMethods.clickElement(driver, calenderVerb, test);
+			Thread.sleep(700);
+			constructCounter(driver, test);
+			Thread.sleep(1000);
+			String pathOfFile = Global.testSheet;
+			File f = new File(pathOfFile);
+			FileInputStream fis = new FileInputStream(f);
+			Workbook wb = WorkbookFactory.create(fis);
+			Sheet sheet =  wb.getSheet("Calender");
+			String[] rowElements = new String[50];
+			int cell=0;
+			for(int row=1;row<=sheet.getLastRowNum();row++)
+			{
+				for(int value=0;value<sheet.getRow(row).getLastCellNum();value++)
+				{
+					System.out.println(sheet.getRow(row).getLastCellNum());
+					rowElements[value]=sheet.getRow(row).getCell(value).toString();
+					System.out.println(rowElements[value]);
+				}
+				By x=By.xpath("//span[contains(text(),'Select or search a source in the list...')]");
+				By y=By.xpath("//input[@placeholder='Select or search a source in the list...']");
+				genericMethods.clickElement(driver, x, test);
+				genericMethods.inputTextAndEnter(driver, y, rowElements[cell], test);
+				//genericMethods.selectByVisibleText(driver, By.xpath("//input[@placeholder='Select or search a source in the list...']"), rowElements[cell], test);
+				if(rowElements[cell].trim().equalsIgnoreCase("static")){
+					cell++;
+					genericMethods.inputTextAndEnter(driver, By.xpath("//div/input[@placeholder='Enter Email']"), rowElements[cell++], test);
+				}
+				else if(rowElements[cell]=="entity"){
+					cell++;
+					genericMethods.inputTextAndEnter(driver, By.xpath("//studio-attribute-selector[@attribute-selected='toEmailAttributeSelected']//input"), rowElements[cell++], test);
+				}
+				else if(rowElements[cell].trim().equalsIgnoreCase("role")){
+					cell++;
+					genericMethods.inputTextAndEnter(driver, By.xpath("//div/input[@placeholder='Enter Expression']"), rowElements[cell++], test);
+				}
+				else{
+					cell+=2;
+				}
+				String[] dateSeparation=rowElements[cell++].split("and");
+				genericMethods.inputTextAndEnter(driver, By.xpath("//div/label[contains(text(),'From Date')]/following::input[@class='form-control input-sm']"), dateSeparation[0], test);
+				genericMethods.inputTextAndEnter(driver, By.xpath("//div/label[contains(text(),'To Date')]/following::input[@class='form-control input-sm']"), dateSeparation[1], test);
+				genericMethods.inputTextAndEnter(driver, By.xpath("//div/input[@id='email-subject-text']"), rowElements[cell++], test);
+				genericMethods.inputTextAndEnter(driver, By.xpath("//label/following::textarea[@id='email-message-text']"), rowElements[cell++], test);
+				genericMethods.clickElement(driver, saveButton, test);
+			}
 
-	   log.warn("The Element cannot be clicked because "+errorMsg);
-	   return false;
-	  }
 
-	
+			return true;
+		}
+		catch (NoSuchElementException e){
+			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			errorMsg = e.getMessage();
+			log.warn("The Element cannot be clicked because "+errorMsg);
+		}
+
+		log.warn("The Element cannot be clicked because "+errorMsg);
+		return false;
+	}
+
+
 	int ruleCnt=1;
-	  public void documentManagement(WebDriver driver, String uiTemplate, String entityName, String[] rule, ExtentTest test){
-	   try{
-	    fluentWait(driver, By.xpath("//h5[text()='DOCMAN']"), 5, 30);
-	    genericMethods.clickElement(driver, By.xpath("//b[text()='"+uiTemplate+"']"), test);
-	    genericMethods.clickElement(driver, By.xpath("//div[@placeholder='Select a entity in the list...']"), test);
-	    genericMethods.inputTextAndEnter(driver, By.xpath("//input[@placeholder='Select a entity in the list...']"), entityName, test);
-	    genericMethods.selectSingleCheckbox(driver, By.xpath("//p/input[@type='checkbox' and contains(@ng-change,'CREATE')]"), test);
-	    genericMethods.selectSingleCheckbox(driver, By.xpath("//p/input[@type='checkbox' and contains(@ng-change,'VIEW')]"), test);
-	    for(String ruleCondition: rule){
-	     genericMethods.enterText(driver, By.xpath("//div[@ng-repeat='statement in rule.success.statements']["+ruleCnt+"]//textarea[@id='statementrhsexpression']"), ruleCondition, test);
-	    }
-	    genericMethods.clickElement(driver, saveButton, test);
-	   }
-	   catch (NoSuchElementException e){
-	    test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
-	    log.warn("documentManagement has not been performed successfully");
-	    e.printStackTrace();
-	   }
-	  }
-	
-	
-	
-	
+	public void documentManagement(WebDriver driver, String uiTemplate, String entityName, String[] rule, ExtentTest test){
+		try{
+			fluentWait(driver, By.xpath("//h5[text()='DOCMAN']"), 5, 30);
+			genericMethods.clickElement(driver, By.xpath("//b[text()='"+uiTemplate+"']"), test);
+			genericMethods.clickElement(driver, By.xpath("//div[@placeholder='Select a entity in the list...']"), test);
+			genericMethods.inputTextAndEnter(driver, By.xpath("//input[@placeholder='Select a entity in the list...']"), entityName, test);
+			genericMethods.selectSingleCheckbox(driver, By.xpath("//p/input[@type='checkbox' and contains(@ng-change,'CREATE')]"), test);
+			genericMethods.selectSingleCheckbox(driver, By.xpath("//p/input[@type='checkbox' and contains(@ng-change,'VIEW')]"), test);
+			for(String ruleCondition: rule){
+				genericMethods.enterText(driver, By.xpath("//div[@ng-repeat='statement in rule.success.statements']["+ruleCnt+"]//textarea[@id='statementrhsexpression']"), ruleCondition, test);
+			}
+			genericMethods.clickElement(driver, saveButton, test);
+		}
+		catch (NoSuchElementException e){
+			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			log.warn("documentManagement has not been performed successfully");
+			e.printStackTrace();
+		}
+	}
+
+
+
+
 
 
 	public boolean link(WebDriver driver, ExtentTest test) {
@@ -1406,72 +1408,72 @@ public class StudioCommonMethods {
 	}
 
 	public void email(WebDriver driver, ExtentTest test) throws InterruptedException, InvalidFormatException, IOException{
-	    try{
-	     
-	     genericMethods.clickElement(driver, By.xpath("//p[contains(text(),'EMAIL')]"), test);         
-	     fluentWait(driver, By.xpath("//div[text()='EMAIL']"), 5, 30);
-	     genericMethods.clickElement(driver, By.xpath("//div[text()='EMAIL']"), test);
-	     genericMethods.waitForElementVisibility(driver, By.xpath("//h5[text()='EMAIL']"), 20);
-	     String pathOfFile = Global.testSheet;
-	   File f = new File(pathOfFile);
-	   FileInputStream fis = new FileInputStream(f);
-	   Workbook wb = WorkbookFactory.create(fis);
-	   Sheet sheet =  wb.getSheet("Email");
-	   String[] rowElements = new String[50];
-	   int cell=0;
-	   for(int row=1;row<=sheet.getLastRowNum();row++)
-	   {
-	    for(int value=0;value<sheet.getRow(row).getLastCellNum();value++)
-	    {
-	     System.out.println(sheet.getRow(row).getLastCellNum());
-	     rowElements[value]=sheet.getRow(row).getCell(value).toString();
-	     System.out.println(rowElements[value]);
-	    }
-	    By x=By.xpath("//span[contains(text(),'Select or search a source in the list...')]");
-	    By y=By.xpath("//input[@placeholder='Select or search a source in the list...']");
-	    genericMethods.clickElement(driver, x, test);
-	    genericMethods.inputTextAndEnter(driver, y, rowElements[cell], test);
-	    if(rowElements[cell].trim().equalsIgnoreCase("static"))
-	    {
-	     cell++;
-	        genericMethods.enterText(driver, By.xpath("//input[@placeholder='Enter Email']"), rowElements[cell++], test);
-	    }
-	       else if(rowElements[cell].trim().equalsIgnoreCase("entity"))
-	       {
-	        cell++;       
-	        genericMethods.enterText(driver, By.xpath("//input[@title='Variable']"), rowElements[cell++], test);
-	       }
-	   else if(rowElements[cell].trim().equalsIgnoreCase("role"))
-	       {
-	        cell++;
-	        genericMethods.enterText(driver, By.xpath("//input[@placeholder='Enter Expression']"), rowElements[cell++], test);
-	       }
-	       else{
-	        cell+=2;
-	       }
-	       genericMethods.enterText(driver, By.xpath("//input[@id='email-subject-text']"), rowElements[cell++], test);
-	       genericMethods.enterText(driver, By.xpath("//trix-editor[@ng-model='vm.emailMessage']"), rowElements[cell++], test);
-	       genericMethods.clickElement(driver, saveButton, test);
-	    
-	 }
-	    }
-	    catch (NoSuchElementException e){
-	     test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
-	     log.warn("Email Process has not been performed successfully");
-	     e.printStackTrace();
-	    }
-	   }
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+		try{
+
+			genericMethods.clickElement(driver, By.xpath("//p[contains(text(),'EMAIL')]"), test);         
+			fluentWait(driver, By.xpath("//div[text()='EMAIL']"), 5, 30);
+			genericMethods.clickElement(driver, By.xpath("//div[text()='EMAIL']"), test);
+			genericMethods.waitForElementVisibility(driver, By.xpath("//h5[text()='EMAIL']"), 20);
+			String pathOfFile = Global.testSheet;
+			File f = new File(pathOfFile);
+			FileInputStream fis = new FileInputStream(f);
+			Workbook wb = WorkbookFactory.create(fis);
+			Sheet sheet =  wb.getSheet("Email");
+			String[] rowElements = new String[50];
+			int cell=0;
+			for(int row=1;row<=sheet.getLastRowNum();row++)
+			{
+				for(int value=0;value<sheet.getRow(row).getLastCellNum();value++)
+				{
+					System.out.println(sheet.getRow(row).getLastCellNum());
+					rowElements[value]=sheet.getRow(row).getCell(value).toString();
+					System.out.println(rowElements[value]);
+				}
+				By x=By.xpath("//span[contains(text(),'Select or search a source in the list...')]");
+				By y=By.xpath("//input[@placeholder='Select or search a source in the list...']");
+				genericMethods.clickElement(driver, x, test);
+				genericMethods.inputTextAndEnter(driver, y, rowElements[cell], test);
+				if(rowElements[cell].trim().equalsIgnoreCase("static"))
+				{
+					cell++;
+					genericMethods.enterText(driver, By.xpath("//input[@placeholder='Enter Email']"), rowElements[cell++], test);
+				}
+				else if(rowElements[cell].trim().equalsIgnoreCase("entity"))
+				{
+					cell++;       
+					genericMethods.enterText(driver, By.xpath("//input[@title='Variable']"), rowElements[cell++], test);
+				}
+				else if(rowElements[cell].trim().equalsIgnoreCase("role"))
+				{
+					cell++;
+					genericMethods.enterText(driver, By.xpath("//input[@placeholder='Enter Expression']"), rowElements[cell++], test);
+				}
+				else{
+					cell+=2;
+				}
+				genericMethods.enterText(driver, By.xpath("//input[@id='email-subject-text']"), rowElements[cell++], test);
+				genericMethods.enterText(driver, By.xpath("//trix-editor[@ng-model='vm.emailMessage']"), rowElements[cell++], test);
+				genericMethods.clickElement(driver, saveButton, test);
+
+			}
+		}
+		catch (NoSuchElementException e){
+			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			log.warn("Email Process has not been performed successfully");
+			e.printStackTrace();
+		}
+	}
+
+
+
+
+
+
+
+
+
+
+
 	public void getEntityDataTypes(WebDriver driver, List<String> attributeType, List<String> attributeValidations, int value, int totalAttributesCount){
 		try{
 

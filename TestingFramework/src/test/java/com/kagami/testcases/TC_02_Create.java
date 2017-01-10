@@ -1,4 +1,4 @@
-package com.kagami.editcomponent;
+package com.kagami.testcases;
 
 import java.io.File;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import javax.mail.internet.AddressException;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
@@ -21,29 +22,30 @@ import com.kagami.studio.CustomizeDashBoard;
 import com.kagami.studio.EntityCreation;
 import com.kagami.studio.MasterData;
 import com.kagami.studio.OrganisationCreationBase;
+import com.kagami.studio.ProcessCreation;
+import com.kagami.studio.ProjectCreation;
 import com.kagami.studio.Relations;
 import com.kagami.testconfig.BrowserSelection;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 
-public class EditComponentTestSuite {
+public class TC_02_Create {
 	public WebDriver driver;
-	//public EntityManager entityManager;
 	public EntityCreation entityCreation;
 	ExtentReports extent;
 	ExtentTest test;
 
-	public ProjectCreationAndEdit projectCreationAndEdit;
+	public ProjectCreation projectCreation;
 	public OrganisationCreationBase organisationCreationBase; 
 	public StudioCommonMethods studioCommonMethods;
 	public MultipleProjectAndProcessCreation multipleProjectAndProcessCreation;
-	public ProcessCreationEdit processCreationEdit;
+	public ProcessCreation processCreation;
 	public CustomizeDashBoard customizeDashBoard;
 	public BuildDeploy buildDeploy;
 	public Relations relation;
 	public MasterData masterData;
-	String workBookName =  "./TestData/TC_01.xlsx";
-	
+	String workBookName =  "./TestData/TC_2_Create.xlsx";
+
 
 	@BeforeClass
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
@@ -57,24 +59,37 @@ public class EditComponentTestSuite {
 	{
 		extent = ExtentManager.Instance();
 		extent.loadConfig(new File("./extent/config.xml"));
-		test = extent.startTest("Studio Login", "Login to Kagami Studio..");
+		test = extent.startTest("Studio Login", "Login to Kagami Studio....");
 		studioCommonMethods = new StudioCommonMethods(driver);
 		studioCommonMethods.studioLogin(test, workBookName);
 		extent.endTest(test);
 		extent.flush();
 	}
 
+
+
 	@Test(priority = 1)
-	public void projectCreationAndEdit()
+	public void projectCreation()
 	{
-		test = extent.startTest("Edit Project", "Create Project & Edit it..");	
-		projectCreationAndEdit = new ProjectCreationAndEdit(driver);
-		projectCreationAndEdit.newProjectCreateAndEdit(test);
+		test = extent.startTest("Project Creation: Test Suite", "Create Project in Studio....");	
+		projectCreation = new ProjectCreation(driver);
+		projectCreation.newProjectCreation(test, workBookName);
 		extent.endTest(test);
 		extent.flush();
 	}	
 
 	@Test(priority = 2)
+	public void newOrgCreation()
+	{
+		test = extent.startTest("Organisation Creation: Test Suite", "Create Organisation....");	
+		organisationCreationBase = new OrganisationCreationBase(driver);
+		organisationCreationBase.orgCreation(test, workBookName);
+		extent.endTest(test);
+		extent.flush();
+	}
+
+
+	@Test(priority = 3)
 	public void entityCreation()
 	{
 		test = extent.startTest("Entity Creation: Test Suite", "Create Entity with multiple attributes....");
@@ -83,50 +98,18 @@ public class EditComponentTestSuite {
 		extent.endTest(test);
 		extent.flush();
 	}
-	
-	
-	@Test(priority = 3)
-	public void moduleProcessCreationAndEdit()
-	{
-		test = extent.startTest("Edit Module & Process: Test Suite", "Edit Module, Submodule & Process in Studio..");	
-		processCreationEdit = new ProcessCreationEdit(driver);
-		processCreationEdit.newProcessCreationAndEdit(test, workBookName);
-		extent.endTest(test);
-		extent.flush();
-	}	
 
-	
-
-	
-	/*@Test(priority = 2)
-	public void newOrgCreation()
-	{
-		test = extent.startTest("Organisation Creation: Test Suite", "Create Organisation....");	
-		organisationCreationBase = new OrganisationCreationBase(driver);
-		organisationCreationBase.orgCreation(test);
-		extent.endTest(test);
-		extent.flush();
-	}*/
-/*
-	@Test(priority = 3)
-	public void entityCreation()
-	{
-		test = extent.startTest("Entity Creation: Test Suite", "Create Entity with multiple attributes....");
-		entityCreation = new EntityCreation(driver);
-		entityCreation.entityGeneration(test);
-		extent.endTest(test);
-		extent.flush();
-	}
 
 	@Test(priority = 4)
 	public void relation()
 	{
 		test = extent.startTest("Relations: Test Suite", "Create Relations in Studio....");	
 		relation = new Relations(driver);
-		relation.relationManager(test);
+		relation.relationManager(test, workBookName);
 		extent.endTest(test);
 		extent.flush();
 	}	
+
 
 
 	@Test(priority = 5)
@@ -134,7 +117,7 @@ public class EditComponentTestSuite {
 	{
 		test = extent.startTest("Process Creation: Test Suite", "Create Process in Studio....");	
 		processCreation = new ProcessCreation(driver);
-		processCreation.newProcessCreation(test);
+		processCreation.newProcessCreation(test, workBookName);
 		extent.endTest(test);
 		extent.flush();
 	}	
@@ -144,7 +127,7 @@ public class EditComponentTestSuite {
 	{
 		test = extent.startTest("Dashboard Creation:", "Create Dashboard in Studio....");	
 		customizeDashBoard = new CustomizeDashBoard(driver);
-		customizeDashBoard.customizeDashBoard(test);
+		customizeDashBoard.customizeDashBoard(test, workBookName);
 		extent.endTest(test);
 		extent.flush();
 	}
@@ -152,12 +135,13 @@ public class EditComponentTestSuite {
 	@Test(priority = 7)
 	public void buildDeployment()
 	{
-		test = extent.startTest("Build Deployment:", "Build Deployment & Generate EUA....");	
+		test = extent.startTest("Build Deployment:", "Build Deployment....");	
 		buildDeploy = new BuildDeploy(driver);
 		buildDeploy.generateTargetApp(test);
 		extent.endTest(test);
 		extent.flush();
 	}
+
 
 	@Test(priority = 8)
 	public void studioSignOut()
@@ -168,9 +152,9 @@ public class EditComponentTestSuite {
 		extent.endTest(test);
 		extent.flush();
 	}
-*/
 
-/*	@AfterClass
+
+	/*	@AfterClass
 	public void tearDown()
 	{
 		driver.close();
