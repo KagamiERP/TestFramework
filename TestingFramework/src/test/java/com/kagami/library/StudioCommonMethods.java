@@ -47,11 +47,16 @@ public class StudioCommonMethods {
 	By deleteVerb = By.xpath("//p[contains(text(),'DELETE')]");
 	By updateVerb = By.xpath("//p[contains(text(),'UPDATE')]");
 	By selectEntityButton = By.xpath("//span[@aria-label='Select box activate']");
+	By selectEntityAttribute = By.xpath("//div[@placeholder='Select a entity attributes in the list...']//span[@aria-label='Select box activate']");
 	By selectEntityTextArea = By.xpath("//input[contains(@placeholder,'Select a entity in the list')]");
+	By selectEntityAttributeTextArea = By.xpath("//input[contains(@placeholder,'Select a attribute in the list...')]");
+	By selectTransformEntity = By.xpath("//div[@placeholder='Select a attribute in the list...']//span[@aria-label='Select box activate']");
+	By selectTransformAttribute = By.xpath("//div[@ng-model='vm.destinationEntity']//input[@placeholder='Select a attribute in the list...']");
 	By nextButton = By.xpath("//button[text()='Next']");
 	By saveButton = By.xpath("//button[@ng-click='save()']");
 	By closeIcon = By.xpath("//button[@class='close']");
 	int constructCount = 1;
+	int constructCountTop = 0;
 	public ExtentTest test;
 	public  WebDriver driver;
 	String expectedHeader = "Confirm";
@@ -587,7 +592,6 @@ public class StudioCommonMethods {
 			Thread.sleep(1000);
 		}
 		return true;
-
 	}
 
 
@@ -733,7 +737,7 @@ public class StudioCommonMethods {
 	public boolean hasPath(WebDriver driver, ExtentTest test, String workbookName) throws InterruptedException, InvalidFormatException, IOException
 	{
 
-		System.out.println("Has Path");
+		System.out.println("Has Path only for switch");
 		//By pathButton = By.xpath("//span[@class='list-group-item text-center ng-binding ng-scope']/img[@ng-src='assets/img/stepmodal/paths.png']");
 		By createPath = By.xpath("//button[@ng-click='createPath()']");   
 		String workbookTestData = workbookName;
@@ -761,19 +765,17 @@ public class StudioCommonMethods {
 				pathAllValue.add(val);
 				pathMap.put(key,pathAllValue);
 			}
-
 		}
 
-
-		List<String> restrictionsCellValue = null;
+		List<String> pathCellValue = null;
 		Set<String> keySet = pathMap.keySet();
 		Iterator<String> iterator = keySet.iterator();
 		while(iterator.hasNext()){
 			String key1 = (String) iterator.next();
-			restrictionsCellValue = pathMap.get(key1);
-			System.out.println("Key1 is : "+key1+ "Value is : "+restrictionsCellValue);
+			pathCellValue = pathMap.get(key1);
+			System.out.println("Key1 is : "+key1+ "Value is : "+pathCellValue);
 		} 
-		String[] pathSeparatedByAndValue = restrictionsCellValue.get(switchPathCount++).split("and");
+		String[] pathSeparatedByAndValue = pathCellValue.get(switchPathCount++).split("and");
 		for(String pathSeparatedBySinglePath : pathSeparatedByAndValue){
 			String[] pathSeparatedByComma = pathSeparatedBySinglePath.split(",");
 			genericMethods.clickElement(driver, createPath, test);
@@ -805,8 +807,7 @@ public class StudioCommonMethods {
 
 
 
-
-
+	
 	int viewRestrictionCount = 0;
 	public boolean hasRestrictions(WebDriver driver, ExtentTest test, String workbookName) throws InterruptedException, InvalidFormatException, IOException
 	{
@@ -816,7 +817,7 @@ public class StudioCommonMethods {
 		applyRule(driver, test);
 		String workbookTestData = workbookName;
 		File f = new File(workbookTestData);
-		
+
 		FileInputStream fis = new FileInputStream(f);
 		Workbook wb = WorkbookFactory.create(fis);
 		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
@@ -878,8 +879,242 @@ public class StudioCommonMethods {
 		return true;
 	}
 
-	public boolean create(WebDriver driver, ExtentTest test, String template, String entityName, String workbookName) throws InterruptedException, InvalidFormatException, IOException {
 
+
+
+
+	int updateRulesCount = 0;
+	public boolean updateRules(WebDriver driver, ExtentTest test, String workbookName) throws InvalidFormatException, IOException, InterruptedException
+	{
+		String workbookTestData = workbookName;
+		System.out.println("Has Update Rules");
+		//	genericMethods.clickElement(driver, policiesButton, test);
+		//	applyRule(driver, test);
+		File f = new File(workbookTestData);
+		FileInputStream fis = new FileInputStream(f);
+		Workbook wb = WorkbookFactory.create(fis);
+		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
+		Map<String,List<String>> conditionMap = new HashMap<String,List<String>>();
+		String key = null;
+		int cellNum = 0;
+
+
+		for(int cell =0 ; cell<=sheet.getRow(2).getLastCellNum(); cell++){
+			if(sheet.getRow(2).getCell(cell).toString().trim().equals("Update Rule")){
+				key =  sheet.getRow(2).getCell(cell).toString();
+				cellNum = cell;
+				break;
+			}
+		}
+		List<String> conditionAllValue = new ArrayList<String>();
+		for(int rowNum = 3; rowNum < sheet.getLastRowNum(); rowNum++ ){
+			String val = sheet.getRow(rowNum).getCell(cellNum).toString();
+			if(val.length()>3){
+				conditionAllValue.add(val);
+			}
+			conditionMap.put(key,conditionAllValue);
+		}
+
+
+		List<String> conditionCellValue = null;
+		Set<String> keySet = conditionMap.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while(iterator.hasNext()){
+			String key1 = (String) iterator.next();
+			conditionCellValue = conditionMap.get(key1);
+			System.out.println("Key1 is: "+key1+ "Value is "+conditionCellValue);
+		}
+
+		int updateRuleRowInc = 1;
+		String[] conditionSeparatedByAndValue = conditionCellValue.get(updateRulesCount++).split("and");
+		for(String conditionSeparatedBySingleCondition : conditionSeparatedByAndValue){
+			String[] conditionSeparatedByComma = conditionSeparatedBySingleCondition.split(",");
+
+			//div[@ng-repeat='subCondition in condition.conditions']["+(pathRowInc)+"]//studio-attribute-selector[@variable='subCondition.lhs']
+
+			By policyLHS = By.xpath("//div[@ng-repeat='subCondition in condition.conditions']["+(updateRuleRowInc)+"]//input[@ng-model='$ctrl.variable.value']");
+			//	driver.findElement(policyLHS).sendKeys(new CharSequence[]{conditionSeparatedByComma[0]});
+			genericMethods.inputTextAndEnter(driver, policyLHS, conditionSeparatedByComma[0], test);
+			Thread.sleep(1500);
+			By policyCondition = By.xpath("//div[@ng-repeat='subCondition in condition.conditions']["+(updateRuleRowInc)+"]//div[@class='form-group']/select[@ng-model='$ctrl.operator']");
+			genericMethods.clickElement(driver, policyCondition, test);
+			Thread.sleep(1000);
+
+			// Rework code		
+			removeText(driver, policyLHS);
+			Thread.sleep(1000);
+			genericMethods.inputTextAndEnter(driver, policyLHS, conditionSeparatedByComma[0], test);
+			Thread.sleep(1500);
+
+			genericMethods.selectByVisibleText(driver, policyCondition, conditionSeparatedByComma[1], test);
+			Thread.sleep(1000);
+			By policyRHS = By.xpath("//div[@ng-repeat='subCondition in condition.conditions']["+(updateRuleRowInc)+"]//input[@ng-model='$ctrl.literal.$$value']");
+			genericMethods.enterText(driver, policyRHS, conditionSeparatedByComma[2], test);
+			By plusPolicy = By.xpath("//div[contains(@ng-repeat,'entryCriteriaRB')]//button[@class='btn btn-primary btn-xs' and contains(@ng-click,'addExpression')]");
+			genericMethods.clickElement(driver, plusPolicy, test);
+			updateRuleRowInc++;
+			Thread.sleep(1000);
+		}
+		return true;
+	}
+
+
+
+	int updateExpressionCount = 0;
+	public boolean updateExpression(WebDriver driver, ExtentTest test, String workbookName) throws InvalidFormatException, IOException, InterruptedException
+	{
+		String workbookTestData = workbookName;
+		System.out.println("Has Update Expression");
+		genericMethods.clickElement(driver, policiesButton, test);
+		applyRule(driver, test);
+		File f = new File(workbookTestData);
+		FileInputStream fis = new FileInputStream(f);
+		Workbook wb = WorkbookFactory.create(fis);
+		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
+		Map<String,List<String>> conditionMap = new HashMap<String,List<String>>();
+		String key = null;
+		int cellNum = 0;
+
+
+		for(int cell =0 ; cell<=sheet.getRow(2).getLastCellNum(); cell++){
+			if(sheet.getRow(2).getCell(cell).toString().trim().equals("Update Expression")){
+				key =  sheet.getRow(2).getCell(cell).toString();
+				cellNum = cell;
+				break;
+			}
+		}
+		List<String> conditionAllValue = new ArrayList<String>();
+		for(int rowNum = 3; rowNum < sheet.getLastRowNum(); rowNum++ ){
+			String val = sheet.getRow(rowNum).getCell(cellNum).toString();
+			if(val.length()>3){
+				conditionAllValue.add(val);
+			}
+			conditionMap.put(key,conditionAllValue);
+		}
+
+
+		List<String> conditionCellValue = null;
+		Set<String> keySet = conditionMap.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while(iterator.hasNext()){
+			String key1 = (String) iterator.next();
+			conditionCellValue = conditionMap.get(key1);
+			System.out.println("Key1 is: "+key1+ "Value is "+conditionCellValue);
+		}
+
+		int updateExpressionRowInc = 1;
+		String[] conditionSeparatedByAndValue = conditionCellValue.get(updateExpressionCount++).split("and");
+		for(String conditionSeparatedBySingleCondition : conditionSeparatedByAndValue){
+			String[] conditionSeparatedByComma = conditionSeparatedBySingleCondition.split(",");
+
+			//div[@ng-repeat='subCondition in condition.conditions']["+(pathRowInc)+"]//studio-attribute-selector[@variable='subCondition.lhs']
+
+			By policyLHS = By.xpath("//div[@ng-repeat='subCondition in condition.conditions']["+(updateExpressionRowInc)+"]//input[@ng-model='$ctrl.variable.value']");
+			//	driver.findElement(policyLHS).sendKeys(new CharSequence[]{conditionSeparatedByComma[0]});
+			genericMethods.inputTextAndEnter(driver, policyLHS, conditionSeparatedByComma[0], test);
+			Thread.sleep(1500);
+			By policyCondition = By.xpath("//div[@ng-repeat='subCondition in condition.conditions']["+(updateExpressionRowInc)+"]//div[@class='form-group']/select[@ng-model='$ctrl.operator']");
+			genericMethods.clickElement(driver, policyCondition, test);
+			Thread.sleep(1000);
+
+			// Rework code		
+			removeText(driver, policyLHS);
+			Thread.sleep(1000);
+			genericMethods.inputTextAndEnter(driver, policyLHS, conditionSeparatedByComma[0], test);
+			Thread.sleep(1500);
+
+			genericMethods.selectByVisibleText(driver, policyCondition, conditionSeparatedByComma[1], test);
+			Thread.sleep(1000);
+
+
+			By policyRHS = By.xpath("//div[@ng-repeat='subCondition in condition.conditions']["+(updateExpressionRowInc)+"]//input[@ng-model='$ctrl.literal.$$value']");
+			genericMethods.enterText(driver, policyRHS, conditionSeparatedByComma[2], test);
+			By plusPolicy = By.xpath("//div[contains(@ng-repeat,'entryCriteriaRB')]//button[@class='btn btn-primary btn-xs' and contains(@ng-click,'addExpression')]");
+			genericMethods.clickElement(driver, plusPolicy, test);
+			updateExpressionRowInc++;
+			Thread.sleep(1000);
+		}
+		return true;
+	}
+
+
+
+
+	int transformCriteriaCount = 0;
+	public boolean transformCriteria(WebDriver driver, ExtentTest test, String workbookName) throws InvalidFormatException, IOException, InterruptedException
+	{
+		String workbookTestData = workbookName;
+		System.out.println("Has Transform Crieteria");
+		File f = new File(workbookTestData);
+		FileInputStream fis = new FileInputStream(f);
+		Workbook wb = WorkbookFactory.create(fis);
+		Sheet sheet =  wb.getSheet("ProcessAndPolicies");
+		Map<String,List<String>> transformMap = new HashMap<String,List<String>>();
+		String key = null;
+		int cellNum = 0;
+
+
+		for(int cell =0 ; cell<=sheet.getRow(2).getLastCellNum(); cell++){
+			if(sheet.getRow(2).getCell(cell).toString().trim().equals("Transform Expression")){
+				key =  sheet.getRow(2).getCell(cell).toString();
+				cellNum = cell;
+				break;
+			}
+		}
+		List<String> transformAllValue = new ArrayList<String>();
+		for(int rowNum = 3; rowNum < sheet.getLastRowNum(); rowNum++ ){
+			String val = sheet.getRow(rowNum).getCell(cellNum).toString();
+			if(val.length()>3){
+				transformAllValue.add(val);
+			}
+			transformMap.put(key,transformAllValue);
+		}
+
+
+		List<String> transformCellValue = null;
+		Set<String> keySet = transformMap.keySet();
+		Iterator<String> iterator = keySet.iterator();
+		while(iterator.hasNext()){
+			String key1 = (String) iterator.next();
+			transformCellValue = transformMap.get(key1);
+			System.out.println("Key1 is: "+key1+ "Value is "+transformCellValue);
+		}
+
+//		int transformRowInc = 1;
+		String[] transformSeparatedByAndValue = transformCellValue.get(transformCriteriaCount++).split("and");
+		for(String transformSeparatedBySingleCondition : transformSeparatedByAndValue){
+			String[] transformSeparatedByComma = transformSeparatedBySingleCondition.split(",");
+
+			//div[@ng-repeat='subCondition in condition.conditions']["+(pathRowInc)+"]//studio-attribute-selector[@variable='subCondition.lhs']
+
+			By destinationEntityAtt = By.xpath("//tr//td//div[@ng-model='vm.destinationAttribute']//div[@placeholder='Select a entity in the list...']//span[@aria-label='Select box activate']");
+			By selectEntityfromList = By.xpath("//div[@ng-model='vm.destinationAttribute']//input[@placeholder='Select a entity in the list...']");
+			By sourceEntity = By.xpath("//tr//td//div[@ng-model='vm.sourceEntity']//div[@placeholder='Select a entity in the list...']//span[@aria-label='Select box activate']");
+			By selectSourceEntity = By.xpath("//div[@ng-model='vm.sourceEntity']//input[@placeholder='Select a entity in the list...']");
+			By sourceEntityAtt = By.xpath("//tr//td//div[@ng-model='vm.sourceEntityAttribute']//div[@placeholder='Select a entity attributes in the list...']//span[@aria-label='Select box activate']");
+			By selectSourceAtt = By.xpath("//div[@ng-model='vm.sourceEntityAttribute']//input[@placeholder='Select a entity attributes in the list...']");
+			By transformButton = By.xpath("//button[contains(text(),'Transform')]");
+			
+			genericMethods.clickElement(driver, destinationEntityAtt, test);
+			genericMethods.inputTextAndEnter(driver, selectEntityfromList, transformSeparatedByComma[0], test);
+			Thread.sleep(1500);
+			genericMethods.clickElement(driver, sourceEntity, test);
+			genericMethods.inputTextAndEnter(driver, selectSourceEntity, transformSeparatedByComma[1], test);
+			Thread.sleep(1000);
+			genericMethods.clickElement(driver, sourceEntityAtt, test);
+			genericMethods.inputTextAndEnter(driver, selectSourceAtt, transformSeparatedByComma[2], test);
+			Thread.sleep(1000);		
+			genericMethods.clickElement(driver, transformButton, test);
+			Thread.sleep(1500);
+	//		transformRowInc++;
+		}
+		return true;
+	}
+
+
+
+
+	public boolean create(WebDriver driver, ExtentTest test, String template, String entityName, String workbookName) throws InterruptedException, InvalidFormatException, IOException {
 		try{
 			By formTemplate = By.xpath("//div[@class='card']/img[@alt='form']");
 			By tabbedTemplate = By.xpath("//div[@class='card']/img[@alt='tabbed']");
@@ -1042,6 +1277,66 @@ public class StudioCommonMethods {
 	}
 
 
+
+	public boolean fetch(WebDriver driver, ExtentTest test, String template, String entityName, String workbookName) throws InterruptedException, InvalidFormatException, IOException {
+
+		try{
+			By fetchVerb = By.xpath("//p[contains(text(),'FETCH')]");
+
+			String workBook = workbookName;
+			genericMethods.clickElement(driver, fetchVerb, test);
+			Thread.sleep(1000);
+			constructCounter(driver, test);
+			Thread.sleep(1000);
+			genericMethods.clickElement(driver, selectEntityButton, test);
+			genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
+			hasRestrictions(driver, test, workBook);
+			genericMethods.clickElement(driver, saveButton, test);
+			return true;
+
+		}
+		catch (NoSuchElementException e){
+			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			errorMsg = e.getMessage();
+			log.warn("The Element cannot be clicked because "+errorMsg);
+		}
+
+
+		log.warn("The Element cannot be clicked because "+errorMsg);
+		return false;
+	}
+
+
+	public boolean transform(WebDriver driver, ExtentTest test, String template, String entityName, String workbookName) throws InterruptedException, InvalidFormatException, IOException {
+
+		try{
+			By transformVerb = By.xpath("//p[contains(text(),'TRANSFORM')]");
+			String workBook = workbookName;
+			genericMethods.clickElement(driver, transformVerb, test);
+			Thread.sleep(1000);
+			constructCounter(driver, test);
+			Thread.sleep(1000);
+			genericMethods.clickElement(driver, selectTransformEntity, test);
+			genericMethods.inputTextAndEnter(driver, selectTransformAttribute, entityName, test);
+			transformCriteria(driver,test, workBook);
+			genericMethods.clickElement(driver, saveButton, test);
+			return true;
+
+		}
+		catch (NoSuchElementException e){
+			test.log(LogStatus.FAIL, ExceptionUtils.getStackTrace(e));
+			errorMsg = e.getMessage();
+			log.warn("The Element cannot be clicked because "+errorMsg);
+		}
+
+
+		log.warn("The Element cannot be clicked because "+errorMsg);
+		return false;
+	}
+
+
+
+
 	public boolean update(WebDriver driver, ExtentTest test , String entityName, String workbookName) throws InterruptedException, InvalidFormatException, IOException {
 
 		try{
@@ -1052,6 +1347,9 @@ public class StudioCommonMethods {
 			genericMethods.clickElement(driver, selectEntityButton, test);
 			genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
 			genericMethods.clickElement(driver, nextButton, test);
+			updateRules(driver, test, workbookTestData);
+			updateExpression(driver, test, workbookTestData);
+
 			hasPolicy(driver, test, workbookTestData);
 			Thread.sleep(1000);
 			hasBusinessValidation(driver, test, workbookName);
@@ -1098,9 +1396,10 @@ public class StudioCommonMethods {
 
 
 
-	public boolean Switch(WebDriver driver, ExtentTest test , String entityName) throws InterruptedException, InvalidFormatException, IOException {
+	public boolean Switch(WebDriver driver, ExtentTest test , String entityName , String workbookName) throws InterruptedException, InvalidFormatException, IOException {
 
 		try{
+			String workbookTestData = workbookName;
 			By switchVerb = By.xpath("//p[contains(text(),'switch')]");
 			genericMethods.clickElement(driver, switchVerb, test);
 			Thread.sleep(1000);
@@ -1108,7 +1407,7 @@ public class StudioCommonMethods {
 			Thread.sleep(1000);
 			genericMethods.clickElement(driver, selectEntityButton, test);
 			genericMethods.inputTextAndEnter(driver, selectEntityTextArea, entityName, test);
-//			hasPath(driver, test);
+			hasPath(driver, test, workbookTestData);
 			genericMethods.clickElement(driver, saveButton, test);
 			return true;
 
@@ -1314,8 +1613,18 @@ public class StudioCommonMethods {
 	{
 
 		try{
+			//div[@data-position-left='3' and @data-position-top='1']
+		//	By clickConstruct = By.xpath("//div[@data-position-left='"+(constructCount++)+"' and @data-position-top='"+(constructCountTop)+"']");
 			By clickConstruct = By.xpath("//div[@data-position-left='"+(constructCount++)+"']");
-			genericMethods.clickElement(driver, clickConstruct, test);
+		//	By clickConstruct1 = By.xpath("//div[@data-position-left='"+(constructCount++)+"' and @data-position-top='1']");
+			/*if(driver.findElement(clickConstruct).isDisplayed()){*/
+				genericMethods.clickElement(driver, clickConstruct, test);	
+			//}
+				
+			/*else if(driver.findElement(clickConstruct1).isDisplayed()){
+				genericMethods.clickElement(driver, clickConstruct1, test);	
+					
+			}*/
 			return true;
 
 		}

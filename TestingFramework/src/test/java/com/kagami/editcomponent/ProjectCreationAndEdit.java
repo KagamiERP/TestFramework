@@ -15,6 +15,7 @@ import org.openqa.selenium.WebDriver;
 import com.kagami.library.ExtentManager;
 import com.kagami.library.GenericMethods;
 import com.kagami.library.Global;
+import com.kagami.library.GlobalXpath;
 import com.kagami.library.StudioCommonMethods;
 import com.kagami.studio.CustomizeDashBoard;
 import com.kagami.studio.EntityCreation;
@@ -23,7 +24,7 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-public class ProjectCreationAndEdit{
+public class ProjectCreationAndEdit implements GlobalXpath{
 
 	ExtentReports extent;
 	ExtentTest test;
@@ -34,31 +35,6 @@ public class ProjectCreationAndEdit{
 	CustomizeDashBoard customizeDashBoard = new CustomizeDashBoard(driver);
 	public EntityCreation entityCreation;
 	public ProjectCreation projectCreation;
-
-	By newProject = By.xpath("//button[@ng-click='add()']");
-	By newProjectText = By.xpath("//input[@id='new-project-text']");
-	By projectName = By.xpath("//input[@id='new-project-text']");
-	By createButton = By.xpath("//button[contains(text(),'Create')]");
-	By newModuleButton = By.xpath("//button[@ng-click='addModule()']");
-	By newModuleText = By.xpath("//input[@class='ajs-input']");
-	By newSubModuleButton = By.xpath("//button[@ng-click='addSubModule()']");
-	By newSubModuleText = By.xpath("//input[@class='ajs-input']");
-	By newProcessButton = By.xpath("//button[@ng-click='addProcess()']");
-	By newProcessText = By.xpath("//input[@class='ajs-input']");
-	By saveProcess = By.xpath("//button[@ng-click='saveProcess()']");
-	By ok = By.xpath("//div[text()='Save']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
-	By project  = By.xpath("//h3[text()='test']");
-	By module = By.xpath("//div[@class='studio-card-inner']//p[(text()='Module')]");
-	By subModule = By.xpath("//p[(text()='Sub Module')]");
-	By newProcess = By.xpath("//button[@class='btn btn-primary process-add pull-right']");
-	By processName = By.xpath("//input[@class='ajs-input']");
-	By okButtonModule = By.xpath("//div[text()='Create Module']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
-	By okButtonSubModule = By.xpath("//div[text()='Create Sub Module']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
-	By okButtonProcess = By.xpath("//div[text()='Create Process']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
-	By existingProcess = By.xpath("//p[text()='Process']");
-	By existingProjectErrorMsg = By.xpath("//div[text()='*Should not create same Project Name']");
-	By kagamiLogo = By.xpath("//img[@src='assets/img/logo.png']");
-	By submitProjectButton = By.xpath("//div[@class='modal-footer']/button[contains(text(),'Submit')]");
 
 	
 	public ProjectCreationAndEdit(WebDriver driver)
@@ -87,30 +63,30 @@ public class ProjectCreationAndEdit{
 
 					}
 
-					String projectNameSplitedName[] = rowElements[cellValue].split(":");
+					String projectSplitedName[] = rowElements[cellValue].split(":");
 					genericMethods.clickElement(driver, kagamiLogo, test);
 					Thread.sleep(1000);
 					genericMethods.clickElementByJsExecutor(driver, newProject, test);
-					genericMethods.enterText(driver, newProjectText,projectNameSplitedName[0].trim(), test);
+					genericMethods.enterText(driver, newProjectText,projectSplitedName[0].trim(), test);
 					Thread.sleep(1000);
 
 
 					if(genericMethods.ElementVisibility(driver, existingProjectErrorMsg, test)){
-						studioCommonMethods.deleteExistingProject(driver, projectNameSplitedName[0].trim());
+						studioCommonMethods.deleteExistingProject(driver, projectSplitedName[0].trim());
 						Thread.sleep(1000);
 					}
 							
 					genericMethods.clickElement(driver, createButton, test);
-					test.log(LogStatus.PASS, "Project with name "+projectNameSplitedName[0].trim()+" is Created.");
+					test.log(LogStatus.PASS, "Project with name "+projectSplitedName[0].trim()+" is Created.");
 					By editItem = By.xpath("//span[@class='ng-scope studio-card-menu-item glyphicon glyphicon-edit']");
 					genericMethods.clickElement(driver, editItem, test);
 					By textBox = By.xpath("//input[@id='prompt-input-field']");
-					System.out.println("2nd data is "+projectNameSplitedName[1].trim());
+					System.out.println("2nd data is "+projectSplitedName[1].trim());
 					studioCommonMethods.removeText(driver,textBox );
-					genericMethods.enterText(driver, textBox, projectNameSplitedName[1].trim(), test);
+					genericMethods.enterText(driver, textBox, projectSplitedName[1].trim(), test);
 					genericMethods.clickElement(driver, submitProjectButton, test);
-					test.log(LogStatus.PASS, "Project name is renamed with "+projectNameSplitedName[1].trim());
-					genericMethods.clickElementByJsExecutor(driver,By.xpath("//h3[text()='"+(projectNameSplitedName[1].trim())+"']") , test);
+					test.log(LogStatus.PASS, "Project name is renamed with "+projectSplitedName[1].trim());
+					genericMethods.clickElementByJsExecutor(driver,By.xpath("//h3[text()='"+(projectSplitedName[1].trim())+"']") , test);
 					
 					
 				}

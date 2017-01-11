@@ -45,8 +45,8 @@ public class MasterData {
 		
 		try{
 			
-			String pathOfFile = Global.testSheet; 
-			File f = new File(pathOfFile);
+			String workBookName =  "./TestData/TC_01_Create_View.xlsx";
+			File f = new File(workBookName);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("MasterData");
@@ -74,7 +74,6 @@ public class MasterData {
 				System.out.println(addMasterData);
 			}
 			
-			int masterDataList = addMasterDataList.size();
 			List<String> keyList = new ArrayList<String>();
 			
 			for(int keyCell = 0; keyCell < colCnt; keyCell++){
@@ -83,20 +82,21 @@ public class MasterData {
 			}
 			
 			List<String> state = addMasterData.get("State");
-			List<String> capital = addMasterData.get("Capital");
+			List<String> capital = addMasterData.get("City");
 			
 			int recordCnt = 0;
-			for(int value=0; value < masterDataList; value++){
+			for(int value=0; value < addMasterDataList.size(); value++){
 				//Thread.sleep(1000);
 				genericMethods.waitForElementVisibility(driver, By.xpath("//div[contains(text(),'Records')]"), 30);
-				genericMethods.clickElementByJsExecutor(driver, By.xpath("//a[@ng-click='createNewRecord()']"), test);
+				genericMethods.clickElementByJsExecutor(driver, By.xpath("//a[contains(.,'Add')]"), test);
 				
-				genericMethods.clickElementByJsExecutor(driver, By.xpath("//tr["+(++recordCnt)+"][@class='ng-scope']//button[contains(text(),'Edit')]"), test);
+				//genericMethods.clickElementByJsExecutor(driver, By.xpath("//tr["+(++recordCnt)+"][@class='ng-scope']//button[contains(text(),'Edit')]"), test);
 				genericMethods.waitForElementVisibility(driver, By.xpath("//h4[contains(text(),State)]"), 30);
 				//Thread.sleep(1000);
 				genericMethods.enterText(driver, By.xpath("//label[text()='"+keyList.get(0).toString()+"']/following-sibling::div/input[@type='text']"), state.get(value), test);
 				genericMethods.enterText(driver, By.xpath("//label[text()='"+keyList.get(1).toString()+"']/following-sibling::div/input[@type='text']"), capital.get(value), test);
-				genericMethods.clickElementByJsExecutor(driver, By.xpath("//button[text()='Update']"), test);
+				genericMethods.clickElement(driver, By.xpath("//button[text()='Create']"), test);
+				//genericMethods.clickElementByJsExecutor(driver, By.xpath("//button[text()='Update']"), test);
 			}
 			driver.navigate().back();
 	}

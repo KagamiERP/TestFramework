@@ -212,9 +212,9 @@ public class ProjectAndDashboardCreation {
 
 					else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("view"))
 					{
-						Thread.sleep(1000);
+						Thread.sleep(2500);
 						studioCommonMethods.addIcon(driver, test);
-						studioCommonMethods.view(driver, test ,firstRowElements[++cellValue],firstRowElements[++cellValue]);
+						studioCommonMethods.view(driver, test ,firstRowElements[++cellValue],firstRowElements[++cellValue], workbookTestData);
 						cellValue = 2;
 						rowCount++;
 						continue;
@@ -224,7 +224,7 @@ public class ProjectAndDashboardCreation {
 					{
 						Thread.sleep(1000);
 						studioCommonMethods.addIcon(driver, test);
-						studioCommonMethods.Switch(driver, test ,firstRowElements[cellValue+2]);
+						studioCommonMethods.Switch(driver, test ,firstRowElements[cellValue+2], workbookTestData);
 						cellValue = 2;
 						rowCount++;
 						continue;

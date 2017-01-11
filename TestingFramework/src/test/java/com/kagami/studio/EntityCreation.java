@@ -104,7 +104,7 @@ public class EntityCreation implements GlobalXpath{
 					
 					if(!((getEntityName.get(value) == null || getEntityName.get(value).toString().equalsIgnoreCase("")))){
 
-						genericMethods.clickElement(driver, By.xpath("//a[@ng-click='addEntity()']"), test);
+						genericMethods.clickElementByJsExecutor(driver, By.xpath("//a[@ng-click='addEntity()']"), test);
 						genericMethods.waitForElementVisibility(driver, By.xpath("//input[@ng-change='createEntityNameChanged(newEntity)' and @placeholder='Enter Entity Name']"), 20);
 						genericMethods.enterText(driver, By.xpath("//input[@ng-change='createEntityNameChanged(newEntity)' and @placeholder='Enter Entity Name']"), getEntityName.get(value), test);
 						studioCommonMethods.getEntityType(driver, getEntityType, value);
@@ -162,9 +162,9 @@ public class EntityCreation implements GlobalXpath{
 		catch(Exception e)
 		{
 			e.printStackTrace();;
-			test.log(LogStatus.FAIL, "Entity Creation is failed due to below reasons.");
+			test.log(LogStatus.FAIL, "Entity Creation is failed in below window due to the following reasons.");
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
-			test.log(LogStatus.FAIL, "Exception is: "+ExceptionUtils.getStackTrace(e));
+			test.log(LogStatus.INFO, "Exception is: "+ExceptionUtils.getStackTrace(e));
 		}
 
 	}

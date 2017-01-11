@@ -17,6 +17,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 import com.kagami.library.ExtentManager;
 import com.kagami.library.GenericMethods;
 import com.kagami.library.Global;
+import com.kagami.library.GlobalXpath;
 import com.kagami.library.StudioCommonMethods;
 import com.kagami.studio.CustomizeDashBoard;
 import com.kagami.studio.EntityCreation;
@@ -24,7 +25,7 @@ import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-public class ProcessCreationEdit {
+public class ProcessCreationEdit implements GlobalXpath {
 
 	ExtentReports extent;
 	ExtentTest test;
@@ -35,45 +36,18 @@ public class ProcessCreationEdit {
 	CustomizeDashBoard customizeDashBoard = new CustomizeDashBoard(driver);
 	public EntityCreation entityCreation;
 
-	By newProject = By.xpath("//button[@ng-click='add()']");
-	By newProjectText = By.xpath("//input[@id='new-project-text']");
-	By projectName = By.xpath("//input[@id='new-project-text']");
-	By createButton = By.xpath("//button[contains(text(),'Create')]");
-	By newModuleButton = By.xpath("//button[@ng-click='addModule()']");
-	By newModuleText = By.xpath("//input[@id='prompt-input-field']");
-	By newSubModuleButton = By.xpath("//button[@ng-click='addSubModule()']");
-	By newSubModuleText = By.xpath("//input[@class='ajs-input']");
-	By newProcessButton = By.xpath("//button[@ng-click='addProcess()']");
-	By newProcessText = By.xpath("//input[@class='ajs-input']");
-	By saveProcess = By.xpath("//button[@ng-click='saveProcess()']");
-	By ok = By.xpath("//div[text()='Save']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
-	By project  = By.xpath("//h3[text()='test']");
-	By module = By.xpath("//div[@class='studio-card-inner']//p[(text()='Module')]");
-	By subModule = By.xpath("//p[(text()='Sub Module')]");
-	By newProcess = By.xpath("//button[@class='btn btn-primary process-add pull-right']");
-	By processName = By.xpath("//input[@class='ajs-input']");
-	By submitButtonModule = By.xpath("//div[@class='modal-footer']/button[text()='Submit']");
-	By okButtonSubModule = By.xpath("//div[text()='Create Sub Module']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
-	By okButtonProcess = By.xpath("//div[text()='Create Process']/following::div[@class='ajs-primary ajs-buttons']/button[text()='OK']");
-	By existingProcess = By.xpath("//p[text()='Process']");
-	By existingProjectErrorMsg = By.xpath("//div[text()='*Should not create same Project Name']");
-	By kagamiLogo = By.xpath("//img[@src='assets/img/logo.png']");
-	By submitSubModButton = By.xpath("//div[@class='modal-footer']/button[contains(text(),'Submit')]");
-	By deleteSubmodule = By.xpath("//span[@class='ng-scope studio-card-menu-item glyphicon glyphicon-trash']");
-	By deleteSubModuleOk = By.xpath("//div[text()='Delete Sub Module']/following::button[text()='OK']");
-	By deleteModuleOk = By.xpath("//div[text()='Delete Module']/following::button[text()='OK']");
-
+	
 	public ProcessCreationEdit(WebDriver driver)
 	{
 		this.driver = driver;
 	}
 
-	public void newProcessCreationAndEdit(ExtentTest test)
+	public void newProcessCreationAndEdit(ExtentTest test, String workBook)
 	{
 		try{
 			int cellValue = 0;	
-			String pathOfFile = Global.testSheet;
-			File f = new File(pathOfFile);
+			String workbookTestData = workBook;
+			File f = new File(workbookTestData);
 			FileInputStream fis = new FileInputStream(f);
 			Workbook wb = WorkbookFactory.create(fis);
 			Sheet sheet =  wb.getSheet("Edit");
@@ -98,6 +72,7 @@ public class ProcessCreationEdit {
 					test.log(LogStatus.PASS, "Module with name "+moduleSplitedName[0].trim()+" is Created.");
 					Thread.sleep(1500);
 					By editModule = By.xpath("//h3[text()='"+moduleSplitedName[0].trim()+"']/parent::div/parent::a/parent::div//span[@class='ng-scope studio-card-menu-item glyphicon glyphicon-edit']");
+					
 					genericMethods.clickElement(driver, editModule, test);
 					By textBoxMod = By.xpath("//input[@placeholder='(Eg: HRMS, SRM, CRM etc.)']");
 					studioCommonMethods.removeText(driver,textBoxMod );
@@ -123,6 +98,7 @@ public class ProcessCreationEdit {
 						genericMethods.clickElement(driver, okButtonSubModule, test);
 						test.log(LogStatus.PASS, "Sub Module with name "+subModuleSplitedName[subModuleCount].trim()+" is Created.");
 						Thread.sleep(1000);
+						
 						By editSubModule = By.xpath("//h3[text()='"+subModuleSplitedName[subModuleCount].trim()+"']/parent::div/parent::a/parent::div//span[@class='ng-scope studio-card-menu-item glyphicon glyphicon-edit']");
 						genericMethods.clickElement(driver, editSubModule, test);
 						By textBoxSubMod = By.xpath("//input[@placeholder='(Eg: Leave Management System)']");
@@ -156,7 +132,6 @@ public class ProcessCreationEdit {
 
 
 	}
-
 
 	int rowCount = 3;
 	public void processCreationAndEdit(ExtentTest test)

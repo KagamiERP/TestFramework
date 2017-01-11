@@ -16,7 +16,6 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.kagami.library.ExtentManager;
 import com.kagami.library.GenericMethods;
-import com.kagami.library.Global;
 import com.kagami.library.GlobalXpath;
 import com.kagami.library.StudioCommonMethods;
 import com.relevantcodes.extentreports.ExtentReports;
@@ -174,7 +173,7 @@ public class ProcessCreation implements GlobalXpath{
 				}
 				else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("delete"))
 				{
-					Thread.sleep(2000);
+					Thread.sleep(1000);
 					studioCommonMethods.addIcon(driver, test);
 					studioCommonMethods.delete(driver, test ,rowElements[cellValue+2]);
 					cellValue = 2;
@@ -184,9 +183,29 @@ public class ProcessCreation implements GlobalXpath{
 
 				else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("view"))
 				{
-					Thread.sleep(2500);
+					Thread.sleep(1500);
 					studioCommonMethods.addIcon(driver, test);
-					studioCommonMethods.view(driver, test ,rowElements[++cellValue],rowElements[++cellValue]);
+					studioCommonMethods.view(driver, test ,rowElements[++cellValue],rowElements[++cellValue], workbookTestData);
+					cellValue = 2;
+					rowCount++;
+					continue;
+				}
+				
+				else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("fetch"))
+				{
+					Thread.sleep(1500);
+					studioCommonMethods.addIcon(driver, test);
+					studioCommonMethods.fetch(driver, test ,rowElements[++cellValue],rowElements[++cellValue], workbookTestData);
+					cellValue = 2;
+					rowCount++;
+					continue;
+				}
+				
+				else if (sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("transform"))
+				{
+					Thread.sleep(1500);
+					studioCommonMethods.addIcon(driver, test);
+					studioCommonMethods.transform(driver, test ,rowElements[++cellValue],rowElements[++cellValue], workbookTestData);
 					cellValue = 2;
 					rowCount++;
 					continue;
@@ -196,7 +215,7 @@ public class ProcessCreation implements GlobalXpath{
 				{
 					Thread.sleep(1000);
 					studioCommonMethods.addIcon(driver, test);
-					studioCommonMethods.Switch(driver, test ,rowElements[cellValue+2]);
+					studioCommonMethods.Switch(driver, test ,rowElements[cellValue+2], workbookTestData);
 					cellValue = 2;
 					rowCount++;
 					continue;
@@ -241,7 +260,7 @@ public class ProcessCreation implements GlobalXpath{
 			e.printStackTrace();
 			test.log(LogStatus.FAIL, "Process Creation is failed due to below reasons.");
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
-			test.log(LogStatus.FAIL, "Exception is: "+ExceptionUtils.getStackTrace(e));
+			test.log(LogStatus.INFO, "Exception is: "+ExceptionUtils.getStackTrace(e));
 
 		}
 

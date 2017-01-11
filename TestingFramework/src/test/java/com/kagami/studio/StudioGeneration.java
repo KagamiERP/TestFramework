@@ -1,8 +1,10 @@
 package com.kagami.studio;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -27,6 +29,7 @@ import javax.mail.internet.MimeMultipart;
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterClass;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
@@ -186,7 +189,7 @@ public class StudioGeneration {
 		driver.close();
 	}*/
 	
-/*	
+	
 	@AfterClass
 	public void browserShutDown() throws AddressException, MessagingException
 	{
@@ -222,7 +225,7 @@ public class StudioGeneration {
 
 
 
-*/
+
 
 
 	@AfterSuite

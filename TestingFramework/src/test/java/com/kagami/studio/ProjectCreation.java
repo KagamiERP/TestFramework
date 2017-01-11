@@ -93,7 +93,7 @@ public class ProjectCreation implements GlobalXpath{
 			e.printStackTrace();
 			test.log(LogStatus.FAIL, "Project Creation is failed due to below reasons.");
 			test.log(LogStatus.INFO, test.addScreenCapture(ExtentManager.CaptureScreen(driver)));
-			test.log(LogStatus.FAIL, "Exception is : "+ExceptionUtils.getStackTrace(e));
+			test.log(LogStatus.INFO, "Exception is : "+ExceptionUtils.getStackTrace(e));
 		}
 	}
 
