@@ -46,6 +46,8 @@ public class EntityCreation implements GlobalXpath{
 	public void entityGeneration(ExtentTest test, String sheetName)
 	{
 		try{
+			
+		//	studioCommonMethods.createFolder(driver, "test", "TestPro", "");
 			extent = ExtentManager.Instance();
 			WebDriverWait wait = new WebDriverWait(driver,8);
 			Thread.sleep(2000);
@@ -63,7 +65,7 @@ public class EntityCreation implements GlobalXpath{
 			int uniqueKey = 1;
 			int totalAttributesCount = 2;
 			List<String> addEntityValues = null;
-			
+
 
 			int rowCnt = sheet.getLastRowNum();
 			Row row = sheet.getRow(0);
@@ -98,17 +100,27 @@ public class EntityCreation implements GlobalXpath{
 
 			int attCountforReport = 0;
 			for(int value=0; value < attributeListCnt; value++){
-				
+
 				if(entity.get(value).toString().equalsIgnoreCase("Yes"))
 				{
-					
+					/*if(!((getFolderName.get(value) == null || getFolderName.get(value).toString().equalsIgnoreCase(""))))
+				     {
+				      if(!((getEntityName.get(value) == null || getEntityName.get(value).toString().equalsIgnoreCase("")))){
+				      studioCommonMethods.createFolder(driver, projectName,getFolderName.get(value) , getEntityName.get(value), test);
+				      test.log(LogStatus.PASS, "Entity is created for the " +entityName+ "..");
+				      studioCommonMethods.getEntityType(driver, getEntityType, value);
+				      }
+				     }
+				     else*/
+
+
 					if(!((getEntityName.get(value) == null || getEntityName.get(value).toString().equalsIgnoreCase("")))){
 
 						genericMethods.clickElementByJsExecutor(driver, By.xpath("//a[@ng-click='addEntity()']"), test);
 						genericMethods.waitForElementVisibility(driver, By.xpath("//input[@ng-change='createEntityNameChanged(newEntity)' and @placeholder='Enter Entity Name']"), 20);
 						genericMethods.enterText(driver, By.xpath("//input[@ng-change='createEntityNameChanged(newEntity)' and @placeholder='Enter Entity Name']"), getEntityName.get(value), test);
 						studioCommonMethods.getEntityType(driver, getEntityType, value);
-						
+
 					}
 					Thread.sleep(1000);
 					if((genericMethods.ElementVisibility(driver, By.xpath("//div[@class='haserror pull-left ng-binding ng-scope' or contains(text(),'*Entity with same name already exists')]"), test)))
@@ -131,7 +143,7 @@ public class EntityCreation implements GlobalXpath{
 					studioCommonMethods.getEntityDataTypes(driver, attributeType, attributeValidations, value, totalAttributesCount);
 					genericMethods.enterText(driver, By.xpath("//tr["+(++defaultAtt)+"]//input[@placeholder='Default Value']"), defaultValue.get(value), test);	
 					genericMethods.clickElement(driver, By.xpath("//tr["+(++uniqueKey)+"]//input[@type='checkbox' and @ng-click='setAsUniqueKey(attribute)']"), test);
-					
+
 					totalAttributesCount++;
 					attCountforReport++;
 
@@ -139,7 +151,7 @@ public class EntityCreation implements GlobalXpath{
 
 				else if(entity.get(value).toString().contains("Save"))
 				{
-				
+
 					System.out.println("In else block");
 					wait.until(ExpectedConditions.elementToBeClickable(updateEntity));
 					genericMethods.clickElementByJsExecutor(driver, updateEntity, test);
@@ -154,9 +166,8 @@ public class EntityCreation implements GlobalXpath{
 					uniqueKey = 1;
 					totalAttributesCount = 2;
 					attCountforReport = 0;
-					
-				}
 
+				}
 			}
 		}
 		catch(Exception e)

@@ -48,7 +48,7 @@ import com.kagami.testconfig.BrowserSelection;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 
-public class TC_04_Create_Fetch_View {
+public class TC_07_Create_Fetch_Edit_View {
 	public WebDriver driver;
 	public EntityCreation entityCreation;
 	ExtentReports extent;
@@ -63,7 +63,7 @@ public class TC_04_Create_Fetch_View {
 	public BuildDeploy buildDeploy;
 	public Relations relation;
 	public MasterData masterData;
-	String workBookName =  "./TestData/TC_04_Create_Fetch_View.xlsx";
+	String workBookName =  "./TestData/TC_07_Create_Fetch_Edit_View.xlsx";
 
 
 	@BeforeClass
@@ -97,7 +97,7 @@ public class TC_04_Create_Fetch_View {
 		extent.flush();
 	}	
 
-	@Test(priority = 2)
+/*	@Test(priority = 2)
 	public void newOrgCreation()
 	{
 		test = extent.startTest("Organisation Creation: Test Suite", "Create Organisation....");	
@@ -105,7 +105,7 @@ public class TC_04_Create_Fetch_View {
 		organisationCreationBase.orgCreation(test, workBookName);
 		extent.endTest(test);
 		extent.flush();
-	}
+	}*/
 
 
 	@Test(priority = 3)
@@ -118,8 +118,8 @@ public class TC_04_Create_Fetch_View {
 		extent.flush();
 	}
 
-
-/*	@Test(priority = 4)
+/*
+	@Test(priority = 4)
 	public void relation()
 	{
 		test = extent.startTest("Relations: Test Suite", "Create Relations in Studio....");	
@@ -127,8 +127,7 @@ public class TC_04_Create_Fetch_View {
 		relation.relationManager(test, workBookName);
 		extent.endTest(test);
 		extent.flush();
-	}	*/
-
+	}*/	
 
 
 	@Test(priority = 5)

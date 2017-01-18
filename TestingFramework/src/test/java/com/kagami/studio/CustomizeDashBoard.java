@@ -35,6 +35,8 @@ public class CustomizeDashBoard
 	By name=By.xpath("//div/label/following-sibling::input[@class='form-control ng-pristine ng-untouched ng-valid ng-empty']");
 	By saveLeftPanel = By.xpath("//div/div/button/following-sibling::button[contains(text(),'Save')]");
 	By createLeftPanel = By.xpath("//div/div/button/following-sibling::button[contains(text(),'Create')]");
+
+	
 	
 	By saveDashBoard=By.xpath("//div/div/button/img[@src='assets/img/save.png']");
 	By createDashBoard = By.xpath("//div[@class='dashboard-modal ng-scope']//button[contains(text(),'Create')]");
@@ -121,7 +123,7 @@ public class CustomizeDashBoard
 					String[] multipleGroup = groups.split(",");
 
 					for (String reportee : multipleGroup) {
-						By leftGroupAddBtn=By.xpath("//ul/li/span[contains(text()," + "'" + groupName + "'" + ")]/following-sibling::button[@class='btn btn-default ng-scope']");
+						By leftGroupAddBtn=By.xpath("//ul/li/span[contains(text()," + "'" + groupName + "'" + ")]/following-sibling::button[@class='btn btn-default btn-sm ng-scope']");
 						genericMethods.clickElement(driver, leftGroupAddBtn, test);
 						genericMethods.enterText(driver, groupNameClick,reportee, test);					
 						WebElement wb3=driver.findElement(By.xpath("//span[@class='btn btn-default form-control ui-select-toggle']"));						

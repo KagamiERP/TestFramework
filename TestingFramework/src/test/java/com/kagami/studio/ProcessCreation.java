@@ -162,6 +162,16 @@ public class ProcessCreation implements GlobalXpath{
 					continue;
 				}
 
+				else if(sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("edit"))
+				{
+					Thread.sleep(1000);
+					studioCommonMethods.addIcon(driver, test);
+					studioCommonMethods.edit(driver, test, rowElements[++cellValue],rowElements[++cellValue],workbookTestData);
+					cellValue = 2;
+					rowCount++;
+					continue;
+				}
+				
 				else if(sheet.getRow(row).getCell(2).toString().equalsIgnoreCase("update"))
 				{
 					Thread.sleep(1000);

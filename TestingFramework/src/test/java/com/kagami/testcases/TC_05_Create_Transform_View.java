@@ -96,7 +96,7 @@ public class TC_05_Create_Transform_View {
 		extent.endTest(test);
 		extent.flush();
 	}	
-
+/*
 	@Test(priority = 2)
 	public void newOrgCreation()
 	{
@@ -106,7 +106,7 @@ public class TC_05_Create_Transform_View {
 		extent.endTest(test);
 		extent.flush();
 	}
-
+*/
 
 	@Test(priority = 3)
 	public void entityCreation()
@@ -118,7 +118,7 @@ public class TC_05_Create_Transform_View {
 		extent.flush();
 	}
 
-
+/*
 	@Test(priority = 4)
 	public void relation()
 	{
@@ -127,7 +127,7 @@ public class TC_05_Create_Transform_View {
 		relation.relationManager(test, workBookName);
 		extent.endTest(test);
 		extent.flush();
-	}	
+	}	*/
 
 
 	@Test(priority = 5)

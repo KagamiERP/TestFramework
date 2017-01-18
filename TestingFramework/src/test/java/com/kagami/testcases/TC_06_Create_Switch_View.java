@@ -118,7 +118,7 @@ public class TC_06_Create_Switch_View {
 		extent.flush();
 	}
 
-
+/*
 	@Test(priority = 4)
 	public void relation()
 	{
@@ -127,7 +127,7 @@ public class TC_06_Create_Switch_View {
 		relation.relationManager(test, workBookName);
 		extent.endTest(test);
 		extent.flush();
-	}	
+	}*/	
 
 
 	@Test(priority = 5)
