@@ -45,7 +45,7 @@ public class MultipleComponentCreation extends Testconfiguration{
 	public MasterData masterData;
 	public ProcessAndConstruct processAndConstruct;
 	
-	String workBookName =  "./TestData/TD.xlsx";
+	String workBookName ="./TestData/TD.xlsx";
 
 	@BeforeClass
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
@@ -111,7 +111,7 @@ public class MultipleComponentCreation extends Testconfiguration{
 	}
 	
 	
-	/*@Test(priority = 4)
+	@Test(priority = 4)
 	public void multipleProjectCreationAndEdit()
 	{
 		test = extent.startTest("Multiple Project Creation", "Create Multiple Projects, Modules & Submodules in Kagami Studio....");	
@@ -120,7 +120,7 @@ public class MultipleComponentCreation extends Testconfiguration{
 		extent.endTest(test);
 		extent.flush();
 	}
-	*/
+	
 
 	/*	@Test(priority = 1)
 	public void projectCreation()
