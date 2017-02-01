@@ -1,4 +1,4 @@
-package com.kagami.regression;
+package com.kagami.testcases;
 
 import java.io.File;
 import java.io.IOException;
@@ -15,6 +15,7 @@ import org.testng.annotations.Test;
 import com.kagami.library.ExtentManager;
 import com.kagami.library.Global;
 import com.kagami.library.StudioCommonMethods;
+import com.kagami.regression.MultipleProjectAndProcessCreation;
 import com.kagami.studio.BuildDeploy;
 import com.kagami.studio.CustomizeDashBoard;
 import com.kagami.studio.EntityCreation;
@@ -28,7 +29,7 @@ import com.kagami.testconfig.Testconfiguration;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 
-public class MultipleComponentCreation extends Testconfiguration{
+public class TC_10_EditTemplate extends Testconfiguration{
 	public WebDriver driver;
 	public EntityCreation entityCreation;
 	ExtentReports extent;
@@ -38,14 +39,13 @@ public class MultipleComponentCreation extends Testconfiguration{
 	public OrganisationCreationBase organisationCreationBase; 
 	public StudioCommonMethods studioCommonMethods;
 	public MultipleProjectAndProcessCreation multipleProjectAndProcessCreation;
-	public MultipleProjectCreationAndEdit multipleProjectCreationAndEdit;
 	public ProcessCreation processCreation;
 	public CustomizeDashBoard customizeDashBoard;
 	public BuildDeploy buildDeploy;
 	public Relations relation;
 	public MasterData masterData;
-	
-	String workBookName =  "./TestData/Regression.xlsx";
+	public String workBookName =  "./TestData/TC_10_EditTemplate.xlsx";
+
 
 	@BeforeClass
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
@@ -53,7 +53,6 @@ public class MultipleComponentCreation extends Testconfiguration{
 		BrowserSelection browserSelection = new BrowserSelection();
 		driver = browserSelection.browserType(driver, Global.browserType);
 	}
-
 
 	@Test(priority = 0)
 	public void studioSignIn() throws InvalidFormatException, IOException, InterruptedException
@@ -67,51 +66,9 @@ public class MultipleComponentCreation extends Testconfiguration{
 		extent.flush();
 	}
 
-/*
-	@Test(priority = 2)
-	public void projectCreation()
-	{
-		test = extent.startTest("Project Creation: Test Suite", "Create Project in Studio....");	
-		projectCreation = new ProjectCreation(driver);
-		projectCreation.newProjectCreation(test, workBookName);
-		extent.endTest(test);
-		extent.flush();
-	}
 
-	@Test(priority = 3)
-	public void entityCreation()
-	{
-		test = extent.startTest("Entity Creation: Test Suite", "Create Entity with multiple attributes....");
-		entityCreation = new EntityCreation(driver);
-		entityCreation.entityGeneration(test, workBookName);
-		extent.endTest(test);
-		extent.flush();
-	}
 
-*/
-
-	@Test(priority = 4)
-	public void multipleProjectCreation()
-	{
-		test = extent.startTest("Multiple Project Creation", "Create Multiple Projects, Modules & Submodules in Kagami Studio....");	
-		multipleProjectAndProcessCreation = new MultipleProjectAndProcessCreation(driver);
-		multipleProjectAndProcessCreation.multipleProjectCreation(test, workBookName);
-		extent.endTest(test);
-		extent.flush();
-	}
-	
-/*	@Test(priority = 4)
-	public void multipleProjectCreationAndEdit()
-	{
-		test = extent.startTest("Multiple Project Creation", "Create Multiple Projects, Modules & Submodules in Kagami Studio....");	
-		multipleProjectCreationAndEdit = new MultipleProjectCreationAndEdit(driver);
-		multipleProjectCreationAndEdit.multipleProjectCreationAndEdit(test, workBookName);
-		extent.endTest(test);
-		extent.flush();
-	}
-*/	
-
-	/*	@Test(priority = 1)
+	@Test(priority = 1)
 	public void projectCreation()
 	{
 		test = extent.startTest("Project Creation: Test Suite", "Create Project in Studio....");	
@@ -121,6 +78,17 @@ public class MultipleComponentCreation extends Testconfiguration{
 		extent.flush();
 	}	
 
+/*	@Test(priority = 2)
+	public void newOrgCreation()
+	{
+		test = extent.startTest("Organisation Creation: Test Suite", "Create Organisation....");	
+		organisationCreationBase = new OrganisationCreationBase(driver);
+		organisationCreationBase.orgCreation(test, workBookName);
+		extent.endTest(test);
+		extent.flush();
+	}
+*/
+
 	@Test(priority = 3)
 	public void entityCreation()
 	{
@@ -129,8 +97,52 @@ public class MultipleComponentCreation extends Testconfiguration{
 		entityCreation.entityGeneration(test, workBookName);
 		extent.endTest(test);
 		extent.flush();
-	}*/
+	}
 
+
+/*	@Test(priority = 4)
+	public void relation()
+	{
+		test = extent.startTest("Relations: Test Suite", "Create Relations in Studio....");	
+		relation = new Relations(driver);
+		relation.relationManager(test, workBookName);
+		extent.endTest(test);
+		extent.flush();
+	}	*/
+
+
+
+	@Test(priority = 5)
+	public void processCreation()
+	{
+		test = extent.startTest("Process Creation: Test Suite", "Create Process in Studio....");	
+		processCreation = new ProcessCreation(driver);
+		processCreation.newProcessCreation(test, workBookName);
+		extent.endTest(test);
+		extent.flush();
+	}	
+
+	@Test(priority = 6)
+	public void dashboardCreation()
+	{
+		test = extent.startTest("Dashboard Creation", "Create a Customized Dashboard in Studio....");	
+		customizeDashBoard = new CustomizeDashBoard(driver);
+		customizeDashBoard.customizeDashBoard(test, workBookName);
+		extent.endTest(test);
+		extent.flush();
+	}
+
+/*	@Test(priority = 7)
+	public void buildDeployment()
+	{
+		test = extent.startTest("Build Deployment", "Build Deployment....");	
+		buildDeploy = new BuildDeploy(driver);
+		buildDeploy.generateTargetApp(test);
+		extent.endTest(test);
+		extent.flush();
+	}
+
+	
 	@Test(priority = 8)
 	public void studioSignOut()
 	{
@@ -141,11 +153,13 @@ public class MultipleComponentCreation extends Testconfiguration{
 		extent.flush();
 	}
 
-	/*
-	@AfterClass
+
+	
+*/
+	/*@AfterClass
 	public void browserShutDown() throws AddressException, MessagingException
 	{
-		driver.close();
+	//	driver.close();
 
 		String fileContent = "";
 		try {
@@ -174,9 +188,6 @@ public class MultipleComponentCreation extends Testconfiguration{
 		} catch (IOException e) {
 		}
 	}
-
-
-
 
 
 
@@ -214,7 +225,7 @@ public class MultipleComponentCreation extends Testconfiguration{
 		Session session = Session.getInstance(props, auth);
 
 		//creates email
-		String subject = "Automation_Report_"+now();
+		String subject = "Automation Report_"+now();
 		Message msg = new MimeMessage(session);
 		msg.setFrom(new InternetAddress(username));
 		InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
@@ -239,16 +250,16 @@ public class MultipleComponentCreation extends Testconfiguration{
 				+"</tr>"
 				+"<tr>"
 				+"<td>1</td>"
-				+"<td>Entity Creation</td>"
-				+"<td>100</td>"
+				+"<td>Target App Generation</td>"
+				+"<td>23</td>"
 				+"<td>"+passCount+"</td>"
 				+"<td>"+failCount+"</td>"
 				+"<td>0</td>"
 				+"</tr>"
 				+"<tr>"
 				+"<td>2</td>"
-				+"<td>Module Creation</td>"
-				+"<td>110</td>"
+				+"<td></td>"
+				+"<td>50</td>"
 				+"<td>30</td>"
 				+"<td>10</td>"
 				+"<td>10</td>"
@@ -272,12 +283,13 @@ public class MultipleComponentCreation extends Testconfiguration{
 				+"</tr>"
 				+ "</td></tr></table>"
 				+"<br></br>"
+				+ "Note: For more information you can download and open the attached zip file." 
+				+ "<br></br>" 
 				+"Thanks & Regards"
 				+"<br>"
-				+"<b><i>"+"Kagami QA Team"+"<i><b>"
-				+"<br></br>"
-				+ "Note: For more information you can download and open the attached zip file." 
-				+ "<br></br>" ;
+				+"Kagami QA Team"
+				+"<br></br>";
+				
 
 
 
@@ -343,8 +355,8 @@ public class MultipleComponentCreation extends Testconfiguration{
 		} catch	 (IOException e) {
 			e.printStackTrace();
 		}
-	}*/
-
+	}
+*/
 }
 
 

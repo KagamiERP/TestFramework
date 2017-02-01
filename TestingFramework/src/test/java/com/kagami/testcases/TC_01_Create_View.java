@@ -1,8 +1,10 @@
 package com.kagami.testcases;
 
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileReader;
 import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -63,7 +65,7 @@ public class TC_01_Create_View {
 	public BuildDeploy buildDeploy;
 	public Relations relation;
 	public MasterData masterData;
-	String workBookName =  "./TestData/TC_01_Create_View.xlsx";
+	public String workBookName =  "./TestData/TC_01_Create_View.xlsx";
 
 
 	@BeforeClass
@@ -119,7 +121,7 @@ public class TC_01_Create_View {
 	}
 
 
-	@Test(priority = 4)
+/*	@Test(priority = 4)
 	public void relation()
 	{
 		test = extent.startTest("Relations: Test Suite", "Create Relations in Studio....");	
@@ -127,7 +129,7 @@ public class TC_01_Create_View {
 		relation.relationManager(test, workBookName);
 		extent.endTest(test);
 		extent.flush();
-	}	
+	}	*/
 
 
 
@@ -144,7 +146,7 @@ public class TC_01_Create_View {
 	@Test(priority = 6)
 	public void dashboardCreation()
 	{
-		test = extent.startTest("Dashboard Creation:", "Create Dashboard in Studio....");	
+		test = extent.startTest("Dashboard Creation", "Create a Customized Dashboard in Studio....");	
 		customizeDashBoard = new CustomizeDashBoard(driver);
 		customizeDashBoard.customizeDashBoard(test, workBookName);
 		extent.endTest(test);
@@ -154,14 +156,14 @@ public class TC_01_Create_View {
 	@Test(priority = 7)
 	public void buildDeployment()
 	{
-		test = extent.startTest("Build Deployment:", "Build Deployment....");	
+		test = extent.startTest("Build Deployment", "Build Deployment....");	
 		buildDeploy = new BuildDeploy(driver);
 		buildDeploy.generateTargetApp(test);
 		extent.endTest(test);
 		extent.flush();
 	}
 
-
+	
 	@Test(priority = 8)
 	public void studioSignOut()
 	{
@@ -173,11 +175,42 @@ public class TC_01_Create_View {
 	}
 
 
-	/*	@AfterClass
-	public void tearDown()
+	
+
+	@AfterClass
+	public void browserShutDown() throws AddressException, MessagingException
 	{
-		driver.close();
-	}*/
+	//	driver.close();
+
+		String fileContent = "";
+		try {
+			BufferedReader in = new BufferedReader(new FileReader("./AutomationReport/TestReport.html"));
+			String status;
+			int passCount = 0;
+			int failCount = 0;
+			while ((status = in.readLine()) != null) {
+				//fileContent +=str;
+				if(status.contains("status pass"))
+				{
+					++passCount;
+					System.out.println(status);
+				}
+				else if(status.contains("status fail"))
+				{
+					++failCount;
+					System.out.println(status);
+				}
+
+			}
+			System.out.println("Pass Count is = "+passCount);
+			System.out.println("Fail Count is = "+failCount);
+			emailConfig(passCount, failCount);
+			in.close();
+		} catch (IOException e) {
+		}
+	}
+
+
 
 	@AfterSuite
 	public void emailConfig(int passCount, int failCount) throws AddressException, MessagingException
@@ -191,7 +224,7 @@ public class TC_01_Create_View {
 		//Recipients
 		String toAddress = "manish.anand@kagamierp.com";
 		String ccAddress = "mallinath.mulage@kagamierp.com";
-		String bccAddress = "mallinath.mulage@kagamierp.com";
+	//	String bccAddress = "mallinath.mulage@kagamierp.com";
 
 		//SMTP server properties
 		Properties props = new Properties();
@@ -213,13 +246,13 @@ public class TC_01_Create_View {
 		Session session = Session.getInstance(props, auth);
 
 		//creates email
-		String subject = "Test for Sending mail"+now();
+		String subject = "Automation Report_"+now();
 		Message msg = new MimeMessage(session);
 		msg.setFrom(new InternetAddress(username));
 		InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
 		msg.setRecipients(Message.RecipientType.TO, toAddresses);
-		msg.setRecipients(Message.RecipientType.CC,InternetAddress.parse(ccAddress));
-		msg.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(bccAddress));
+	//	msg.setRecipients(Message.RecipientType.CC,InternetAddress.parse(ccAddress));
+	//	msg.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(bccAddress));
 		msg.setSubject(subject);
 		msg.setSentDate(new Date());
 
@@ -238,15 +271,15 @@ public class TC_01_Create_View {
 				+"</tr>"
 				+"<tr>"
 				+"<td>1</td>"
-				+"<td>Entity Creation</td>"
-				+"<td>40</td>"
+				+"<td>Target App Generation</td>"
+				+"<td>23</td>"
 				+"<td>"+passCount+"</td>"
 				+"<td>"+failCount+"</td>"
 				+"<td>0</td>"
 				+"</tr>"
 				+"<tr>"
 				+"<td>2</td>"
-				+"<td>Role Creation</td>"
+				+"<td></td>"
 				+"<td>50</td>"
 				+"<td>30</td>"
 				+"<td>10</td>"
@@ -271,12 +304,13 @@ public class TC_01_Create_View {
 				+"</tr>"
 				+ "</td></tr></table>"
 				+"<br></br>"
+				+ "Note: For more information you can download and open the attached zip file." 
+				+ "<br></br>" 
 				+"Thanks & Regards"
 				+"<br>"
-				+"<b><i>"+"Kagami QA Team"+"<i><b>"
-				+"<br></br>"
-				+ "Note: For more information you can download and open the attached zip file." 
-				+ "<br></br>" ;
+				+"Kagami QA Team"
+				+"<br></br>";
+				
 
 
 

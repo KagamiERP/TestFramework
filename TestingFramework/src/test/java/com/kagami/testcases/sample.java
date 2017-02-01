@@ -1,20 +1,41 @@
-package com.kagami.regression;
+package com.kagami.testcases;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Properties;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
+import javax.mail.Authenticator;
+import javax.mail.Message;
 import javax.mail.MessagingException;
+import javax.mail.Multipart;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
 import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeBodyPart;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 
 import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
+import org.testng.annotations.AfterClass;
+import org.testng.annotations.AfterSuite;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
 import com.kagami.library.ExtentManager;
 import com.kagami.library.Global;
 import com.kagami.library.StudioCommonMethods;
+import com.kagami.regression.MultipleProjectAndProcessCreation;
 import com.kagami.studio.BuildDeploy;
 import com.kagami.studio.CustomizeDashBoard;
 import com.kagami.studio.EntityCreation;
@@ -24,11 +45,10 @@ import com.kagami.studio.ProcessCreation;
 import com.kagami.studio.ProjectCreation;
 import com.kagami.studio.Relations;
 import com.kagami.testconfig.BrowserSelection;
-import com.kagami.testconfig.Testconfiguration;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 
-public class MultipleComponentCreation extends Testconfiguration{
+public class sample {
 	public WebDriver driver;
 	public EntityCreation entityCreation;
 	ExtentReports extent;
@@ -38,14 +58,13 @@ public class MultipleComponentCreation extends Testconfiguration{
 	public OrganisationCreationBase organisationCreationBase; 
 	public StudioCommonMethods studioCommonMethods;
 	public MultipleProjectAndProcessCreation multipleProjectAndProcessCreation;
-	public MultipleProjectCreationAndEdit multipleProjectCreationAndEdit;
 	public ProcessCreation processCreation;
 	public CustomizeDashBoard customizeDashBoard;
 	public BuildDeploy buildDeploy;
 	public Relations relation;
 	public MasterData masterData;
-	
-	String workBookName =  "./TestData/Regression.xlsx";
+	String workBookName =  "./TestData/TC_05_Create_Transform_View.xlsx";
+
 
 	@BeforeClass
 	public void browserSelection() throws EncryptedDocumentException, AddressException, InvalidFormatException, IOException, InterruptedException, MessagingException
@@ -53,7 +72,6 @@ public class MultipleComponentCreation extends Testconfiguration{
 		BrowserSelection browserSelection = new BrowserSelection();
 		driver = browserSelection.browserType(driver, Global.browserType);
 	}
-
 
 	@Test(priority = 0)
 	public void studioSignIn() throws InvalidFormatException, IOException, InterruptedException
@@ -67,51 +85,9 @@ public class MultipleComponentCreation extends Testconfiguration{
 		extent.flush();
 	}
 
-/*
-	@Test(priority = 2)
-	public void projectCreation()
-	{
-		test = extent.startTest("Project Creation: Test Suite", "Create Project in Studio....");	
-		projectCreation = new ProjectCreation(driver);
-		projectCreation.newProjectCreation(test, workBookName);
-		extent.endTest(test);
-		extent.flush();
-	}
 
-	@Test(priority = 3)
-	public void entityCreation()
-	{
-		test = extent.startTest("Entity Creation: Test Suite", "Create Entity with multiple attributes....");
-		entityCreation = new EntityCreation(driver);
-		entityCreation.entityGeneration(test, workBookName);
-		extent.endTest(test);
-		extent.flush();
-	}
 
-*/
-
-	@Test(priority = 4)
-	public void multipleProjectCreation()
-	{
-		test = extent.startTest("Multiple Project Creation", "Create Multiple Projects, Modules & Submodules in Kagami Studio....");	
-		multipleProjectAndProcessCreation = new MultipleProjectAndProcessCreation(driver);
-		multipleProjectAndProcessCreation.multipleProjectCreation(test, workBookName);
-		extent.endTest(test);
-		extent.flush();
-	}
-	
-/*	@Test(priority = 4)
-	public void multipleProjectCreationAndEdit()
-	{
-		test = extent.startTest("Multiple Project Creation", "Create Multiple Projects, Modules & Submodules in Kagami Studio....");	
-		multipleProjectCreationAndEdit = new MultipleProjectCreationAndEdit(driver);
-		multipleProjectCreationAndEdit.multipleProjectCreationAndEdit(test, workBookName);
-		extent.endTest(test);
-		extent.flush();
-	}
-*/	
-
-	/*	@Test(priority = 1)
+	@Test(priority = 1)
 	public void projectCreation()
 	{
 		test = extent.startTest("Project Creation: Test Suite", "Create Project in Studio....");	
@@ -120,6 +96,17 @@ public class MultipleComponentCreation extends Testconfiguration{
 		extent.endTest(test);
 		extent.flush();
 	}	
+/*
+	@Test(priority = 2)
+	public void newOrgCreation()
+	{
+		test = extent.startTest("Organisation Creation: Test Suite", "Create Organisation....");	
+		organisationCreationBase = new OrganisationCreationBase(driver);
+		organisationCreationBase.orgCreation(test, workBookName);
+		extent.endTest(test);
+		extent.flush();
+	}*/
+
 
 	@Test(priority = 3)
 	public void entityCreation()
@@ -129,7 +116,51 @@ public class MultipleComponentCreation extends Testconfiguration{
 		entityCreation.entityGeneration(test, workBookName);
 		extent.endTest(test);
 		extent.flush();
-	}*/
+	}
+
+
+/*	@Test(priority = 4)
+	public void relation()
+	{
+		test = extent.startTest("Relations: Test Suite", "Create Relations in Studio....");	
+		relation = new Relations(driver);
+		relation.relationManager(test, workBookName);
+		extent.endTest(test);
+		extent.flush();
+	}	*/
+
+
+
+	@Test(priority = 5)
+	public void processCreation()
+	{
+		test = extent.startTest("Process Creation: Test Suite", "Create Process in Studio....");	
+		processCreation = new ProcessCreation(driver);
+		processCreation.newProcessCreation(test, workBookName);
+		extent.endTest(test);
+		extent.flush();
+	}	
+
+	@Test(priority = 6)
+	public void dashboardCreation()
+	{
+		test = extent.startTest("Dashboard Creation:", "Create Dashboard in Studio....");	
+		customizeDashBoard = new CustomizeDashBoard(driver);
+		customizeDashBoard.customizeDashBoard(test, workBookName);
+		extent.endTest(test);
+		extent.flush();
+	}
+
+	@Test(priority = 7)
+	public void buildDeployment()
+	{
+		test = extent.startTest("Build Deployment:", "Build Deployment....");	
+		buildDeploy = new BuildDeploy(driver);
+		buildDeploy.generateTargetApp(test);
+		extent.endTest(test);
+		extent.flush();
+	}
+
 
 	@Test(priority = 8)
 	public void studioSignOut()
@@ -141,44 +172,12 @@ public class MultipleComponentCreation extends Testconfiguration{
 		extent.flush();
 	}
 
-	/*
-	@AfterClass
-	public void browserShutDown() throws AddressException, MessagingException
+
+	/*	@AfterClass
+	public void tearDown()
 	{
 		driver.close();
-
-		String fileContent = "";
-		try {
-			BufferedReader in = new BufferedReader(new FileReader("./AutomationReport/TestReport.html"));
-			String status;
-			int passCount = 0;
-			int failCount = 0;
-			while ((status = in.readLine()) != null) {
-				//fileContent +=str;
-				if(status.contains("status pass"))
-				{
-					++passCount;
-					System.out.println(status);
-				}
-				else if(status.contains("status fail"))
-				{
-					++failCount;
-					System.out.println(status);
-				}
-
-			}
-			System.out.println("Pass Count is = "+passCount);
-			System.out.println("Fail Count is = "+failCount);
-			emailConfig(passCount, failCount);
-			in.close();
-		} catch (IOException e) {
-		}
-	}
-
-
-
-
-
+	}*/
 
 	@AfterSuite
 	public void emailConfig(int passCount, int failCount) throws AddressException, MessagingException
@@ -191,8 +190,8 @@ public class MultipleComponentCreation extends Testconfiguration{
 
 		//Recipients
 		String toAddress = "manish.anand@kagamierp.com";
-	//	String ccAddress = "mallinath.mulage@kagamierp.com";
-	//	String bccAddress = "mallinath.mulage@kagamierp.com";
+		String ccAddress = "mallinath.mulage@kagamierp.com";
+		String bccAddress = "mallinath.mulage@kagamierp.com";
 
 		//SMTP server properties
 		Properties props = new Properties();
@@ -214,13 +213,13 @@ public class MultipleComponentCreation extends Testconfiguration{
 		Session session = Session.getInstance(props, auth);
 
 		//creates email
-		String subject = "Automation_Report_"+now();
+		String subject = "Test for Sending mail"+now();
 		Message msg = new MimeMessage(session);
 		msg.setFrom(new InternetAddress(username));
 		InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
 		msg.setRecipients(Message.RecipientType.TO, toAddresses);
-	//	msg.setRecipients(Message.RecipientType.CC,InternetAddress.parse(ccAddress));
-	//	msg.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(bccAddress));
+		msg.setRecipients(Message.RecipientType.CC,InternetAddress.parse(ccAddress));
+		msg.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(bccAddress));
 		msg.setSubject(subject);
 		msg.setSentDate(new Date());
 
@@ -240,15 +239,15 @@ public class MultipleComponentCreation extends Testconfiguration{
 				+"<tr>"
 				+"<td>1</td>"
 				+"<td>Entity Creation</td>"
-				+"<td>100</td>"
+				+"<td>40</td>"
 				+"<td>"+passCount+"</td>"
 				+"<td>"+failCount+"</td>"
 				+"<td>0</td>"
 				+"</tr>"
 				+"<tr>"
 				+"<td>2</td>"
-				+"<td>Module Creation</td>"
-				+"<td>110</td>"
+				+"<td>Role Creation</td>"
+				+"<td>50</td>"
 				+"<td>30</td>"
 				+"<td>10</td>"
 				+"<td>10</td>"
@@ -343,7 +342,7 @@ public class MultipleComponentCreation extends Testconfiguration{
 		} catch	 (IOException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 
 }
 
