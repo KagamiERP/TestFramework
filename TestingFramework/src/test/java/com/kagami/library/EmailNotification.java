@@ -27,20 +27,20 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
-public class EmailConfigNew {
+public class EmailNotification {
 
 	public static void sendmailwithtable() throws AddressException, MessagingException {
 
 		//SMTP configuration
 		String host = "smtp.office365.com";
 		String port = "587";
-		final String username = "manish.anand@kagamierp.com";
-		final String password = "Anand@093";
+		final String username = "kagami.qa@kagamierp.com";
+		final String password = "Kagami@123";
 
 		//Recipients
-		String toAddress = "manish.anand@kagamierp.com";
-		/*String ccAddress = "mallinath.mulage@kagamierp.com";
-		String bccAddress = "mallinath.mulage@kagamierp.com";*/
+		String toAddress = "mallinath.mulage@kagamierp.com";
+		String ccAddress = "manish.anand@kagamierp.com,manik.patil@kagamierp.com,vishnu.vema@kagamierp.com,";
+		String bccAddress = "rajamani.p@kagamierp.com,prathyusha.rv@kagamierp.com,SreeDeepika@kagamierp.com";
 
 		//SMTP server properties
 		Properties props = new Properties();
@@ -67,50 +67,50 @@ public class EmailConfigNew {
 		msg.setFrom(new InternetAddress(username));
 		InternetAddress[] toAddresses = { new InternetAddress(toAddress) };
 		msg.setRecipients(Message.RecipientType.TO, toAddresses);
-		/*msg.setRecipients(Message.RecipientType.CC,InternetAddress.parse(ccAddress));
-		msg.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(bccAddress));*/
+		msg.setRecipients(Message.RecipientType.CC,InternetAddress.parse(ccAddress));
+		msg.setRecipients(Message.RecipientType.BCC,InternetAddress.parse(bccAddress));
 		msg.setSubject(subject);
 		msg.setSentDate(new Date());
 
 		// creates message part
-		String message = "Hi All," + "<br></br>"
+		String message = "Hi," + "<br></br>"
 				+ "Please find the below automation test execution details." 
 				+ "<br></br>"
 				+ "<table border=1><style=width:100%>"
 				+"<tr>"
-				+"<td bgcolor="+"#CCEEFF"+"><b>Serial No<b></td>"
+				+"<td bgcolor="+"#CCEEFF"+"><b>Sl.No<b></td>"
 				+"<td bgcolor="+"#CCEEFF"+"><b>Module Name<b></td>"
 				+"<td bgcolor="+"#CCEEFF"+"><b>Total TC<b></td>"
-				+"<td bgcolor="+"#FF0000"+"><b>TC Failed<b></td>"
 				+"<td bgcolor="+"#00FF00"+"><b>TC Passed<b></td>"
+				+"<td bgcolor="+"#FF0000"+"><b>TC Failed<b></td>"
 				+"<td bgcolor="+"#0000FF"+"><b>TC Skipped<b></td>"
 				+"</tr>"
 				+"<tr>"
 				+"<td>1</td>"
 				+"<td>Employee Management</td>"
-				+"<td>40</td>"
-				+"<td>30</td>"
-				+"<td>5</td>"
-				+"<td>5</td>"
+				+"<td></td>"
+				+"<td></td>"
+				+"<td></td>"
+				+"<td></td>"
 				+"</tr>"
 				+"<tr>"
-				+"<td>2</td>"
+				+"<td></td>"
 				+"<td>Payroll mgmt</td>"
-				+"<td>50</td>"
-				+"<td>30</td>"
-				+"<td>10</td>"
-				+"<td>10</td>"
-				+"</tr>"
-				+"<tr>"
-				+"<td>3</td>"
-				+"<td></td>"
 				+"<td></td>"
 				+"<td></td>"
 				+"<td></td>"
 				+"<td></td>"
 				+"</tr>"
 				+"<tr>"
-				+"<td>4</td>"
+				+"<td></td>"
+				+"<td></td>"
+				+"<td></td>"
+				+"<td></td>"
+				+"<td></td>"
+				+"<td></td>"
+				+"</tr>"
+				+"<tr>"
+				+"<td></td>"
 				+"<td></td>"
 				+"<td></td>"
 				+"<td></td>"
@@ -121,28 +121,23 @@ public class EmailConfigNew {
 				+ "</td></tr></table>"
 				+"<br></br>"
 				+"Thanks & Regards"
-				+"<b><i>"+"Kagami QA Team"+"<i><b>"
+				+"<b><i>"+"Kagami Automation Team"+"<i><b>"
 				+"<br></br>"
 				+ "Note: For more information you can download and open the attached zip file." 
 				+ "<br></br>" ;
 
-
-
 		MimeBodyPart messageBodyPart = new MimeBodyPart();
 		messageBodyPart.setContent(message, "text/html");
 		// messageBodyPart
-		// creates multi-part
 		Multipart multipart = new MimeMultipart();
 		multipart.addBodyPart(messageBodyPart);
 
 		//to zip a file		  
 		File file = new File("./AutomationReport/TestReport.html");
 		String zipFileName = "./extent/TestReports.zip";
-
 		zipSingleFile(file, zipFileName); 
 
 		//add attachments
-
 		if(zipFileName!=null){
 			MimeBodyPart attachpart = new MimeBodyPart();
 			try{
@@ -190,7 +185,6 @@ public class EmailConfigNew {
 		}
 	}
 
-
 	private static String now() {
 		Calendar cal = Calendar.getInstance();
 		SimpleDateFormat sdf = new SimpleDateFormat("MM-dd-yyyy HH:mm:ss");
@@ -211,9 +205,6 @@ public class EmailConfigNew {
 			System.out.println("Oops!!Could not send email");
 			ex.printStackTrace();
 		}		
-
-
-
 	}
 }
 
