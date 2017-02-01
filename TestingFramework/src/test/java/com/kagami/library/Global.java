@@ -10,10 +10,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 	public class Global extends CustomizedReport{
 		
-	
-		//obj.postsuite(browserType, browserVersion, os, url);*/
-	
-		
+	//obj.postsuite(browserType, browserVersion, os, url);*/
+			
 		GenericMethods genericMethods = new GenericMethods();
 		public static final int iMaxRetryCount = 1;
 
@@ -25,28 +23,25 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 	//	public static String browserType = "firefox";
 //		public static String browserType = "IE";
 		public static String browserType = "Chrome";
+		
+		public static String BuildInfo ="Argentium Version 1.0";
+		
+    //Test Data file path
 	//	public static String sTestData="TestData//testdata demoaut.xlsx";
-		public static String BuildInfo ="samplebuild";
-		
-		//public static String testSheet = "./TestData/testInput.xlsx";
+	//  public static String testSheet = "./TestData/testInput.xlsx";
 		public static String testSheet = "./TestData/smokeTestInput.xlsx";
-		public static String loginImage = "./TestData/loginPageScreenshot.jpg";
+	
+		//	public static String loginImage = "./TestData/loginPageScreenshot.jpg";
 		
-		// Specifies the path of the Drivers
+		// Driver locations
 		public static String sIEDriverPath = "Browser_exe//IEDriverServer.exe";	
 		public static String sChormeDriverPath = "Browser_exe//chromedriver.exe";
 		
-		// Specifies the URL to be entered
-	//	public static String sUrl = "http://viralpatel.net/blogs/multiple-checkbox-select-deselect-jquery-tutorial-example/";
-    //	public static String sUrl = "http://newtours.demoaut.com/";
-	//	public static String sUrl = "https://www.makemytrip.com/flights";
-	//	public static String sUrl = "http://spreadsheetpage.com/index.php/file/C35/P10//";
-	//	public static String sUrl = "http://www.tinyupload.com/";
-	//	public static String sUrl = "http://demo.guru99.com/V4/";
-	//	public static String sUrl = "http://54.69.203.11:7070/kagami-studio/auth/signin";
-		public static String sUrl = "localhost:7070/kagami-studio/";
-	//aws	public static String sUrl = "http://35.162.58.24:7070/kagami-studio/#/";
-		
+	// URLs
+	//	public static String sUrl = "localhost:7070/kagami-studio/";
+	    public static String sUrl = "http://35.162.58.24:7070/kagami-studio/#/";
+
+	// Zip files    
 		public String zipFileName = "./TestReport/TestReport_"+genericMethods.getcurrentDateAndTime()+".zip/";
 		public static String htmlFileForEmail = "./test-output/custom-report.html";
 		//public String date = genericMethods.getcurrentDateAndTime();
@@ -55,6 +50,7 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 		public static int testcasesPassCount = 0;
 		public static String Testcasename = null;
 		public static String Functionality = null;
+		
 		//DB Details
 		public static String gDBUserName = null;
 		public static String gDBPassword = null;
