@@ -8,11 +8,12 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 
 import com.kagami.library.ExtentManager;
 import com.kagami.library.GenericMethods;
+import com.kagami.library.GlobalXpath;
 import com.kagami.library.StudioCommonMethods;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
-public class GeneratingContract 
+public class GeneratingContract implements GlobalXpath
 {
 	ExtentReports extent;
 	ExtentTest test;
@@ -21,15 +22,7 @@ public class GeneratingContract
 	GenericMethods genericMethods = new GenericMethods();
 	StudioCommonMethods studioCommonMethods = new StudioCommonMethods(driver);
 	
-	By generateButton=By.xpath("//div/button[contains(text(),'Generate')]");
-	By contractSucessMsg=By.xpath("//div/div[@class='ng-binding' and contains(text(),'Contract Generated Successfully')]");
-	By buildButton=By.xpath("//div/button[contains(text(),'Build')]");
-	By buildSucess=By.xpath("//div/div[contains(text(),'Build Completed ')]");
-	By deployButton=By.xpath("//div/button[contains(text(),'Deploy')]");
-	By deploySucess=By.xpath("//div/div[contains(text(),'Deployment Completed and App is available at')]");
-	By testButton=By.xpath("//button[contains(text(),'Test')]");
-	By userIdTarget=By.xpath("//div/label/following-sibling::input[@id='username']");
-	By pswdTarget=By.xpath("//div/label/following-sibling::input[@id='password']");
+	
 	public void BuildDeploy()
 	{
 		try{

@@ -42,7 +42,7 @@ public class EditComponentTestSuite {
 	public BuildDeploy buildDeploy;
 	public Relations relation;
 	public MasterData masterData;
-	String workBookName =  "./TestData/TC_01.xlsx";
+	String workBookName =  "./TestData/Regression.xlsx";
 	
 
 	@BeforeClass

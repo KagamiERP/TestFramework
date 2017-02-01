@@ -1,76 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testng-results skipped="0" failed="0" total="7" passed="7">
+<testng-results skipped="0" failed="0" total="4" passed="4">
   <reporter-output>
   </reporter-output>
-  <suite name="Default suite" duration-ms="172459" started-at="2017-01-18T13:01:54Z" finished-at="2017-01-18T13:04:47Z">
+  <suite name="Default suite" duration-ms="251191" started-at="2017-02-01T05:25:12Z" finished-at="2017-02-01T05:29:23Z">
     <groups>
     </groups>
-    <test name="Default test" duration-ms="172459" started-at="2017-01-18T13:01:54Z" finished-at="2017-01-18T13:04:47Z">
-      <class name="com.kagami.testcases.TC_09_Create_Fetch_View_Edit_Triggers">
-        <test-method status="PASS" signature="browserSelection()[pri:0, instance:com.kagami.testcases.TC_09_Create_Fetch_View_Edit_Triggers@3e9b1010]" name="browserSelection" is-config="true" duration-ms="6446" started-at="2017-01-18T18:31:54Z" finished-at="2017-01-18T18:32:01Z">
+    <test name="Default test" duration-ms="251191" started-at="2017-02-01T05:25:12Z" finished-at="2017-02-01T05:29:23Z">
+      <class name="com.kagami.testcases.TC_12_Create_Email">
+        <test-method status="PASS" signature="browserSelection()[pri:0, instance:com.kagami.testcases.TC_12_Create_Email@5ec0a365]" name="browserSelection" is-config="true" duration-ms="17464" started-at="2017-02-01T10:55:12Z" finished-at="2017-02-01T10:55:30Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- browserSelection -->
-        <test-method status="PASS" signature="studioSignIn()[pri:0, instance:com.kagami.testcases.TC_09_Create_Fetch_View_Edit_Triggers@3e9b1010]" name="studioSignIn" duration-ms="4546" started-at="2017-01-18T18:32:01Z" finished-at="2017-01-18T18:32:05Z">
+        <test-method status="PASS" signature="studioSignIn()[pri:0, instance:com.kagami.testcases.TC_12_Create_Email@5ec0a365]" name="studioSignIn" duration-ms="7626" started-at="2017-02-01T10:55:30Z" finished-at="2017-02-01T10:55:37Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- studioSignIn -->
-        <test-method status="PASS" signature="projectCreation()[pri:1, instance:com.kagami.testcases.TC_09_Create_Fetch_View_Edit_Triggers@3e9b1010]" name="projectCreation" duration-ms="8035" started-at="2017-01-18T18:32:05Z" finished-at="2017-01-18T18:32:13Z">
+        <test-method status="PASS" signature="projectCreation()[pri:1, instance:com.kagami.testcases.TC_12_Create_Email@5ec0a365]" name="projectCreation" duration-ms="7154" started-at="2017-02-01T10:55:37Z" finished-at="2017-02-01T10:55:44Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- projectCreation -->
-        <test-method status="PASS" signature="entityCreation()[pri:3, instance:com.kagami.testcases.TC_09_Create_Fetch_View_Edit_Triggers@3e9b1010]" name="entityCreation" duration-ms="28118" started-at="2017-01-18T18:32:13Z" finished-at="2017-01-18T18:32:41Z">
+        <test-method status="PASS" signature="entityCreation()[pri:3, instance:com.kagami.testcases.TC_12_Create_Email@5ec0a365]" name="entityCreation" duration-ms="66714" started-at="2017-02-01T10:55:44Z" finished-at="2017-02-01T10:56:51Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- entityCreation -->
-        <test-method status="PASS" signature="processCreation()[pri:5, instance:com.kagami.testcases.TC_09_Create_Fetch_View_Edit_Triggers@3e9b1010]" name="processCreation" duration-ms="119789" started-at="2017-01-18T18:32:41Z" finished-at="2017-01-18T18:34:41Z">
+        <test-method status="PASS" signature="processCreation()[pri:5, instance:com.kagami.testcases.TC_12_Create_Email@5ec0a365]" name="processCreation" duration-ms="152205" started-at="2017-02-01T10:56:51Z" finished-at="2017-02-01T10:59:23Z">
           <reporter-output>
           </reporter-output>
         </test-method> <!-- processCreation -->
-        <test-method status="PASS" signature="dashboardCreation()[pri:6, instance:com.kagami.testcases.TC_09_Create_Fetch_View_Edit_Triggers@3e9b1010]" name="dashboardCreation" duration-ms="494" started-at="2017-01-18T18:34:41Z" finished-at="2017-01-18T18:34:42Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- dashboardCreation -->
-        <test-method status="PASS" signature="buildDeployment()[pri:7, instance:com.kagami.testcases.TC_09_Create_Fetch_View_Edit_Triggers@3e9b1010]" name="buildDeployment" duration-ms="472" started-at="2017-01-18T18:34:42Z" finished-at="2017-01-18T18:34:42Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- buildDeployment -->
-        <test-method status="PASS" signature="studioSignOut()[pri:8, instance:com.kagami.testcases.TC_09_Create_Fetch_View_Edit_Triggers@3e9b1010]" name="studioSignOut" duration-ms="4532" started-at="2017-01-18T18:34:42Z" finished-at="2017-01-18T18:34:47Z">
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- studioSignOut -->
-        <test-method status="FAIL" signature="emailConfig(int, int)[pri:0, instance:com.kagami.testcases.TC_09_Create_Fetch_View_Edit_Triggers@3e9b1010]" name="emailConfig" is-config="true" duration-ms="0" started-at="2017-01-18T18:34:47Z" finished-at="2017-01-18T18:34:47Z">
-          <exception class="org.testng.TestNGException">
-            <message>
-              <![CDATA[
-Method emailConfig requires 2 parameters but 0 were supplied in the @Configuration annotation.]]>
-            </message>
-            <full-stacktrace>
-              <![CDATA[org.testng.TestNGException: 
-Method emailConfig requires 2 parameters but 0 were supplied in the @Configuration annotation.
-	at org.testng.internal.Parameters.checkParameterTypes(Parameters.java:191)
-	at org.testng.internal.Parameters.createParameters(Parameters.java:127)
-	at org.testng.internal.Parameters.createParameters(Parameters.java:376)
-	at org.testng.internal.Parameters.createConfigurationParameters(Parameters.java:84)
-	at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:197)
-	at org.testng.internal.Invoker.invokeConfigurations(Invoker.java:138)
-	at org.testng.SuiteRunner.privateRun(SuiteRunner.java:329)
-	at org.testng.SuiteRunner.run(SuiteRunner.java:261)
-	at org.testng.SuiteRunnerWorker.runSuite(SuiteRunnerWorker.java:52)
-	at org.testng.SuiteRunnerWorker.run(SuiteRunnerWorker.java:86)
-	at org.testng.TestNG.runSuitesSequentially(TestNG.java:1215)
-	at org.testng.TestNG.runSuitesLocally(TestNG.java:1140)
-	at org.testng.TestNG.run(TestNG.java:1048)
-	at org.testng.remote.AbstractRemoteTestNG.run(AbstractRemoteTestNG.java:132)
-	at org.testng.remote.RemoteTestNG.initAndRun(RemoteTestNG.java:236)
-	at org.testng.remote.RemoteTestNG.main(RemoteTestNG.java:81)
-]]>
-            </full-stacktrace>
-          </exception> <!-- org.testng.TestNGException -->
-          <reporter-output>
-          </reporter-output>
-        </test-method> <!-- emailConfig -->
-      </class> <!-- com.kagami.testcases.TC_09_Create_Fetch_View_Edit_Triggers -->
+      </class> <!-- com.kagami.testcases.TC_12_Create_Email -->
     </test> <!-- Default test -->
   </suite> <!-- Default suite -->
 </testng-results>

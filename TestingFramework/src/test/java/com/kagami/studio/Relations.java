@@ -2,7 +2,6 @@ package com.kagami.studio;
 
 import java.awt.Robot;
 import java.awt.event.InputEvent;
-import java.io.File;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.apache.log4j.Logger;
@@ -72,14 +71,14 @@ public class Relations {
 			WebElement dragFrom1 = driver.findElement(By.xpath("//ul/li[@ondragstart='drag(event)'][2]"));
 			WebElement dragTo1 = driver.findElement(By.xpath("//div[@id='entity-drawing-area']"));
 			dragAndDropElement(driver, dragFrom1, dragTo1, 0, 90);
-			Thread.sleep(1000);
+			Thread.sleep(2000);
 			genericMethods.clickElement(driver, By.xpath("//div[@class='panel-heading']"), test);
 			
 			WebElement dragFrom = driver.findElement(By.xpath("//ul/li[@ondragstart='drag(event)'][1]"));
 			WebElement dragTo = driver.findElement(By.xpath("//div[@id='entity-drawing-area']"));
 			
 			
-			dragAndDropElement(driver, dragFrom, dragTo, 0, 90);
+			dragAndDropElement(driver, dragFrom, dragTo, 0, 70);
 			Thread.sleep(5000);
 			
 			genericMethods.clickElement(driver, By.xpath("//span[@title='Click Here' and text()='t']"), test);
@@ -130,17 +129,10 @@ public class Relations {
 
 		System.out.println(fromLocation.toString());
 
-		//Move mouse to drag from location
 		robot.mouseMove(fromLocation.x, fromLocation.y);
-		//robot.mouseMove(175,250);
-
-		//       Thread.sleep(1000);
-		//Click and drag
+	
 		robot.mousePress(InputEvent.BUTTON1_MASK);
 
-		//robot.mousePress(InputEvent.
-		//Drag events require more than one movement to register
-		//Just appearing at destination doesn't work so move halfway first
 		robot.mouseMove(((toLocation.x - fromLocation.x) / 2) + fromLocation.x, ((toLocation.y
 				- fromLocation.y) / 2) + fromLocation.y);
 

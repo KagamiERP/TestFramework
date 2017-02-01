@@ -51,7 +51,7 @@ public class EntityCreation implements GlobalXpath{
 			extent = ExtentManager.Instance();
 			WebDriverWait wait = new WebDriverWait(driver,8);
 			Thread.sleep(2000);
-			genericMethods.clickElement(driver, By.xpath("//a[contains(text(),'Entity Management')]"), test);
+			genericMethods.clickElement(driver, By.xpath("//button[contains(text(),'Entity Management')]"), test);
 			Thread.sleep(1000);
 			String workbookTestData = sheetName; 
 			File f = new File(workbookTestData);
@@ -116,7 +116,7 @@ public class EntityCreation implements GlobalXpath{
 
 					if(!((getEntityName.get(value) == null || getEntityName.get(value).toString().equalsIgnoreCase("")))){
 
-						genericMethods.clickElementByJsExecutor(driver, By.xpath("//a[@ng-click='addEntity()']"), test);
+						genericMethods.clickElementByJsExecutor(driver, By.xpath("//button[@ng-click='addEntity()']"), test);
 						genericMethods.waitForElementVisibility(driver, By.xpath("//input[@ng-change='createEntityNameChanged(newEntity)' and @placeholder='Enter Entity Name']"), 20);
 						genericMethods.enterText(driver, By.xpath("//input[@ng-change='createEntityNameChanged(newEntity)' and @placeholder='Enter Entity Name']"), getEntityName.get(value), test);
 						studioCommonMethods.getEntityType(driver, getEntityType, value);

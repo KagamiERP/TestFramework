@@ -15,13 +15,14 @@ import org.openqa.selenium.interactions.Actions;
 
 import com.kagami.library.ExtentManager;
 import com.kagami.library.GenericMethods;
-import com.kagami.library.Global;
+import com.kagami.library.GlobalXpath;
 import com.kagami.library.StudioCommonMethods;
+import com.kagami.testcases.ReportingVariables;
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
 import com.relevantcodes.extentreports.LogStatus;
 
-public class CustomizeDashBoard
+public class CustomizeDashBoard implements GlobalXpath
 {
 	ExtentReports extent;
 	ExtentTest test;
@@ -30,32 +31,6 @@ public class CustomizeDashBoard
 	GenericMethods genericMethods = new GenericMethods();
 	StudioCommonMethods studioCommonMethods = new StudioCommonMethods(driver);
 
-	By dashboardButton = By.xpath("//div/a/following-sibling::a[contains(text(),'Customize Dashboard')]");
-	By leftPaneloButton = By.xpath("//ul/li/span/following-sibling::button[@ng-click='add(menu)']");
-	By name=By.xpath("//div/label/following-sibling::input[@class='form-control ng-pristine ng-untouched ng-valid ng-empty']");
-	By saveLeftPanel = By.xpath("//div/div/button/following-sibling::button[contains(text(),'Save')]");
-	By createLeftPanel = By.xpath("//div/div/button/following-sibling::button[contains(text(),'Create')]");
-
-	
-	
-	By saveDashBoard=By.xpath("//div/div/button/img[@src='assets/img/save.png']");
-	By createDashBoard = By.xpath("//div[@class='dashboard-modal ng-scope']//button[contains(text(),'Create')]");
-	
-	By createChild = By.xpath("//div[@class='modal-footer']//button[contains(text(),'Create')]");
-	By okSave=By.xpath("//div[text()='Save']/following::button[text()='OK']");
-	By groupRadioButton=By.xpath("//div/label/following-sibling::label/input[@name='menu_type']");
-	By groupNameClick=By.xpath("//div/label/following-sibling::input[@class='form-control ng-pristine ng-untouched ng-valid ng-empty']");
-	By settingsButton=By.xpath("//div/button[contains(text(),'Settings')]");
-	By userDataSettingsButton=By.xpath("//a/h3[@class='panel-title bordertopblue']/i[@class='fa fa-user-secret']");
-	By userDataCheckBox=By.xpath("//th/input[@class='ng-pristine ng-untouched ng-valid ng-empty']");
-	By appDataSettingsButton=By.xpath("//a/h3[@class='panel-title bordertoppurple']/i[@class='fa fa-cogs']");
-	By appDataCheckBox=By.xpath("//th/input[@class='ng-pristine ng-untouched ng-valid ng-empty']");
-	By themeSettingsClick=By.xpath("//a/h3/span[@class='glyphicon glyphicon-picture']");
-	By themeSelect=By.xpath("//div/div/span/input[@class='defaulttheme Almond ng-not-empty']");
-	By saveAllButton=By.xpath("//div/button/following-sibling::button[contains(text(),'Save All')]");
-	By menuButton = By.xpath("//a[contains(text(),'Menu')]");
-	By subMenu = By.xpath("//button[contains(text(),'Menu')]");
-	By customizedDashboardButton = By.linkText("Customize Dashboard");
 
 	public CustomizeDashBoard(WebDriver driver)
 	{
@@ -74,6 +49,7 @@ public class CustomizeDashBoard
 			
 			studioCommonMethods.navigateToProject(driver);
 			
+			String projectName = ReportingVariables.getProjectName();
 			Thread.sleep(1000);	
 			//Mapping Organization
 			genericMethods.clickElement(driver, subMenu, test);
@@ -156,7 +132,7 @@ public class CustomizeDashBoard
 			genericMethods.clickElement(driver, themeSelect, test);
 			genericMethods.clickElement(driver, themeSettingsClick, test);
 			genericMethods.clickElement(driver, saveAllButton, test);
-			test.log(LogStatus.PASS, "Dashboard is created in the Studio.");		
+			test.log(LogStatus.PASS, "Created a dashboard under "+projectName);		
 
 		}
 		catch(Exception e)

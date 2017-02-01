@@ -60,7 +60,7 @@ public class ProjectCreation implements GlobalXpath{
 					}
 
 					genericMethods.clickElement(driver, kagamiLogo, test);
-					Thread.sleep(1000);
+					studioCommonMethods.fluentWait(driver, newProject, 3, 10);
 					genericMethods.clickElementByJsExecutor(driver, newProject, test);
 					genericMethods.enterText(driver, newProjectText, rowElements[cellValue], test);
 					Thread.sleep(1000);

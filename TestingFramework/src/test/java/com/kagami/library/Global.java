@@ -44,7 +44,8 @@ import org.openqa.selenium.support.ui.WebDriverWait;
 	//	public static String sUrl = "http://www.tinyupload.com/";
 	//	public static String sUrl = "http://demo.guru99.com/V4/";
 	//	public static String sUrl = "http://54.69.203.11:7070/kagami-studio/auth/signin";
-		public static String sUrl = "http://localhost:7070/kagami-studio/auth/signin/#";
+		public static String sUrl = "localhost:7070/kagami-studio/";
+	//aws	public static String sUrl = "http://35.162.58.24:7070/kagami-studio/#/";
 		
 		public String zipFileName = "./TestReport/TestReport_"+genericMethods.getcurrentDateAndTime()+".zip/";
 		public static String htmlFileForEmail = "./test-output/custom-report.html";
